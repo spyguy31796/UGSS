@@ -1,57 +1,114 @@
-
+/**
+ * Holds data regarding a place of employment. 
+ * @author Dema
+ *@version 11.15.2016
+ */
 public abstract class Employment {
-	
-	private String company;
-	private String position;
-	private String skillsReq;
-	private String description;
-	private String miscComments;
-	
-	protected Employment(String theCompany, String thePosition, String theSkillsReq, String theDescription, String theMiscComments) {		
-		company = theCompany;
-		position = thePosition;
-		skillsReq = theSkillsReq;
-		description = theDescription;
-		miscComments = theMiscComments;
-	}
 
-	public String getCompany() {
-		return company;
-	}
+    /** The employer name. */
+    private String myCompany;
 
-	public void setCompany(String theCompany) {
-		company = theCompany;
-	}
+    /** The position title. */
+    private String myPosition;
 
-	public String getPosition() {
-		return position;
-	}
+    /** Skills needed for this position. */
+    private String mySkillsReq;
 
-	public void setPosition(String thePosition) {
-		position = thePosition;
-	}
+    /** Description of position. */
+    private String myDescription;
 
-	public String getSkillsReq() {
-		return skillsReq;
-	}
+    /** Any other comments. */
+    private String myMiscComments;
 
-	public void setSkillsReq(String theSkillsReq) {
-		skillsReq = theSkillsReq;
-	}
+    /**
+     * Constructs the Employment object.
+     * @param theCompany The company that the internship took place at.
+     * @param thePosition The position title of internship.
+     * @param theSkillsReq The skills needed during this internship.
+     * @param theDescription A description of what the job entailed.
+     * @param theMiscComments Any miscellaneous comments.
+     */
+    Employment(final String theCompany, final String thePosition, final String theSkillsReq, 
+            final String theDescription, final String theMiscComments) {
+        myCompany = theCompany;
+        myPosition = thePosition;
+        mySkillsReq = theSkillsReq;
+        myDescription = theDescription;
+        myMiscComments = theMiscComments;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * @return myCompany.
+     */
+    public String getMyCompany() {
+        return myCompany;
+    }
 
-	public void setDescription(String theDescription) {
-		description = theDescription;
-	}
+    /**
+     * Changes myCompany.
+     * @param theCompany new company that myCompany is changed to.
+     */
+    public void setMyCompany(final String theCompany) {
+        myCompany = theCompany;
+    }
 
-	public String getMiscComments() {
-		return miscComments;
-	}
+    /**
+     * @return myPosition.
+     */
+    public String getMyPosition() {
+        return myPosition;
+    }
 
-	public void setMiscComments(String theMiscComments) {
-		miscComments = theMiscComments;
-	}
+    /**
+     * Changes myPosition.
+     * @param thePosition new position that myPosition is changed to.
+     */
+    public void setMyPosition(final String thePosition) {
+        myPosition = thePosition;
+    }
+
+    /**
+     * @return mySkillsReq.
+     */
+    public String getMySkillsReq() {
+        return mySkillsReq;
+    }
+
+    /**
+     *Changes mySkillsReq.
+     * @param theSkillsReq new requirements for this position.
+     */
+    public void setMySkillsReq(final String theSkillsReq) {
+        mySkillsReq = theSkillsReq;
+    }
+
+    /**
+     * @return myDescription.
+     */
+    public String getMyDescription() {
+        return myDescription;
+    }
+
+    /**
+     * Changes myDescription.
+     * @param theDescription new description for this position.
+     */
+    public void setMyDescription(final String theDescription) {
+        myDescription = theDescription;
+    }
+
+    /**
+     * @return myMiscComments.
+     */
+    public String getMyMiscComments() {
+        return myMiscComments;
+    }
+
+    /**
+     * Changes myMiscComments.
+     * @param theMiscComments new miscellaneous comments for this position.
+     */
+    public void setMyMiscComments(final String theMiscComments) {
+        myMiscComments = theMiscComments;
+    }
 }
