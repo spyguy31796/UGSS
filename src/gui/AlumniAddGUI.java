@@ -8,7 +8,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 
-import data.Alumni;
+import model.Alumni;
+import model.AlumniCollection;
 
 
 public class AlumniAddGUI extends JPanel implements ActionListener{
@@ -107,9 +108,9 @@ public class AlumniAddGUI extends JPanel implements ActionListener{
             al = null;
         }
         String message = "Alumni add failed";
-        //if (AlumniCollection.add(al)) {
-        //    message = "Alumni added";
-        //}
+        if (AlumniCollection.add(al)) {
+            message = "Alumni added";
+        }
         JOptionPane.showMessageDialog(null, message);
 
         // Clear all text fields.
