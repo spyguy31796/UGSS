@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Alumni;
-
+import model.*;
 /**
  * This class contains methods to access Alumni table data.
  * @author Group 8
@@ -50,8 +50,7 @@ public class AlumniDB {
 				String persEmail = rs.getString("persEmail");
 				String serInternships = rs.getString("internships");
 				String serJobs= rs.getString("jobs");
-				String serColleges = rs.getString("TransferCollege");
-				String category = rs.getString("category");
+				String serColleges = rs.getString("transferColleges");
 				Alumni alumni = null;
 				// TO-DO
 				// Cast internships, jobs, and colleges to lists
@@ -71,14 +70,14 @@ public class AlumniDB {
 	
 
 	
-
-	/**
+/*
+	*//**
 	 * Returns all items that contain the search keyword in the name or
 	 * TODO description. 
 	 * @param name
 	 * @return list of items that match.
 	 * @throws SQLException
-	 */
+	 *//*
 	public List<Item> getItems(String name) throws SQLException {
 		List<Item> filterList = new ArrayList<Item>();
 		if (mAlumniList == null) {
@@ -91,14 +90,14 @@ public class AlumniDB {
 			}
 		}
 		return filterList;
-	}
-
-	/**
+	}*/
+/*
+	*//**
 	 * Retrieve the item with the given id or null if not found.
 	 * @param id
 	 * @return item
 	 * @throws SQLException
-	 */
+	 *//*
 	public Item getItem(String id) throws SQLException {
 		if (mConnection == null) {
 			DataConnection.getConnection();
@@ -126,16 +125,16 @@ public class AlumniDB {
 			}
 		}
 		return null;
-	}
+	}*/
 
 	/**
 	 * Adds a new item to the Item table. 
 	 * @param item
 	 * @return Returns "Added Item Successfully" or "Error adding item: " with the sql exception.
 	 */
-	public String addItem(Item item) {
-		String sql = "insert into Item(`name`, description, price, `condition`, category) values "
-				+ "(?, ?, ?, ?, ?); ";
+	public String addAlumni(Alumni al) {
+		String sql = "insert into Alumni(`name`, degreeTrack, degreeLevel, year, term, gpa, uniEmail, persEmail, internships, jobs, transferColleges) values "
+				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
 
 		if (mConnection == null) {
 			try {
@@ -148,12 +147,26 @@ public class AlumniDB {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = mConnection.prepareStatement(sql);
-			preparedStatement.setString(1, item.getName());
-			preparedStatement.setString(2, item.getDescription());
-			preparedStatement.setDouble(3, item.getPrice());
-			preparedStatement.setString(4, item.getCondition());
-			preparedStatement
-					.setString(5, item.getItemCategory().getCategory());
+			preparedStatement.setString(1, al.getMyName());
+			preparedStatement.setString(2, al.getMyDegreeTrack());
+	        preparedStatement.setString(3, al.getMyDegreeLevel());
+	        preparedStatement.setString(4, al.getMyYear());
+	        preparedStatement.setString(5, al.getMyTerm());
+	        preparedStatement.setDouble(6, al.getMyCurrentGPA());
+	        preparedStatement.setString(7, al.getMyUniEmail());
+	        preparedStatement.setString(8, al.getMyPersEmail());
+	        ArrayList arr = new ArrayList();
+	        arr.add(new Internship("","","","","",5,5));
+	        preparedStatement.setObject(9, arr);
+	        arr = new ArrayList();
+	        arr.add(new Job("","","","","",5,true));
+			preparedStatement.setObject(10, arr);
+	        arr = new ArrayList();
+	        arr.add(new TransferCollege("",5,"","",""));
+			preparedStatement.setObject(11, arr);
+	        //preparedStatement.setObject(9, al.getMyInternships());
+	        //preparedStatement.setObject(10, al.getMyJobs());
+	        //preparedStatement.setObject(11, al.getMyTransferColleges());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -169,7 +182,7 @@ public class AlumniDB {
 	 * @param data
 	 * @return Returns a message with success or failure.
 	 */
-	public String updateItem(Item item, String columnName, Object data) {
+	/*public String updateItem(Item item, String columnName, Object data) {
 		
 		String name = item.getName();
 		int id = Integer.parseInt(item.getId());
@@ -193,5 +206,5 @@ public class AlumniDB {
 		}
 		return "Updated Item Successfully";
 	
-	}
+	}*/
 }
