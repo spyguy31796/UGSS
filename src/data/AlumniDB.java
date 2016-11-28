@@ -169,22 +169,16 @@ public class AlumniDB {
 	 * @param data
 	 * @return Returns a message with success or failure.
 	 */
-	public String updateItem(Item item, String columnName, Object data) {
-		
-		String name = item.getName();
-		int id = Integer.parseInt(item.getId());
-		String sql = "update Item set `" + columnName
-				+ "` = ?  where name= ? and id = ? ";
+	public String updateAlumni(Alumni alum, String columnName, Object data) {
+		int id = alum.getMyID();
+		String sql = "update Alumni set `" + columnName
+				+ "` = ?  where id = ? ";
 		// For debugging - System.out.println(sql);
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = mConnection.prepareStatement(sql);
-			if (data instanceof String)
-				preparedStatement.setString(1, (String) data); 
-			else if (data instanceof Double)
-				preparedStatement.setDouble(1, (Double) data);
-			preparedStatement.setString(2, name); // for name = ?
-			preparedStatement.setInt(3, id); // for id = ?
+			preparedStatement.setString(1, (String) data); 
+			preparedStatement.setInt(2, id); // for id = ?
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e);
