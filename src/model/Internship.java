@@ -1,10 +1,13 @@
 package model;
+
+import java.io.Serializable;
+
 /**
  * Holds data regarding an internship. 
  * @author Dema
  *@version 11.15.2016
  */
-class Internship extends Employment {
+public class Internship extends Employment implements Serializable {
 
     /** Hourly pay rate (dollars). */
     private double myWage;
@@ -22,7 +25,7 @@ class Internship extends Employment {
      * @param theWage Hourly wage in dollars.
      * @param theDuration Length of internship in months.
      */
-    Internship(final String theCompany, final String thePosition, final String theSkillsReq, 
+    public Internship(final String theCompany, final String thePosition, final String theSkillsReq, 
             final String theDescription, final String theMiscComments,
             final double theWage, final int theDuration) {
         super(theCompany, thePosition, theSkillsReq, theDescription, theMiscComments);

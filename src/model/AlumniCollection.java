@@ -27,6 +27,10 @@ public class AlumniCollection {
      * @param theAlumni
      */
     public static boolean add(final Alumni theAlumni){
+        if (mAlumniDB == null) {
+            mAlumniDB = new AlumniDB();
+        }
+        mAlumniDB.addAlumni(theAlumni);
         return true;
     }
 }
