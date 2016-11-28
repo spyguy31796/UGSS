@@ -22,4 +22,11 @@ public class AlumniCollection {
         }
         return cList;
     }
+    /**
+     * Add Alumni
+     * @param theAlumni
+     */
+    public static boolean add(final Alumni theAlumni){
+        return true;
+    }
 }
