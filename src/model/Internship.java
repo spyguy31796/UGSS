@@ -1,3 +1,4 @@
+package model;
 /**
  * Holds data regarding an internship. 
  * @author Dema

@@ -1,5 +1,6 @@
 package data;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,9 +9,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Alumni;
+
 /**
- * This class contains methods to access Item and ItemCategory tables data.
- * @author mabraham
+ * This class contains methods to access Alumni table data.
+ * @author Group 8
  *
  */
 public class AlumniDB {
@@ -19,39 +22,41 @@ public class AlumniDB {
 	private List<Alumni> mAlumniList;
 
 	/**
-	 * Retrieves all items from the Item table.
+	 * Retrieves all Alumni that match the search term in the given column from the Alumni table.
 	 * 
-	 * @return list of items
+	 * @return list of Alumni
 	 * @throws SQLException
 	 */
-	public List<Item> getItems() throws SQLException {
+	public List<Alumni> getAlumni(String column, String search) throws SQLException {
 		if (mConnection == null) {
 			mConnection = DataConnection.getConnection();
 		}
 		Statement stmt = null;
-		String query = "select * " + "from Item ";
+		String query = "select * " + "from Alumni where " + column + " = " + search;
 
-		mAlumniList = new ArrayList<Item>();
+		mAlumniList = new ArrayList<Alumni>();
 		try {
 			stmt = mConnection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String id = rs.getString("id");
+				int id = rs.getInt("id");
 				String name = rs.getString("name");
-				String desc = rs.getString("description");
-				double price = rs.getDouble("price");
-				String condition = rs.getString("condition");
+				String track = rs.getString("degreeTrack");
+				String level = rs.getString("degreeLevel");
+				String year = rs.getString("year");
+				String term = rs.getString("term");
+				Double gpa = rs.getDouble("gpa");
+				String uniEmail = rs.getString("uniEmail");
+				String persEmail = rs.getString("persEmail");
+				String serInternships = rs.getString("internships");
+				String serJobs= rs.getString("jobs");
+				String serColleges = rs.getString("TransferCollege");
 				String category = rs.getString("category");
-				Item item = null;
-				if (desc == null) {
-					item = new Item(name, new ItemCategory(category));
-					item.setId(id);
-				} else {
-					item = new Item(name, desc, price, condition,
-							new ItemCategory(category));
-					item.setId(id);
-				}
-				mAlumniList.add(item);
+				Alumni alumni = null;
+				// TO-DO
+				// Cast internships, jobs, and colleges to lists
+				// Create the Alumni to return
+				// Add alumni to list
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -63,37 +68,9 @@ public class AlumniDB {
 		}
 		return mAlumniList;
 	}
+	
 
-	/**
-	 * Retrieves all categories from the ItemCategory table.
-	 * 
-	 * @return list of categories
-	 * @throws SQLException
-	 */
-	public Object[] getItemCategories() throws SQLException {
-		if (mConnection == null) {
-			mConnection = DataConnection.getConnection();
-		}
-		Statement stmt = null;
-		String query = "select * " + "from ItemCategory ";
-
-		List<String> list = new ArrayList<String>();
-		try {
-			stmt = mConnection.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while (rs.next()) {
-				String category = rs.getString("category");
-				list.add(category);
-			}
-		} catch (SQLException e) {
-			System.out.println(e);
-		} finally {
-			if (stmt != null) {
-				stmt.close();
-			}
-		}
-		return list.toArray();
-	}
+	
 
 	/**
 	 * Returns all items that contain the search keyword in the name or

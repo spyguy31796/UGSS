@@ -1,3 +1,4 @@
+package model;
 /**
  * Holds data regarding a job.
  * @author Dema
