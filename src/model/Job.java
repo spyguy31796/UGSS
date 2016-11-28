@@ -1,10 +1,13 @@
 package model;
+
+import java.io.Serializable;
+
 /**
  * Holds data regarding a job.
  * @author Dema
  *@version 11.15.2016
  */
-public class Job extends Employment {
+public class Job extends Employment implements Serializable {
 
     /** Salary in dollars. */
     private double mySalary;
