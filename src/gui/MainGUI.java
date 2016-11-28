@@ -36,9 +36,10 @@ public class MainGUI extends JFrame {
     private void createComponents()
     {
         JTabbedPane tabbedPane = new JTabbedPane();
-        JComponent itemPanel = makeTextPanel("Search");
-        tabbedPane.addTab("Search", itemPanel);
-
+        JComponent alPanel = makeTextPanel("Add Alumni");
+        tabbedPane.addTab("Add Alumni", alPanel);
+        JComponent sPanel = makeTextPanel("Search");
+        tabbedPane.addTab("Search", sPanel);
         add(tabbedPane);
     }
 
@@ -51,8 +52,8 @@ public class MainGUI extends JFrame {
         JPanel panel = new JPanel();
         if (type.equalsIgnoreCase("Search")) {
             panel.add(new SearchGUI());
-        } else {
-            
+        } else if(type.equalsIgnoreCase("Add Alumni")){
+            panel.add(new AlumniAddGUI());
         }
 
         return panel;
