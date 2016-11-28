@@ -1,3 +1,4 @@
+package data;
 import java.util.List;
 
 public class Alumni {
@@ -10,9 +11,9 @@ public class Alumni {
     private double myCurrentGPA;
     private String myUniEmail;
     private String myPersEmail;
-    private List<Internship> myInternships; 
-    private List<Job> myJobs;
-    private List<TransferCollege> myTransferColleges;
+    //private List<Internship> myInternships; 
+    //private List<Job> myJobs;
+    //private List<TransferCollege> myTransferColleges;
     public Alumni(final String theName, final int theID, final String theDegreeTrack, 
             final String theDegreeLevel, final String theYear, final String theTerm,
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail) {
@@ -26,12 +27,16 @@ public class Alumni {
         myUniEmail = theUniEmail;
         myPersEmail = thePersEmail;
     }
-    public Alumni(final String theName, final int theID, final String theDegreeTrack, 
+    /**
+     * TODO Complete this constructor.
+     */
+    /*public Alumni(final String theName, final int theID, final String theDegreeTrack, 
             final String theDegreeLevel, final String theYear, final String theTerm,
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail, 
             final List<Internship> theInternships, final List<Job> theJobs, 
             final List<TransferCollege> theTransferColleges) {
         
-    }
+    }*/
+    
 
 }
