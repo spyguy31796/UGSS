@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data.AlumniDB;
-import data.ItemDB;
-import item.Item;
 
 public class AlumniCollection {
 
