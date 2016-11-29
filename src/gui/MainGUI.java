@@ -28,7 +28,7 @@ public class MainGUI extends JFrame {
         setSize(700, 700);
     }
 
-
+    
     /**
      * Create the tabs for each part of the system. 
      * TODO - Categories, Clients, Transactions

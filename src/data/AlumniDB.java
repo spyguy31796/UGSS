@@ -69,6 +69,52 @@ public class AlumniDB {
 		return mAlumniList;
 	}
 	
+	/**
+     * Retrieves all Alumni from DataBase.
+     * @return list of Alumni
+     * @throws SQLException
+     */
+    public List<Alumni> getAlumni() throws SQLException {
+        if (mConnection == null) {
+            mConnection = DataConnection.getConnection();
+        }
+        Statement stmt = null;
+        String query = "select * " + "from Alumni";
+
+        mAlumniList = new ArrayList<Alumni>();
+        try {
+            stmt = mConnection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String track = rs.getString("degreeTrack");
+                String level = rs.getString("degreeLevel");
+                String year = rs.getString("year");
+                String term = rs.getString("term");
+                Double gpa = rs.getDouble("gpa");
+                String uniEmail = rs.getString("uniEmail");
+                String persEmail = rs.getString("persEmail");
+                String serInternships = rs.getString("internships");
+                String serJobs= rs.getString("jobs");
+                String serColleges = rs.getString("TransferCollege");
+                String category = rs.getString("category");
+                Alumni alumni = null;
+                // TO-DO
+                // Cast internships, jobs, and colleges to lists
+                // Create the Alumni to return
+                // Add alumni to list
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return mAlumniList;
+    }
 
 	
 
