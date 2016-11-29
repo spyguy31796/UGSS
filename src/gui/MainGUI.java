@@ -28,7 +28,7 @@ public class MainGUI extends JFrame {
         setSize(700, 700);
     }
 
-
+    
     /**
      * Create the tabs for each part of the system. 
      * TODO - Categories, Clients, Transactions
@@ -40,6 +40,8 @@ public class MainGUI extends JFrame {
         tabbedPane.addTab("Add Alumni", alPanel);
         JComponent sPanel = makeTextPanel("Search");
         tabbedPane.addTab("Search", sPanel);
+        JComponent rPanel = makeTextPanel("Report");
+        tabbedPane.addTab("Report", rPanel);
         add(tabbedPane);
     }
 
@@ -54,8 +56,9 @@ public class MainGUI extends JFrame {
             panel.add(new SearchGUI());
         } else if(type.equalsIgnoreCase("Add Alumni")){
             panel.add(new AlumniAddGUI());
+        } else if(type.equalsIgnoreCase("Report")){
+            panel.add(new ReportGUI());
         }
-
         return panel;
     }
 }
