@@ -30,7 +30,7 @@ public class DataConnection {
 		sConnection =  DriverManager
 				.getConnection("jdbc:mysql://" + serverName + "/" + userName + "?user=" + userName + "&password=" + password);
 				
-		/*For debugging -*/ System.out.println("Connected to database");
+		//For debugging -*/ System.out.println("Connected to database");
 	}
 	
 	/**
