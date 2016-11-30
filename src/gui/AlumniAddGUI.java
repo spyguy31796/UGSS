@@ -79,20 +79,28 @@ public class AlumniAddGUI extends JPanel implements ActionListener{
         if (e.getSource() == btnAddItem) {
             performAddAlumni();
         }else if(e.getSource() == btnTransferCollege){
+            if(colleges==null){
+                colleges = new ArrayList();
+            }
             colleges.add(performAddTransferCollege());
         }else if(e.getSource() == btnInternships){
+            if(internships==null){
+                internships = new ArrayList();
+            }
             internships.add(performAddInternship());
         }else if(e.getSource() == btnJobs){
+            if(jobs==null){
+                jobs = new ArrayList();
+            }
             jobs.add(performAddJob());
         }
     }
 
     private Object performAddJob() {
-        boolean readyToReturn = false;
         JFrame addJobFrame = new JFrame();
         JPanel fields = new JPanel();
-        fields.setLayout(new GridLayout(7,0));
-        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Salary: ","Active?"};
+        fields.setLayout(new GridLayout(8,0));
+        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Salary: "};
         for (int i = 0; i < labelNames.length; i++) {
             JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -102,11 +110,16 @@ public class AlumniAddGUI extends JPanel implements ActionListener{
             panel.add(txfField[i]);
             fields.add(panel);
         }
-        JButton btnAdd = new JButton("Add");
-        JPanel button = new JPanel();
-        button.add(btnAdd);
-        addJobFrame.add(button);
-        return null;
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1, 0));
+        JCheckBox activeBox = new JCheckBox();
+        activeBox.setSelected(false);
+        panel.add(new JLabel("Active?"));
+        panel.add(activeBox);
+        fields.add(panel);
+        JOptionPane.showConfirmDialog(null, fields, "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+        //System.out.println(txfField[0].getText()+" "+txfField[1].getText()+" "+txfField[2].getText()+" "+txfField[3].getText()+" "+txfField[4].getText()+" "+Double.parseDouble(txfField[5].getText())+" "+activeBox.isSelected());
+        return new Job(txfField[0].getText(),txfField[1].getText(),txfField[2].getText(),txfField[3].getText(),txfField[4].getText(),Double.parseDouble(txfField[5].getText()),activeBox.isSelected());
 
     }
 
