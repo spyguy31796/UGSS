@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data.AlumniDB;
-import data.ItemDB;
-import item.Item;
 
 public class AlumniCollection {
 
@@ -72,7 +70,7 @@ public class AlumniCollection {
             mAlumniDB = new AlumniDB();
         }
         try {
-            return mAlumniDB.getAlumni();
+            return mAlumniDB.getAllAlumni();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -104,13 +102,13 @@ public class AlumniCollection {
     This method will provide all available majors.
     @return
   */       
-  public static Object[] getDegreeTrack(){
-      if (mAlumniDB == null) {
-          mAlumniDB = new AlumniDB();
-      }
-      try {
-          return mAlumniDB.getDegreeTrack();
-      } catch (SQLException e) {
+  public static Object[] getDegreeTrack() {
+        if (mAlumniDB == null) {
+            mAlumniDB = new AlumniDB();
+            }
+        try {
+            return mAlumniDB.getDegreeTrack();
+        } catch (SQLException e) {
           e.printStackTrace();
       }
       return null;

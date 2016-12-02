@@ -60,7 +60,7 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
             final String theTrack) {
 
         if (theLevel != null) {
-            mList = AlumniCollection.reportsearch(theLevel, theTrack);
+            mList = AlumniCollection.search(theLevel, theTrack);
         } else {
             mList = AlumniCollection.getAlumni();
         }
@@ -118,7 +118,7 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
 
     @Override
     public void actionPerformed(final ActionEvent theE) {
-        if (e.getSource() == btnGenerate) {
+        if (theE.getSource() == btnGenerate) {
             final String searchKey = (String) cmbCategories.getSelectedItem();
             final String searchKey1 = (String) cmbDegreeTrack.getSelectedItem();
             mList = getData(searchKey, searchKey1);

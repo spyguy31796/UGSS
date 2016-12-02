@@ -14,8 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import item.Item;
-import item.ItemCategory;
+
 import model.Alumni;
 import model.Internship;
 import model.Job;
@@ -314,12 +313,12 @@ public class AlumniDB {
         }
         Statement stmt = null;
         final String query = "select distinct degreeLevel " + "from Alumni ";
-        final List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<String>();
         try {
             stmt = mConnection.createStatement();
             final ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                final String major = rs.getString("degreeLevel");
+                String major = rs.getString("degreeLevel");
                 list.add(major);
             }
         } catch (final SQLException e) {
