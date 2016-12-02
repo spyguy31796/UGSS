@@ -4,21 +4,24 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 
 import model.Alumni;
 import model.AlumniCollection;
+import model.Job;
 
 
 public class AlumniAddGUI extends JPanel implements ActionListener{
     private static final long serialVersionUID = 1779520078061383929L;
-
+    ArrayList jobs, colleges, internships;
     private JPanel pnlAdd =new JPanel();
     private JLabel[] txfLabel = new JLabel[8];
     private JTextField[] txfField = new JTextField[8];
-    private JButton btnAddItem;
+    private JButton btnAddItem, btnTransferCollege, btnInternships, btnJobs;
+    private boolean readyToAdd;
 
     /**
      * Use this for Item administration. Add components that contain the list,
@@ -51,8 +54,17 @@ public class AlumniAddGUI extends JPanel implements ActionListener{
             pnlAdd.add(panel);
         }
         JPanel panel = new JPanel();
+        btnTransferCollege = new JButton("New Transfer College");
+        btnTransferCollege.addActionListener(this);
+        btnInternships = new JButton("New Internships");
+        btnInternships.addActionListener(this);
+        btnJobs = new JButton("New Jobs");
+        btnJobs.addActionListener(this);
         btnAddItem = new JButton("Add");
         btnAddItem.addActionListener(this);
+        panel.add(btnTransferCollege);
+        panel.add(btnInternships);
+        panel.add(btnJobs);
         panel.add(btnAddItem);
         pnlAdd.add(panel);
         add(pnlAdd, BorderLayout.CENTER);
@@ -66,59 +78,125 @@ public class AlumniAddGUI extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnAddItem) {
             performAddAlumni();
+        }else if(e.getSource() == btnTransferCollege){
+            if(colleges==null){
+                colleges = new ArrayList();
+            }
+            colleges.add(performAddTransferCollege());
+        }else if(e.getSource() == btnInternships){
+            if(internships==null){
+                internships = new ArrayList();
+            }
+            internships.add(performAddInternship());
+        }else if(e.getSource() == btnJobs){
+            if(jobs==null){
+                jobs = new ArrayList();
+            }
+            jobs.add(performAddJob());
         }
+    }
+
+    private Object performAddJob() {
+        JFrame addJobFrame = new JFrame();
+        JPanel fields = new JPanel();
+        fields.setLayout(new GridLayout(8,0));
+        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Salary: "};
+        for (int i = 0; i < labelNames.length; i++) {
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(1, 0));
+            txfLabel[i] = new JLabel(labelNames[i]);
+            txfField[i] = new JTextField(25);
+            panel.add(txfLabel[i]);
+            panel.add(txfField[i]);
+            fields.add(panel);
+        }
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1, 0));
+        JCheckBox activeBox = new JCheckBox();
+        activeBox.setSelected(false);
+        panel.add(new JLabel("Active?"));
+        panel.add(activeBox);
+        fields.add(panel);
+        JOptionPane.showConfirmDialog(null, fields, "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+        //System.out.println(txfField[0].getText()+" "+txfField[1].getText()+" "+txfField[2].getText()+" "+txfField[3].getText()+" "+txfField[4].getText()+" "+Double.parseDouble(txfField[5].getText())+" "+activeBox.isSelected());
+        return new Job(txfField[0].getText(),txfField[1].getText(),txfField[2].getText(),txfField[3].getText(),txfField[4].getText(),Double.parseDouble(txfField[5].getText()),activeBox.isSelected());
+
+    }
+
+    private Object performAddInternship() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private Object performAddTransferCollege() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /**
      * Allows to add an Alumni.
+     * TODO Needs to check the various possible constructions and null cases.
+     * TODO Needs to use correct ids
      * TODO Change Item Stuff and Actually check things
      */
     private void performAddAlumni() {
 
         String name = txfField[0].getText();
         if (name.length() == 0) {
-            JOptionPane.showMessageDialog(null, "Enter an item name");
+            JOptionPane.showMessageDialog(null, "Enter an Alumni name");
             txfField[0].setFocusable(true);
             return;
         }
-        String desc = txfField[1].getText();
-        if (desc.length() == 0) {
-            desc = null;
+        String dTrack = txfField[1].getText();
+        if (dTrack.length() == 0) {
+            dTrack = null;
         }
-        String priceStr = txfField[2].getText();
-        double price = 0.0;
-        if (priceStr.length() != 0) {
+        String dLevel = txfField[2].getText();
+        if (dLevel.length() == 0) {
+            dLevel = null;
+        }
+        String Year = txfField[3].getText();
+        if (Year.length() == 0) {
+            Year = null;
+        }
+        String Term = txfField[4].getText();
+        if (Term .length() == 0) {
+            Term = null;
+        }
+        String GPA = txfField[5].getText();
+        double gpa = 0.0;
+        if (GPA.length() != 0) {
             try {
-                price = Double.parseDouble(priceStr);
+                gpa = Double.parseDouble(GPA);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Enter price as decimal");
-                txfField[2].setText("");
-                txfField[2].setFocusable(true);
+                JOptionPane.showMessageDialog(null, "Enter GPA as decimal");
+                txfField[5].setText("");
+                txfField[5].setFocusable(true);
                 return;
             }
         }
-        String condition = txfField[3].getText();
-        if (condition.length() == 0) {
-            condition = null;
+        String uEmail = txfField[6].getText();
+        if (uEmail.length() == 0) {
+            uEmail = null;
+        }
+        String pEmail = txfField[7].getText();
+        if (pEmail.length() == 0) {
+            pEmail = null;
         }
         Alumni al;
-        if (desc == null) {
-            al = null;
-        } else {
-            al = null;
-        }
+        al = new Alumni(name, 1, dTrack, dLevel, Year, Term, gpa, uEmail, pEmail,null,null,null);
         String message = "Alumni add failed";
         if (AlumniCollection.add(al)) {
             message = "Alumni added";
         }
         JOptionPane.showMessageDialog(null, message);
-
         // Clear all text fields.
         for (int i = 0; i < txfField.length; i++) {
             if (txfField[i].getText().length() != 0) {
                 txfField[i].setText("");
             }
         }
+
     }
 }
 

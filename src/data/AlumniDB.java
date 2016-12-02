@@ -155,7 +155,7 @@ public class AlumniDB {
                 + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
         if (mConnection == null) {
             try {
-                DataConnection.getConnection();
+                mConnection = DataConnection.getConnection();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -175,12 +175,12 @@ public class AlumniDB {
             ArrayList arr = new ArrayList();
             arr.add(new Internship("","","","","",5,5));
             preparedStatement.setObject(9, arr);
-            arr = new ArrayList();
-            arr.add(new Job("","","","","",5,true));
-            preparedStatement.setObject(10, arr);
-            arr = new ArrayList();
-            arr.add(new TransferCollege("",5,"","",""));
-            preparedStatement.setObject(11, arr);
+            ArrayList arr2 = new ArrayList();
+            arr2.add(new Job("","","","","",5,true));
+            preparedStatement.setObject(10, arr2);
+            ArrayList arr3 = new ArrayList();
+            arr3.add(new TransferCollege("",5,"","",""));
+            preparedStatement.setObject(11, arr3);
             //preparedStatement.setObject(9, al.getMyInternships());
             //preparedStatement.setObject(10, al.getMyJobs());
             //preparedStatement.setObject(11, al.getMyTransferColleges());

@@ -32,6 +32,7 @@ public class Alumni {
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail, 
             final List<Internship> theInternships, final List<Job> theJobs, 
             final List<TransferCollege> theTransferColleges) {
+        this(theName,theID,theDegreeTrack,theDegreeLevel,theYear,theTerm,theCurrentGPA,theUniEmail,thePersEmail);
         
     }
     /**
