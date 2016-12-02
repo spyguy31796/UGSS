@@ -218,7 +218,7 @@ public class AlumniDB {
             mConnection = DataConnection.getConnection();
         }
         Statement stmt = null;
-        String query = "select * " + "from degreeTrack ";
+        String query = "select * " + "from Alumni where degreeTrack = " ;
         List<String> list = new ArrayList<String>();
         try {
             stmt = mConnection.createStatement();
