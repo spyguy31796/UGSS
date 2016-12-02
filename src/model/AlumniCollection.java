@@ -55,4 +55,20 @@ public class AlumniCollection {
         
         return false;
     }
+
+    /**
+     * This method will provide all available majors.
+     * @return
+     */
+    public static Object[] getMajor() {
+        if (mAlumniDB == null) {
+            mAlumniDB = new AlumniDB();
+        }
+        try {
+            return mAlumniDB.getMajor();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

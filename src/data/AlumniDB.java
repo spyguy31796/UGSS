@@ -191,4 +191,32 @@ public class AlumniDB {
         }
         return "Added Item Successfully";
     }
+    
+    /**
+     * Retrieves all majors in the database.
+     * @return list of majors
+     */
+    public Object[] getMajor() throws SQLException {
+        if (mConnection == null) {
+            mConnection = DataConnection.getConnection();
+        }
+        Statement stmt = null;
+        String query = "select * " + "from degreeTrack ";
+        List<String> list = new ArrayList<String>();
+        try {
+            stmt = mConnection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String major = rs.getString("degreeTrack");
+                list.add(major);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return list.toArray();
+    }
 }
