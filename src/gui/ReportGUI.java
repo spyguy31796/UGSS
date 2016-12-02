@@ -19,7 +19,7 @@ import model.Alumni;
 import model.AlumniCollection;
 
 /**
- * Report Tab for GUI will genrate report based on user input.
+ * Report Tab for GUI will generate report based on user input.
  * @author Bui
  * @version November 29,2016
  */
@@ -34,7 +34,7 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
     private JButton btnGenerate;
     private JTable table;
     private JScrollPane scrollPane;
-    private String[] mItemColumnNames = {"Name", "Degree Track"};;
+    private String[] mItemColumnNames = {"Name", "Student ID", "Degree Track", "Degree Level"};;
     private Object [][] mData;
     private List<Alumni> mList;
     
@@ -81,12 +81,17 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
      * Create components for tab.
      */
     private void createComponents() {
+        pnlContent = new JPanel();
+        table = new JTable(mData, mItemColumnNames);
+        scrollPane = new JScrollPane(table);
+        pnlContent.add(scrollPane);
         
         pnlReport = new JPanel();
         pnlReport.setLayout(new GridLayout(6,0));
         JPanel comboPanel = new JPanel();
         comboPanel.setLayout(new GridLayout(1, 1));
-        Object[] categories = {"GPA", "Degree Track", "Degree Term"};
+        Object[] categories = {"Degree Track", "Degree Term"};
+        Object [] majors = AlumniCollection.getMajor();
         if (categories != null) {
             cmbCategories = new JComboBox(categories);
             cmbCategories.setSelectedIndex(0);
@@ -108,7 +113,16 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        if (e.getSource() == btnGenerate) {
+            mList = getData(null);
+            pnlContent.removeAll();
+            table = new JTable(mData, mItemColumnNames);
+            table.getModel().addTableModelListener(this);
+            scrollPane = new JScrollPane(table);
+            pnlContent.add(scrollPane);
+            pnlContent.revalidate();
+            this.repaint();
+        }
         
     }
 
