@@ -1,8 +1,10 @@
 package data;
 
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +14,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import item.Item;
+import item.ItemCategory;
 import model.Alumni;
 import model.Internship;
 import model.Job;
@@ -99,7 +103,43 @@ public class AlumniDB {
         }
         return mAlumniList;
     }
+    
+    /**
+     * Retrieve all Alumni that satisfy report conditions. 
+     * @return alumni that match
+     */
+    public List<Alumni> getReportAlumni(final String theDegreeLevel,
+            final String degreeTrack) throws SQLException {
+        List<Alumni> filterList = new ArrayList<Alumni>();
+        if (mConnection == null) {
+            mConnection = DataConnection.getConnection();
+        }
+        Statement stmt = null;
+        String query = "select * " + "from Alumni where degreeLevel = " + theDegreeLevel +
+                "and degreeTrack = " + degreeTrack;
 
+        try {
+            stmt = mConnection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                String name = rs.getString("name");
+                int id = rs.getInt("id");
+                String track = rs.getString("degreeTrack");
+                String level = rs.getString("degreeLevel");
+                Alumni temp = new Alumni(name,id,track,level);
+                filterList.add(temp);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return filterList;
+    }
+    
+    
     /**
      * Retrieves all Alumni from DataBase.
      * @return list of Alumni
@@ -264,24 +304,54 @@ public class AlumniDB {
     }
     
     /**
-     * Retrieves all majors in the database.
-     * @return list of majors
+     * Retrieves all Distinct Degree Level in database.
+     * @return list of Degree Level
+     * @throws SQLException.
      */
-    public Object[] getMajor() throws SQLException {
+    public Object[] getDegreeLevel() throws SQLException {
         if (mConnection == null) {
             mConnection = DataConnection.getConnection();
         }
         Statement stmt = null;
-        String query = "select * " + "from Alumni where degreeTrack = " ;
-        List<String> list = new ArrayList<String>();
+        final String query = "select distinct degreeLevel " + "from Alumni ";
+        final List<String> list = new ArrayList<String>();
         try {
             stmt = mConnection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            final ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                String major = rs.getString("degreeTrack");
+                final String major = rs.getString("degreeLevel");
                 list.add(major);
             }
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
+            System.out.println(e);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return list.toArray();
+    }
+    
+    /**
+     * Retrieves all Distinct Degree Track in database.
+     * @return list of Degree Track
+     * @throws SQLException.
+     */
+    public Object[] getDegreeTrack() throws SQLException {
+        if (mConnection == null) {
+            mConnection = DataConnection.getConnection();
+        }
+        Statement stmt = null;
+        final String query = "select distinct degreeTrack " + "from Alumni ";
+        final List<String> list = new ArrayList<String>();
+        try {
+            stmt = mConnection.createStatement();
+            final ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                final String major = rs.getString("degreeTrack");
+                list.add(major);
+            }
+        } catch (final SQLException e) {
             System.out.println(e);
         } finally {
             if (stmt != null) {

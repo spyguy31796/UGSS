@@ -50,20 +50,20 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
         setSize(500, 500);
     }
     
-    /*
-     * Returns the data (2d) to use in the list.
-     * 
-     * @param title
-     * 
-     * @return
-     */
-    private List<Alumni> getData(String searchKey, String searchKey1) {
+   /**
+    * Get data for report.
+    * @param theLevel degree Level
+    * @param theTrack degree Track
+    * @return data to display
+    */
+    private List<Alumni> getData(final String theLevel,
+            final String theTrack) {
 
-        if (searchKey != null)
-            mList = AlumniCollection.search(searchKey, searchKey1);
-        else
+        if (theLevel != null) {
+            mList = AlumniCollection.reportsearch(theLevel, theTrack);
+        } else {
             mList = AlumniCollection.getAlumni();
-
+        }
         if (mList != null) {
             mData = new Object[mList.size()][mItemColumnNames.length];
             for (int i = 0; i < mList.size(); i++) {
@@ -90,7 +90,7 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
         pnlReport.setLayout(new GridLayout(6,0));
         JPanel comboPanel = new JPanel();
         comboPanel.setLayout(new GridLayout(1, 1));
-        final Object [] degreeLevel = {"BA", "BS", "MS", "Ph.D"};
+        final Object [] degreeLevel = AlumniCollection.getDegreeLevel();
         if (degreeLevel != null) {
             cmbCategories = new JComboBox(degreeLevel);
             comboPanel.add(new JLabel("Select Degree Level: "));
@@ -102,7 +102,7 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
         // Get DegreeTrack for ComboBox.
         JPanel comboDegreeTrack = new JPanel();
         comboDegreeTrack.setLayout(new GridLayout(1, 1));
-        Object[] degreeTrack = {"CSC", "CSS"};
+        Object[] degreeTrack = AlumniCollection.getDegreeTrack();
         if (degreeTrack != null) {
             cmbDegreeTrack = new JComboBox(degreeTrack);
             comboDegreeTrack.add(new JLabel("Select Degree Track: "));
@@ -117,11 +117,10 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent theE) {
         if (e.getSource() == btnGenerate) {
-            String searchKey = "degreeLevel";
-            String searchKey1 = (String) cmbCategories.getSelectedItem();
-  //          String searchKey1 = (String) cmbDegreeTrack.getSelectedItem();
+            final String searchKey = (String) cmbCategories.getSelectedItem();
+            final String searchKey1 = (String) cmbDegreeTrack.getSelectedItem();
             mList = getData(searchKey, searchKey1);
             pnlContent.removeAll();
             table = new JTable(mData, mItemColumnNames);
