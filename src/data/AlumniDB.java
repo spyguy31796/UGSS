@@ -1,6 +1,9 @@
 package data;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,8 +32,10 @@ public class AlumniDB {
      * 
      * @return list of Alumni
      * @throws SQLException
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
-    public List<Alumni> getAlumni(String column, String search) throws SQLException {
+    public List<Alumni> getAlumni(String column, String search) throws SQLException, IOException, ClassNotFoundException {
         if (mConnection == null) {
             mConnection = DataConnection.getConnection();
         }
@@ -51,15 +56,38 @@ public class AlumniDB {
                 Double gpa = rs.getDouble("gpa");
                 String uniEmail = rs.getString("uniEmail");
                 String persEmail = rs.getString("persEmail");
-                String serInternships = rs.getString("internships");
-                String serJobs= rs.getString("jobs");
-                String serColleges = rs.getString("TransferCollege");
-                String category = rs.getString("category");
+                byte[] serInternships = (byte[])rs.getObject("internships");
+                byte[] serJobs= (byte[])rs.getObject("jobs");
+                byte[] serColleges = (byte[])rs.getObject("transferColleges");
                 Alumni alumni = null;
-                // TO-DO
+                
                 // Cast internships, jobs, and colleges to lists
                 // Create the Alumni to return
                 // Add alumni to list
+                
+                ByteArrayInputStream baip = new ByteArrayInputStream(serInternships);
+                ObjectInputStream ois = new ObjectInputStream(baip);
+                List<Internship> internships = (List<Internship>) ois.readObject();
+                
+                System.out.println(internships.toString());
+                
+                ois.close();
+                baip.close();
+                
+                baip = new ByteArrayInputStream(serJobs);
+                ois = new ObjectInputStream(baip);
+                List<Job> jobs = (List<Job>) ois.readObject();
+                
+                ois.close();
+                baip.close();
+            
+                baip = new ByteArrayInputStream(serColleges);
+                ois = new ObjectInputStream(baip);
+                List<TransferCollege> college = (List<TransferCollege>) ois.readObject();
+                
+                ois.close();
+                baip.close();
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,8 +104,10 @@ public class AlumniDB {
      * Retrieves all Alumni from DataBase.
      * @return list of Alumni
      * @throws SQLException
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
-    public List<Alumni> getAlumni() throws SQLException {
+    public List<Alumni> getAllAlumni() throws SQLException, IOException, ClassNotFoundException {
         if (mConnection == null) {
             mConnection = DataConnection.getConnection();
         }
@@ -98,11 +128,39 @@ public class AlumniDB {
                 Double gpa = rs.getDouble("gpa");
                 String uniEmail = rs.getString("uniEmail");
                 String persEmail = rs.getString("persEmail");
-                String serInternships = rs.getString("internships");
-                String serJobs= rs.getString("jobs");
-                String serColleges = rs.getString("TransferCollege");
-                String category = rs.getString("category");
+                byte[] serInternships = (byte[])rs.getObject("internships");
+                byte[] serJobs= (byte[])rs.getObject("jobs");
+                byte[] serColleges = (byte[])rs.getObject("transferColleges");
                 Alumni alumni = null;
+                
+                // Cast internships, jobs, and colleges to lists
+                // Create the Alumni to return
+                // Add alumni to list
+                
+                ByteArrayInputStream baip = new ByteArrayInputStream(serInternships);
+                ObjectInputStream ois = new ObjectInputStream(baip);
+                List<Internship> internships = (List<Internship>) ois.readObject();
+                
+                System.out.println(internships.toString());
+                
+                ois.close();
+                baip.close();
+                
+                baip = new ByteArrayInputStream(serJobs);
+                ois = new ObjectInputStream(baip);
+                List<Job> jobs = (List<Job>) ois.readObject();
+                
+                ois.close();
+                baip.close();
+            
+                baip = new ByteArrayInputStream(serColleges);
+                ois = new ObjectInputStream(baip);
+                List<TransferCollege> college = (List<TransferCollege>) ois.readObject();
+                
+                ois.close();
+                baip.close();
+                
+                Alumni al = new Alumni();
                 // TO-DO
                 // Cast internships, jobs, and colleges to lists
                 // Create the Alumni to return
