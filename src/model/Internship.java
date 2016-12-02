@@ -60,4 +60,9 @@ public class Internship extends Employment implements Serializable {
     public void setMyDuration(final int theDuration) {
         myDuration = theDuration;
     }
+    
+    @Override
+    public String toString() {
+        return super.toString() + " Wage: " + myWage + " Duration: " + myDuration;
+    }
 }

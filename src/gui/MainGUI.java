@@ -38,8 +38,8 @@ public class MainGUI extends JFrame {
         JTabbedPane tabbedPane = new JTabbedPane();
         JComponent alPanel = makeTextPanel("Add Alumni");
         tabbedPane.addTab("Add Alumni", alPanel);
-        JComponent sPanel = makeTextPanel("Search");
-        tabbedPane.addTab("Search", sPanel);
+        JComponent sPanel = makeTextPanel("View");
+        tabbedPane.addTab("View", sPanel);
         JComponent rPanel = makeTextPanel("Report");
         tabbedPane.addTab("Report", rPanel);
         add(tabbedPane);
@@ -52,7 +52,7 @@ public class MainGUI extends JFrame {
      */
     private JComponent makeTextPanel(String type) {
         JPanel panel = new JPanel();
-        if (type.equalsIgnoreCase("Search")) {
+        if (type.equalsIgnoreCase("View")) {
             panel.add(new SearchGUI());
         } else if(type.equalsIgnoreCase("Add Alumni")){
             panel.add(new AlumniAddGUI());
