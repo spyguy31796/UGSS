@@ -11,7 +11,9 @@ import javax.swing.*;
 
 import model.Alumni;
 import model.AlumniCollection;
+import model.Internship;
 import model.Job;
+import model.TransferCollege;
 
 
 public class AlumniAddGUI extends JPanel implements ActionListener{
@@ -21,7 +23,6 @@ public class AlumniAddGUI extends JPanel implements ActionListener{
     private JLabel[] txfLabel = new JLabel[8];
     private JTextField[] txfField = new JTextField[8];
     private JButton btnAddItem, btnTransferCollege, btnInternships, btnJobs;
-    private boolean readyToAdd;
 
     /**
      * Use this for Item administration. Add components that contain the list,
@@ -82,22 +83,30 @@ public class AlumniAddGUI extends JPanel implements ActionListener{
             if(colleges==null){
                 colleges = new ArrayList();
             }
-            colleges.add(performAddTransferCollege());
+            Object temp = performAddTransferCollege();
+            if(temp.toString()!="Cancelled"){
+                colleges.add((TransferCollege)temp);
+            }
         }else if(e.getSource() == btnInternships){
             if(internships==null){
                 internships = new ArrayList();
             }
-            internships.add(performAddInternship());
+            Object temp = performAddInternship();
+            if(temp.toString()!="Cancelled"){
+                internships.add((Internship)temp);
+            }
         }else if(e.getSource() == btnJobs){
             if(jobs==null){
                 jobs = new ArrayList();
             }
-            jobs.add(performAddJob());
+            Object temp = performAddJob();
+            if(temp.toString()!="Cancelled"){
+                jobs.add((Job)temp);
+            }
         }
     }
 
     private Object performAddJob() {
-        JFrame addJobFrame = new JFrame();
         JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(8,0));
         String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Salary: "};
@@ -117,20 +126,61 @@ public class AlumniAddGUI extends JPanel implements ActionListener{
         panel.add(new JLabel("Active?"));
         panel.add(activeBox);
         fields.add(panel);
-        JOptionPane.showConfirmDialog(null, fields, "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+        int check = JOptionPane.showConfirmDialog(null, fields, "Data Entry", JOptionPane.OK_CANCEL_OPTION);
         //System.out.println(txfField[0].getText()+" "+txfField[1].getText()+" "+txfField[2].getText()+" "+txfField[3].getText()+" "+txfField[4].getText()+" "+Double.parseDouble(txfField[5].getText())+" "+activeBox.isSelected());
+        if(check==JOptionPane.CANCEL_OPTION){
+            return "Cancelled";
+        }
         return new Job(txfField[0].getText(),txfField[1].getText(),txfField[2].getText(),txfField[3].getText(),txfField[4].getText(),Double.parseDouble(txfField[5].getText()),activeBox.isSelected());
 
     }
 
     private Object performAddInternship() {
-        // TODO Auto-generated method stub
-        return null;
+        JPanel fields = new JPanel();
+        fields.setLayout(new GridLayout(9,0));
+        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Wage: ","Enter Duration:"};
+        for (int i = 0; i < labelNames.length; i++) {
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(1, 0));
+            txfLabel[i] = new JLabel(labelNames[i]);
+            txfField[i] = new JTextField(25);
+            panel.add(txfLabel[i]);
+            panel.add(txfField[i]);
+            fields.add(panel);
+        }
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1, 0));
+        fields.add(panel);
+        int check = JOptionPane.showConfirmDialog(null, fields, "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+        //System.out.println(txfField[0].getText()+" "+txfField[1].getText()+" "+txfField[2].getText()+" "+txfField[3].getText()+" "+txfField[4].getText()+" "+Double.parseDouble(txfField[5].getText())+" "+activeBox.isSelected());
+        if(check==JOptionPane.CANCEL_OPTION){
+            return "Cancelled";
+        }
+        return new Internship(txfField[0].getText(),txfField[1].getText(),txfField[2].getText(),txfField[3].getText(),txfField[4].getText(),Double.parseDouble(txfField[5].getText()),Integer.parseInt(txfField[6].getText()));
     }
 
     private Object performAddTransferCollege() {
-        // TODO Auto-generated method stub
-        return null;
+        JPanel fields = new JPanel();
+        fields.setLayout(new GridLayout(6,0));
+        String labelNames[] = { "College Name:", "GPA:", "Degree:","Year:","Term:"};
+        for (int i = 0; i < labelNames.length; i++) {
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(1, 0));
+            txfLabel[i] = new JLabel(labelNames[i]);
+            txfField[i] = new JTextField(25);
+            panel.add(txfLabel[i]);
+            panel.add(txfField[i]);
+            fields.add(panel);
+        }
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1, 0));
+        fields.add(panel);
+        int check = JOptionPane.showConfirmDialog(null, fields, "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+        //System.out.println(txfField[0].getText()+" "+txfField[1].getText()+" "+txfField[2].getText()+" "+txfField[3].getText()+" "+txfField[4].getText()+" "+Double.parseDouble(txfField[5].getText())+" "+activeBox.isSelected());
+        if(check==JOptionPane.CANCEL_OPTION){
+            return "Cancelled";
+        }
+        return new TransferCollege(txfField[0].getText(),Double.parseDouble(txfField[1].getText()),txfField[2].getText(),txfField[3].getText(),txfField[4].getText());
     }
 
     /**
