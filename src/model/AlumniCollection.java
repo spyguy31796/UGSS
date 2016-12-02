@@ -1,4 +1,5 @@
 package model;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,12 @@ public class AlumniCollection {
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
         }
-        mAlumniDB.addAlumni(theAlumni);
+        try {
+            mAlumniDB.addAlumni(theAlumni);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return true;
     }
     
@@ -57,10 +63,10 @@ public class AlumniCollection {
     }
 
     /**
-     * This method will provide all available majors.
-     * @return
-     */
-    public static Object[] getMajor() {
+      This method will provide all available majors.
+      @return
+    */       
+    public static Object[] getMajor(){
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
         }
