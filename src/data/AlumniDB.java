@@ -1,6 +1,10 @@
 package data;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -149,9 +153,10 @@ public class AlumniDB {
      * Allows an Alumni to be added.
      * @param al
      * @return
+     * @throws IOException 
      */
-    public String addAlumni(Alumni al) {
-        String sql = "insert into Alumni(`name`, degreeTrack, degreeLevel, year, term, gpa, uniEmail, persEmail, internships, jobs, transferColleges) values "
+    public String addAlumni(Alumni al) throws IOException {
+        String sql = "insert into Alumni(`name`, degreeTrack, degreeLevel, `year`, term, gpa, uniEmail, persEmail, internships, jobs, transferColleges) values "
                 + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
         if (mConnection == null) {
             try {
@@ -172,15 +177,27 @@ public class AlumniDB {
             preparedStatement.setDouble(6, al.getMyCurrentGPA());
             preparedStatement.setString(7, al.getMyUniEmail());
             preparedStatement.setString(8, al.getMyPersEmail());
-            ArrayList arr = new ArrayList();
-            arr.add(new Internship("","","","","",5,5));
-            preparedStatement.setObject(9, arr);
-            ArrayList arr2 = new ArrayList();
-            arr2.add(new Job("","","","","",5,true));
-            preparedStatement.setObject(10, arr2);
-            ArrayList arr3 = new ArrayList();
-            arr3.add(new TransferCollege("",5,"","",""));
-            preparedStatement.setObject(11, arr3);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(al.getMyInternships());
+            byte[] internshipAsBytes = baos.toByteArray();
+            ByteArrayInputStream bais = new 
+                    ByteArrayInputStream(internshipAsBytes);
+            preparedStatement.setBinaryStream(9, bais, internshipAsBytes.length);
+            baos = new ByteArrayOutputStream();
+            oos = new ObjectOutputStream(baos);
+            oos.writeObject(al.getMyJobs());
+            byte[] jobAsBytes = baos.toByteArray();
+            bais = new 
+                    ByteArrayInputStream(jobAsBytes);
+            preparedStatement.setBinaryStream(10, bais, jobAsBytes.length);
+            baos = new ByteArrayOutputStream();
+            oos = new ObjectOutputStream(baos);
+            oos.writeObject(al.getMyTransferColleges());
+            byte[] collegeAsBytes = baos.toByteArray();
+            bais = new 
+                    ByteArrayInputStream(collegeAsBytes);
+            preparedStatement.setBinaryStream(11, bais, collegeAsBytes.length);
             //preparedStatement.setObject(9, al.getMyInternships());
             //preparedStatement.setObject(10, al.getMyJobs());
             //preparedStatement.setObject(11, al.getMyTransferColleges());
