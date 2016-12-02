@@ -22,6 +22,7 @@ public class AlumniCollection {
         }
         return cList;
     }
+    
     /**
      * Add Alumni
      * @param theAlumni
@@ -32,5 +33,42 @@ public class AlumniCollection {
         }
         mAlumniDB.addAlumni(theAlumni);
         return true;
+    }
+    
+    /**
+     * This will return a list of Alumni.
+     * @return list of Alumni
+     */
+    public static List<Alumni> getAlumni() {
+        if (mAlumniDB == null) {
+            mAlumniDB = new AlumniDB();
+        }
+        try {
+            return mAlumniDB.getAlumni();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public static boolean addcategory(String category){
+        
+        return false;
+    }
+
+    /**
+     * This method will provide all available majors.
+     * @return
+     */
+    public static Object[] getMajor() {
+        if (mAlumniDB == null) {
+            mAlumniDB = new AlumniDB();
+        }
+        try {
+            return mAlumniDB.getMajor();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
