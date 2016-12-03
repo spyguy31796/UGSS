@@ -105,22 +105,33 @@ public class AlumniDB {
     
     /**
      * Retrieve all Alumni that satisfy report conditions. 
+     * @param theDegreeLevel degree Level.
+     * @param theDegreeTrack degree Track.
+     * @throws SQLException DB exception
      * @return alumni that match
      */
     public List<Alumni> getReportAlumni(final String theDegreeLevel,
-            final String degreeTrack) throws SQLException {
-        List<Alumni> filterList = new ArrayList<Alumni>();
+            final String theDegreeTrack) throws SQLException {
+        final List<Alumni> filterList = new ArrayList<Alumni>();
         if (mConnection == null) {
             mConnection = DataConnection.getConnection();
         }
+        String query;
         Statement stmt = null;
-        String query = "select * " + "from Alumni where degreeLevel = " + theDegreeLevel +
-                "and degreeTrack = " + degreeTrack;
-
+        if (theDegreeLevel.equals("All") && theDegreeTrack.equals("All")) {
+            query = "select * " + "from Alumni";
+        } else if (theDegreeLevel.equals("All") && !theDegreeTrack.equals("All")) {
+            query = "select * " + "from Alumni where degreeLevel = " + theDegreeLevel;
+        } else if (!theDegreeLevel.equals("All") && theDegreeTrack.equals("All")) {
+            query = "select * " + "from Alumni where degreeTrack = " + theDegreeTrack;
+        } else {
+            query = "select * " + "from Alumni where degreeLevel = " + theDegreeLevel 
+                    + "and degreeTrack = " + theDegreeTrack;
+        }     
         try {
             stmt = mConnection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            if (rs.next()) {
+            while (rs.next()) {
                 String name = rs.getString("name");
                 int id = rs.getInt("id");
                 String track = rs.getString("degreeTrack");
@@ -328,6 +339,7 @@ public class AlumniDB {
                 stmt.close();
             }
         }
+        list.add("All");
         return list.toArray();
     }
     
@@ -357,6 +369,7 @@ public class AlumniDB {
                 stmt.close();
             }
         }
+        list.add("All");
         return list.toArray();
     }
 }
