@@ -42,11 +42,29 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
      * JPanel for content.
      */
     private JPanel pnlContent;
+    /**
+     * Generate button.
+     */
     private JButton btnGenerate;
+    /**
+     * Create a table for display data.
+     */
     private JTable table;
+    /**
+     * Scroll pane for table.
+     */
     private JScrollPane scrollPane;
-    private String[] mItemColumnNames = {"Name", "Student ID", "Degree Track", "Degree Level"};;
+    /**
+     * Item Column names.
+     */
+    private String[] mItemColumnNames = {"Name", "Student ID", "Degree Track", "Degree Level"};
+    /**
+     * Data to display.
+     */
     private Object [][] mData;
+    /**
+     * List of Alumni.
+     */
     private List<Alumni> mList;
 
     
@@ -70,7 +88,7 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
     private List<Alumni> getData(final String theLevel,
             final String theTrack) {
 
-        if (theLevel != null) {
+        if (theLevel != null && theTrack != null) {
             mList = AlumniCollection.reportsearch(theLevel, theTrack);
         } else {
             mList = AlumniCollection.getAlumni();
@@ -92,9 +110,8 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
      * Create components for tab.
      */
     private void createComponents() {
-        
         pnlReport = new JPanel();
-        pnlReport.setLayout(new GridLayout(6,0));
+        pnlReport.setLayout(new GridLayout(3,0));
         
         //Get DegreeLevel Combo Box
         JPanel comboPanel = new JPanel();
@@ -107,7 +124,7 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
             comboPanel.add(cmbCategories);
             pnlReport.add(comboPanel);
         }
-        add(pnlReport, BorderLayout.EAST);
+        add(pnlReport, BorderLayout.NORTH);
         
         // Get DegreeTrack for ComboBox.
         JPanel comboDegreeTrack = new JPanel();
@@ -124,7 +141,6 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
         btnGenerate.addActionListener(this);
         panel.add(btnGenerate);
         pnlReport.add(panel);  
-  //      add(pnlContent, BorderLayout.CENTER);
       pnlContent = new JPanel();
       table = new JTable(mData, mItemColumnNames);
       scrollPane = new JScrollPane(table);
@@ -138,7 +154,8 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
             final String searchKey = (String) cmbCategories.getSelectedItem();
             final String searchKey1 = (String) cmbDegreeTrack.getSelectedItem();
             mList = getData(searchKey, searchKey1);
-//            pnlContent.removeAll();
+            pnlContent.removeAll();
+//            pnlContent = new JPanel();
             table = new JTable(mData, mItemColumnNames);
             table.getModel().addTableModelListener(this);
             scrollPane = new JScrollPane(table);

@@ -121,12 +121,12 @@ public class AlumniDB {
         if (theDegreeLevel.equals("All") && theDegreeTrack.equals("All")) {
             query = "select * " + "from Alumni";
         } else if (theDegreeLevel.equals("All") && !theDegreeTrack.equals("All")) {
-            query = "select * " + "from Alumni where degreeLevel = " + theDegreeLevel;
+            query = "Select * from Alumni where degreeTrack = \"" + theDegreeTrack + "\"";
         } else if (!theDegreeLevel.equals("All") && theDegreeTrack.equals("All")) {
-            query = "select * " + "from Alumni where degreeTrack = " + theDegreeTrack;
+            query = "Select * from Alumni where degreeLevel = \"" + theDegreeLevel + "\"";
         } else {
-            query = "select * " + "from Alumni where degreeLevel = " + theDegreeLevel 
-                    + "and degreeTrack = " + theDegreeTrack;
+            query = "select * " + "from Alumni where degreeLevel = \" " + theDegreeLevel 
+                    + " \" and degreeTrack = \"" + theDegreeTrack + "\"";
         }     
         try {
             stmt = mConnection.createStatement();
