@@ -14,10 +14,11 @@ public class Alumni {
     private List<Internship> myInternships; 
     private List<Job> myJobs;
     private List<TransferCollege> myTransferColleges;
-    public Alumni(final String theName, final String theDegreeTrack, 
+    public Alumni(final String theName, final int theID, final String theDegreeTrack, 
             final String theDegreeLevel, final String theYear, final String theTerm,
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail) {
         myName = theName;
+        myID = theID;
         myDegreeTrack = theDegreeTrack;
         myDegreeLevel = theDegreeLevel;
         myYear = theYear;
@@ -26,16 +27,27 @@ public class Alumni {
         myUniEmail = theUniEmail;
         myPersEmail = thePersEmail;
     }
-    public Alumni(final String theName, final String theDegreeTrack, 
+    public Alumni(final String theName, final int theID, final String theDegreeTrack, 
             final String theDegreeLevel, final String theYear, final String theTerm,
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail, 
             final List<Internship> theInternships, final List<Job> theJobs, 
             final List<TransferCollege> theTransferColleges) {
-        this(theName,theDegreeTrack,theDegreeLevel,theYear,theTerm,theCurrentGPA,theUniEmail,thePersEmail);
-        myJobs = theJobs;
-        myInternships = theInternships;
-        myTransferColleges = theTransferColleges;
+        this(theName,theID,theDegreeTrack,theDegreeLevel,theYear,theTerm,theCurrentGPA,theUniEmail,thePersEmail);
         
+    }
+    /**
+     * Constructor for report GUI that take unique parameters.
+     * @param theName name 
+     * @param theId    ID  
+     * @param theTrack  degreeTrack
+     * @param theLevel     degree Level
+     */
+    public Alumni(final String theName, final int theId, final String theTrack, 
+            final String theLevel) {
+        myName = theName;
+        myID = theId;
+        myDegreeTrack = theTrack;
+        myDegreeLevel = theLevel;
     }
     /**
      * @return the myName
@@ -108,14 +120,6 @@ public class Alumni {
      */
     public List<TransferCollege> getMyTransferColleges() {
         return myTransferColleges;
-    }
-    
-    /**
-     * Changes the id to the new id.
-     * @param theID
-     */
-    public void setID(int theID) {
-        myID = theID;
     }
 
 }

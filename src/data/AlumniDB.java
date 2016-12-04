@@ -210,7 +210,7 @@ public class AlumniDB {
                 ois.close();
                 baip.close();
                 
-                Alumni al = new Alumni();
+                //Alumni al = new Alumni();
                 // TO-DO
                 // Cast internships, jobs, and colleges to lists
                 // Create the Alumni to return
