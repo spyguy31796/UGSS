@@ -1,23 +1,45 @@
 package model;
+
+import data.AlumniDB;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import data.AlumniDB;
 
-public class AlumniCollection {
-
+/**
+ * Collection which stores Alumni.
+ * @author GROUP8
+ * @version 12/3/2016
+ *
+ */
+public final class AlumniCollection {
+    /**
+     * AlumniDB object to store and retrieve from database.
+     */
     private static AlumniDB mAlumniDB;
-    
-    public static List<Alumni> search(String category, String search){
+    /**
+     * Private Constructor for Utility Class.
+     */
+    private AlumniCollection() { };  
+    /**
+     * Finds all alumni with a certain value in a certain category.
+     * @param theCategory the category to be searched.
+     * @param theSearch desired value of the selected category.
+     * @return a list of alumni meeting the search criteria.
+     */
+    public static List<Alumni> search(final String theCategory, final String theSearch) {
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
         }
         ArrayList<Alumni> cList = new ArrayList<Alumni>();
         try {
-            cList = (ArrayList<Alumni>)mAlumniDB.getAlumni(category, search);
-        }catch (SQLException e) {
+            cList = (ArrayList<Alumni>) mAlumniDB.getAlumni(theCategory, theSearch);
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        } catch (final ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         return cList;
@@ -45,20 +67,22 @@ public class AlumniCollection {
     
     
     /**
-     * Add Alumni
-     * @param theAlumni
+     * Add Alumni.
+     * @param theAlumni the alumni object to add.
+     * @return boolean representing failure or success of adding alumni.
      */
-    public static boolean add(final Alumni theAlumni){
+    public static boolean add(final Alumni theAlumni) {
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
         }
         try {
             mAlumniDB.addAlumni(theAlumni);
-        } catch (IOException e) {
+            return true;
+        } catch (final IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return true;
+        return false;
     }
     
     /**
@@ -71,15 +95,14 @@ public class AlumniCollection {
         }
         try {
             return mAlumniDB.getAllAlumni();
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        } catch (final ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         return null;
-    }
-    
-    public static boolean addcategory(String category){
-        
-        return false;
     }
 
     /**
@@ -100,17 +123,17 @@ public class AlumniCollection {
     
     /**
     This method will provide all available majors.
-    @return
+    @return an object array of all objects, returns null if an error occurs.
   */       
-  public static Object[] getDegreeTrack() {
+    public static Object[] getDegreeTrack() {
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
-            }
+        }
         try {
             return mAlumniDB.getDegreeTrack();
-        } catch (SQLException e) {
-          e.printStackTrace();
-      }
-      return null;
-  }
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

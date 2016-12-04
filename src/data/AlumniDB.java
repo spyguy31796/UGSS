@@ -210,7 +210,7 @@ public class AlumniDB {
                 ois.close();
                 baip.close();
                 
-                Alumni al = new Alumni();
+                //Alumni al = new Alumni();
                 // TO-DO
                 // Cast internships, jobs, and colleges to lists
                 // Create the Alumni to return
@@ -308,9 +308,9 @@ public class AlumniDB {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Error adding item: " + e.getMessage();
+            return "Error adding alumni: " + e.getMessage();
         }
-        return "Added Item Successfully";
+        return "Added Alumni Successfully";
     }
     
     /**
