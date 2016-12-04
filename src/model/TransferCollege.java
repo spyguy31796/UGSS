@@ -32,6 +32,7 @@ public class TransferCollege implements Serializable {
     public TransferCollege(final String theName, final double theGPA, 
             final String theDegree, final String theYear, final String theTerm){
         myName = theName;
+        myGPA = theGPA;
         myDegree = theDegree;
         myYear = theYear;
         myTerm = theTerm;
