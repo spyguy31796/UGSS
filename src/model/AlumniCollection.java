@@ -16,8 +16,8 @@ public class AlumniCollection {
         }
         ArrayList<Alumni> cList = new ArrayList<Alumni>();
         try {
-            cList = (ArrayList<Alumni>) mAlumniDB.getAlumni(category, search);
-        } catch (SQLException e) {
+            cList = (ArrayList<Alumni>)mAlumniDB.getAlumni(category, search);
+        }catch (SQLException e) {
             e.printStackTrace();
         }
         return cList;
