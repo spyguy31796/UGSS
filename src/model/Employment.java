@@ -1,10 +1,18 @@
 package model;
+
+import java.io.Serializable;
+
 /**
  * Holds data regarding a place of employment. 
  * @author Dema
  *@version 11.15.2016
  */
-public abstract class Employment {
+public abstract class Employment implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5345334229977780966L;
 
     /** The employer name. */
     private String myCompany;
@@ -111,5 +119,14 @@ public abstract class Employment {
      */
     public void setMyMiscComments(final String theMiscComments) {
         myMiscComments = theMiscComments;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "Company: " + myCompany + " Position: " + myPosition + " SkillsReq: " + mySkillsReq
+                + " Description: " + myDescription + " MiscComments: " + myMiscComments;
     }
 }

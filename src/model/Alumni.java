@@ -14,11 +14,10 @@ public class Alumni {
     private List<Internship> myInternships; 
     private List<Job> myJobs;
     private List<TransferCollege> myTransferColleges;
-    public Alumni(final String theName, final int theID, final String theDegreeTrack, 
+    public Alumni(final String theName, final String theDegreeTrack, 
             final String theDegreeLevel, final String theYear, final String theTerm,
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail) {
         myName = theName;
-        myID = theID;
         myDegreeTrack = theDegreeTrack;
         myDegreeLevel = theDegreeLevel;
         myYear = theYear;
@@ -27,12 +26,15 @@ public class Alumni {
         myUniEmail = theUniEmail;
         myPersEmail = thePersEmail;
     }
-    public Alumni(final String theName, final int theID, final String theDegreeTrack, 
+    public Alumni(final String theName, final String theDegreeTrack, 
             final String theDegreeLevel, final String theYear, final String theTerm,
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail, 
             final List<Internship> theInternships, final List<Job> theJobs, 
             final List<TransferCollege> theTransferColleges) {
-        this(theName,theID,theDegreeTrack,theDegreeLevel,theYear,theTerm,theCurrentGPA,theUniEmail,thePersEmail);
+        this(theName,theDegreeTrack,theDegreeLevel,theYear,theTerm,theCurrentGPA,theUniEmail,thePersEmail);
+        myJobs = theJobs;
+        myInternships = theInternships;
+        myTransferColleges = theTransferColleges;
         
     }
     /**
@@ -106,6 +108,14 @@ public class Alumni {
      */
     public List<TransferCollege> getMyTransferColleges() {
         return myTransferColleges;
+    }
+    
+    /**
+     * Changes the id to the new id.
+     * @param theID
+     */
+    public void setID(int theID) {
+        myID = theID;
     }
 
 }

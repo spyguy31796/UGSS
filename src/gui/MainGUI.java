@@ -53,7 +53,7 @@ public class MainGUI extends JFrame {
     private JComponent makeTextPanel(String type) {
         JPanel panel = new JPanel();
         if (type.equalsIgnoreCase("View")) {
-            panel.add(new SearchGUI());
+            panel.add(new ViewGUI());
         } else if(type.equalsIgnoreCase("Add Alumni")){
             panel.add(new AlumniAddGUI());
         } else if(type.equalsIgnoreCase("Report")){

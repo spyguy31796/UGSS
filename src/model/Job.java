@@ -9,6 +9,11 @@ import java.io.Serializable;
  */
 public class Job extends Employment implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1865287520908536875L;
+
     /** Salary in dollars. */
     private double mySalary;
 
@@ -61,5 +66,11 @@ public class Job extends Employment implements Serializable {
      */
     public void setActive(final boolean theActive) {
         myActive = theActive;
+    }
+
+
+    @Override
+    public String toString() {
+        return super.toString() + " Salary: " + mySalary + " Active: " + myActive;
     }
 }
