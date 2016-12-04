@@ -77,4 +77,34 @@ public class TransferCollege implements Serializable {
     public double getMyGPA() {
         return myGPA;
     }
+    /**
+     * @param myName the myName to set
+     */
+    public void setMyName(String myName) {
+        this.myName = myName;
+    }
+    /**
+     * @param myDegree the myDegree to set
+     */
+    public void setMyDegree(String myDegree) {
+        this.myDegree = myDegree;
+    }
+    /**
+     * @param myTerm the myTerm to set
+     */
+    public void setMyTerm(String myTerm) {
+        this.myTerm = myTerm;
+    }
+    /**
+     * @param myYear the myYear to set
+     */
+    public void setMyYear(String myYear) {
+        this.myYear = myYear;
+    }
+    /**
+     * @param myGPA the myGPA to set
+     */
+    public void setMyGPA(double myGPA) {
+        this.myGPA = myGPA;
+    }
 }

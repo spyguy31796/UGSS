@@ -58,7 +58,7 @@ public class ViewGUI extends JPanel implements ActionListener {
     
     JTable table, viewTable;
     
-    JComboBox modifyTypeSelections;
+    JComboBox modifyTypeSelections, itemRemoveModifySelection;
 
     ViewGUI() {
         setLayout(new BorderLayout());
@@ -296,6 +296,445 @@ public class ViewGUI extends JPanel implements ActionListener {
                 performAddCollege();
             }
         }
+        else if (e.getSource() == removeSelection) {
+            int selection = modifyTypeSelections.getSelectedIndex();
+            if (selection == 0) { // Internship is being removed
+                performRemoveIntship();
+            }
+            else if (selection == 1) { // Job is being removed
+                performRemoveJob();
+            }
+            else if (selection == 2) { // College is being removed
+                performRemoveCollege();
+            }
+        }
+        else if (e.getSource() == modifySelection) {
+            int selection = modifyTypeSelections.getSelectedIndex();
+            if (selection == 0) { // Internship is being modified
+                performModifyInternshipSelection();
+            }
+            else if (selection == 1) { // Job is being modified
+                performModifyJobSelection();
+            }
+            else if (selection == 2) { // College is being modified
+                performModifyCollegeSelection();
+            }
+        }
+    }
+    
+    /**
+     * Modifies the selected college.
+     */
+    private void performModifyCollegeSelection() {
+        List<TransferCollege> colleges = currentAlumniSelected.getMyTransferColleges();
+        
+        if (colleges != null) {
+            List<String> revised = new ArrayList<String>();
+            for (int i = 0; i < colleges.size(); i++) {
+                revised.add("College: " + colleges.get(i).getMyName() + ", Year: " + colleges.get(i).getMyYear());
+            }
+            JPanel mainPanel = new JPanel();
+            JPanel comboPanel = new JPanel();
+            comboPanel.setLayout(new GridLayout(1, 1));
+            Object[] options = revised.toArray();
+            itemRemoveModifySelection = new JComboBox(options);
+            if (options.length != 0) {
+                modifyTypeSelections.setSelectedIndex(0);
+            }
+            comboPanel.add(new JLabel("Select College to modify: "));
+            comboPanel.add(itemRemoveModifySelection);
+            mainPanel.add(comboPanel, BorderLayout.CENTER);
+            int choice = JOptionPane.showConfirmDialog(null, mainPanel, "Modify College", JOptionPane.OK_OPTION);
+            if (choice == 0) { // User wants to go ahead with removal
+                if (itemRemoveModifySelection.getSelectedIndex() >= 0) {
+                        displayCollegeWindow();
+                    
+                }
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "There are no College to remove!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void displayCollegeWindow() {
+        JPanel fields = new JPanel();
+        fields.setLayout(new GridLayout(6,0));
+        String labelNames[] = { "College Name:", "GPA:", "Degree:","Year:","Term:"};
+        for (int i = 0; i < labelNames.length; i++) {
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(1, 0));
+            JLabel addLabel = new JLabel(labelNames[i]);
+            myCollegeFields[i] = new JTextField(25);
+            panel.add(addLabel);
+            panel.add(myCollegeFields[i]);
+            fields.add(panel);
+        }
+
+        int check = JOptionPane.showConfirmDialog(null, fields, "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+        if(check==JOptionPane.CANCEL_OPTION){
+            return;
+        }
+
+        List<TransferCollege> lsColleges = currentAlumniSelected.getMyTransferColleges();
+        TransferCollege modifiedCollege = lsColleges.get(itemRemoveModifySelection.getSelectedIndex());
+        if (myCollegeFields[0].getText().length() != 0) {
+            modifiedCollege.setMyName(myCollegeFields[0].getText());
+        }
+        if (myCollegeFields[1].getText().length() != 0) {
+            modifiedCollege.setMyGPA(Double.parseDouble(myCollegeFields[1].getText()));
+        }
+        if (myCollegeFields[2].getText().length() != 0) {
+            modifiedCollege.setMyDegree(myCollegeFields[2].getText());
+        }
+        if (myCollegeFields[3].getText().length() != 0) {
+            modifiedCollege.setMyYear(myCollegeFields[3].getText());
+        }
+        if (myCollegeFields[4].getText().length() != 0) {
+            modifiedCollege.setMyTerm(myCollegeFields[4].getText());
+        }
+
+        lsColleges.remove(itemRemoveModifySelection.getSelectedIndex());
+        lsColleges.add(modifiedCollege);
+        
+        
+        boolean success = AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.COLLEGES, lsColleges);
+
+        if (success) {
+            JOptionPane.showMessageDialog(null, "College was successfully modified");                 
+        } 
+        else {
+            JOptionPane.showMessageDialog(null, "Error modifying College.", "Modify Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Modifies the selected job.
+     */
+    private void performModifyJobSelection() {       
+    
+   List<Job> jobs = currentAlumniSelected.getMyJobs();
+        
+        if (jobs != null) {
+            List<String> revised = new ArrayList<String>();
+            for (int i = 0; i < jobs.size(); i++) {
+                revised.add("Company: " + jobs.get(i).getMyCompany() + ", Position: " + jobs.get(i).getMyPosition());
+            }
+            JPanel mainPanel = new JPanel();
+            JPanel comboPanel = new JPanel();
+            comboPanel.setLayout(new GridLayout(1, 1));
+            Object[] options = revised.toArray();
+            itemRemoveModifySelection = new JComboBox(options);
+            if (options.length != 0) {
+                modifyTypeSelections.setSelectedIndex(0);
+            }
+            comboPanel.add(new JLabel("Select Job to remove: "));
+            comboPanel.add(itemRemoveModifySelection);
+            mainPanel.add(comboPanel, BorderLayout.CENTER);
+            int choice = JOptionPane.showConfirmDialog(null, mainPanel, "Modify Job", JOptionPane.OK_OPTION);
+            if (choice == 0) { // User wants to go ahead with removal
+                if (itemRemoveModifySelection.getSelectedIndex() >= 0) {
+                    displayJobWindow();
+                }
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "There are no Jobs to remove!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+}
+
+private void displayJobWindow() {
+    JPanel fields = new JPanel();
+    fields.setLayout(new GridLayout(8,0));
+    String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Salary: "};
+    for (int i = 0; i < labelNames.length; i++) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1, 0));
+        JLabel addLabel = new JLabel(labelNames[i]);
+        myJobFields[i] = new JTextField(25);
+        panel.add(addLabel);
+        panel.add(myJobFields[i]);
+        fields.add(panel);
+    }
+    JPanel panel = new JPanel();
+    panel.setLayout(new GridLayout(1, 0));
+    JCheckBox activeBox = new JCheckBox();
+    activeBox.setSelected(false);
+    panel.add(new JLabel("Active?"));
+    panel.add(activeBox);
+    fields.add(panel);
+
+       
+    int check = JOptionPane.showConfirmDialog(null, fields, "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+    if(check==JOptionPane.CANCEL_OPTION){
+        return;
+    }
+    // Check data
+    boolean requiredEntered = true;
+    for (int i = 0; i < myJobFields.length; i++) {
+        String data = myJobFields[i].getText();
+        System.out.println(i + ": " + data);
+        if (data.length() != 0) {           
+            if (requiredEntered & data.length() > 50) {
+                JOptionPane.showMessageDialog(null, "Data entered must be less than 50 characters", "Entry is too Long", JOptionPane.ERROR_MESSAGE);
+                requiredEntered = false;
+            }             
+        }
+    }
+    
+    if (requiredEntered) {
+      
+          List<Job> lsJobs = currentAlumniSelected.getMyJobs();
+          Job newJob = lsJobs.get(itemRemoveModifySelection.getSelectedIndex());
+          if (myJobFields[0].getText().length() != 0) {
+              newJob.setMyCompany(myJobFields[0].getText());
+          }
+          if (myJobFields[1].getText().length() != 0) {
+              newJob.setMyPosition(myJobFields[1].getText());
+          }
+          if (myJobFields[2].getText().length() != 0) {
+              newJob.setMySkillsReq(myJobFields[2].getText());
+          }
+          if (myJobFields[3].getText().length() != 0) {
+              newJob.setMyDescription(myJobFields[3].getText());
+          }
+          if (myJobFields[4].getText().length() != 0) {
+              newJob.setMyMiscComments(myJobFields[4].getText());
+          }
+          if (myJobFields[5].getText().length() != 0) {
+              newJob.setSalary(Double.parseDouble(myJobFields[5].getText()));
+          }     
+          lsJobs.remove(itemRemoveModifySelection.getSelectedIndex());
+          lsJobs.add(newJob);
+          
+          boolean success = AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.JOB, lsJobs);
+          
+          if (success) {
+              JOptionPane.showMessageDialog(null, "Job was successfully modified");                 
+          } 
+          else {
+              JOptionPane.showMessageDialog(null, "Error modifiying Job.", "modify Error", JOptionPane.ERROR_MESSAGE);
+          }
+    }
+}
+    
+    
+    /**
+     * Modifys the selected internship.
+     */
+    private void performModifyInternshipSelection() {
+        List<Internship> internships = currentAlumniSelected.getMyInternships();
+        
+        if (internships != null) {
+            List<String> revised = new ArrayList<String>();
+            for (int i = 0; i < internships.size(); i++) {
+                revised.add("Company: " + internships.get(i).getMyCompany() + ", Position: " + internships.get(i).getMyPosition());
+            }
+            JPanel mainPanel = new JPanel();
+            JPanel comboPanel = new JPanel();
+            comboPanel.setLayout(new GridLayout(1, 1));
+            Object[] options = revised.toArray();
+            itemRemoveModifySelection = new JComboBox(options);
+            if (options.length != 0) {
+                modifyTypeSelections.setSelectedIndex(0);
+            }
+            comboPanel.add(new JLabel("Select internship to modify: "));
+            comboPanel.add(itemRemoveModifySelection);
+            mainPanel.add(comboPanel, BorderLayout.CENTER);
+            int choice = JOptionPane.showConfirmDialog(null, mainPanel, "Modify Internship", JOptionPane.OK_OPTION);
+            if (choice == 0) { // User wants to go ahead with modification
+                if (itemRemoveModifySelection.getSelectedIndex() >= 0) {
+                    displayInternshipWindow();
+                }
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "There are no internships to modify!!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void displayInternshipWindow() {
+        JPanel fields = new JPanel();
+        fields.setLayout(new GridLayout(9,0));
+        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Wage: ","Enter Duration:"};
+        for (int i = 0; i < labelNames.length; i++) {
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(1, 0));
+            JLabel addLabel = new JLabel(labelNames[i]);
+            myInternFields[i] = new JTextField(25);
+            panel.add(addLabel);
+            panel.add(myInternFields[i]);
+            fields.add(panel);
+        }
+
+        int check = JOptionPane.showConfirmDialog(null, fields, "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+        if(check==JOptionPane.CANCEL_OPTION){
+            return;
+        }
+
+        List<Internship> lsIntShip = currentAlumniSelected.getMyInternships();
+        Internship modifiedShip = lsIntShip.get(itemRemoveModifySelection.getSelectedIndex());
+        if (myInternFields[0].getText().length() != 0) {
+            modifiedShip.setMyCompany(myInternFields[0].getText());
+        }
+        if (myInternFields[1].getText().length() != 0) {
+            modifiedShip.setMyPosition(myInternFields[1].getText());
+        }
+        if (myInternFields[2].getText().length() != 0) {
+            modifiedShip.setMySkillsReq(myInternFields[2].getText());
+        }
+        if (myInternFields[3].getText().length() != 0) {
+            modifiedShip.setMyDescription(myInternFields[3].getText());
+        }
+        if (myInternFields[4].getText().length() != 0) {
+            modifiedShip.setMyMiscComments(myInternFields[4].getText());
+        }
+        if (myInternFields[5].getText().length() != 0) {
+            modifiedShip.setMyWage(Double.parseDouble(myInternFields[5].getText()));
+        }     
+        if (myInternFields[6].getText().length() != 0) {
+            modifiedShip.setMyDuration(Integer.parseInt(myInternFields[6].getText()));
+        }
+        lsIntShip.remove(itemRemoveModifySelection.getSelectedIndex());
+        lsIntShip.add(modifiedShip);
+
+        boolean success = AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.INTNSHIP, lsIntShip);
+
+        if (success) {
+            JOptionPane.showMessageDialog(null, "Internship was successfully Modified");                 
+        } 
+        else {
+            JOptionPane.showMessageDialog(null, "Error modifying Internship.", "Modify Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Removes an internship.
+     */
+    private void performRemoveIntship() {
+        List<Internship> internships = currentAlumniSelected.getMyInternships();
+        
+        if (internships != null) {
+            List<String> revised = new ArrayList<String>();
+            for (int i = 0; i < internships.size(); i++) {
+                revised.add("Company: " + internships.get(i).getMyCompany() + ", Position: " + internships.get(i).getMyPosition());
+            }
+            JPanel mainPanel = new JPanel();
+            JPanel comboPanel = new JPanel();
+            comboPanel.setLayout(new GridLayout(1, 1));
+            Object[] options = revised.toArray();
+            itemRemoveModifySelection = new JComboBox(options);
+            if (options.length != 0) {
+                modifyTypeSelections.setSelectedIndex(0);
+            }
+            comboPanel.add(new JLabel("Select internship to remove: "));
+            comboPanel.add(itemRemoveModifySelection);
+            mainPanel.add(comboPanel, BorderLayout.CENTER);
+            int choice = JOptionPane.showConfirmDialog(null, mainPanel, "Remove Internship", JOptionPane.OK_OPTION);
+            if (choice == 0) { // User wants to go ahead with removal
+                if (itemRemoveModifySelection.getSelectedIndex() >= 0) {
+                    Object item = internships.remove(itemRemoveModifySelection.getSelectedIndex());
+                    if (item != null) {
+                        boolean success = AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.INTNSHIP, internships);
+                        if (success) {
+                             JOptionPane.showMessageDialog(null, "Internship successfully removed");
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Error removing internship!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }                  
+                    }
+                }
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "There are no internships to remove!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Removes a Job.
+     */
+    private void performRemoveJob() {
+        List<Job> jobs = currentAlumniSelected.getMyJobs();
+        
+        if (jobs != null) {
+            List<String> revised = new ArrayList<String>();
+            for (int i = 0; i < jobs.size(); i++) {
+                revised.add("Company: " + jobs.get(i).getMyCompany() + ", Position: " + jobs.get(i).getMyPosition());
+            }
+            JPanel mainPanel = new JPanel();
+            JPanel comboPanel = new JPanel();
+            comboPanel.setLayout(new GridLayout(1, 1));
+            Object[] options = revised.toArray();
+            itemRemoveModifySelection = new JComboBox(options);
+            if (options.length != 0) {
+                modifyTypeSelections.setSelectedIndex(0);
+            }
+            comboPanel.add(new JLabel("Select Job to remove: "));
+            comboPanel.add(itemRemoveModifySelection);
+            mainPanel.add(comboPanel, BorderLayout.CENTER);
+            int choice = JOptionPane.showConfirmDialog(null, mainPanel, "Remove Job", JOptionPane.OK_OPTION);
+            if (choice == 0) { // User wants to go ahead with removal
+                if (itemRemoveModifySelection.getSelectedIndex() >= 0) {
+                    Object item = jobs.remove(itemRemoveModifySelection.getSelectedIndex());
+                    if (item != null) {
+                        boolean success = AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.JOB, jobs);
+                        if (success) {
+                             JOptionPane.showMessageDialog(null, "Job successfully removed");
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Error removing Job!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }                  
+                    }
+                }
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "There are no Jobs to remove!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Removes a College.
+     */
+    private void performRemoveCollege() {
+        List<TransferCollege> colleges = currentAlumniSelected.getMyTransferColleges();
+        
+        if (colleges != null) {
+            List<String> revised = new ArrayList<String>();
+            for (int i = 0; i < colleges.size(); i++) {
+                revised.add("College: " + colleges.get(i).getMyName() + ", Year: " + colleges.get(i).getMyYear());
+            }
+            JPanel mainPanel = new JPanel();
+            JPanel comboPanel = new JPanel();
+            comboPanel.setLayout(new GridLayout(1, 1));
+            Object[] options = revised.toArray();
+            itemRemoveModifySelection = new JComboBox(options);
+            if (options.length != 0) {
+                modifyTypeSelections.setSelectedIndex(0);
+            }
+            comboPanel.add(new JLabel("Select College to remove: "));
+            comboPanel.add(itemRemoveModifySelection);
+            mainPanel.add(comboPanel, BorderLayout.CENTER);
+            int choice = JOptionPane.showConfirmDialog(null, mainPanel, "Remove College", JOptionPane.OK_OPTION);
+            if (choice == 0) { // User wants to go ahead with removal
+                if (itemRemoveModifySelection.getSelectedIndex() >= 0) {
+                    Object item = colleges.remove(itemRemoveModifySelection.getSelectedIndex());
+                    if (item != null) {
+                        boolean success = AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.COLLEGES, colleges);
+                        if (success) {
+                             JOptionPane.showMessageDialog(null, "College successfully removed");
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Error removing College!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }                  
+                    }
+                }
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "There are no College to remove!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void performView(DataTypes type) {
@@ -473,6 +912,13 @@ public class ViewGUI extends JPanel implements ActionListener {
             return;
         }
 
+        try {
+            Double.parseDouble(myInternFields[5].getText());
+            Integer.parseInt(myInternFields[6].getText());
+        }
+        catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Wage and duration are required and must be numbers");
+        }
         Internship intnship = new Internship(myInternFields[0].getText(), myInternFields[1].getText(), myInternFields[2].getText(), 
                 myInternFields[3].getText(), myInternFields[4].getText(),
                 Double.parseDouble(myInternFields[5].getText()), Integer.parseInt(myInternFields[6].getText()));    
