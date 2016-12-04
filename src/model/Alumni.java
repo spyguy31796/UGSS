@@ -36,6 +36,20 @@ public class Alumni {
         
     }
     /**
+     * Constructor for report GUI that take unique parameters.
+     * @param theName name 
+     * @param theId    ID  
+     * @param theTrack  degreeTrack
+     * @param theLevel     degree Level
+     */
+    public Alumni(final String theName, final int theId, final String theTrack, 
+            final String theLevel) {
+        myName = theName;
+        myID = theId;
+        myDegreeTrack = theTrack;
+        myDegreeLevel = theLevel;
+    }
+    /**
      * @return the myName
      */
     public String getMyName() {
