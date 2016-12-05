@@ -77,6 +77,6 @@ public class Job extends Employment implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString() + " Salary: " + mySalary + " Active: " + myActive;
+        return super.toString();
     }
 }

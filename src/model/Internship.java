@@ -77,6 +77,6 @@ public class Internship extends Employment implements Serializable {
     
     @Override
     public String toString() {
-        return super.toString() + " Wage: " + myWage + " Duration: " + myDuration;
+        return super.toString();
     }
 }

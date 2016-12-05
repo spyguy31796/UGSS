@@ -135,7 +135,7 @@ public abstract class Employment implements Serializable {
      */
     @Override
     public String toString() {
-        return "Company: " + myCompany + " Position: " + myPosition + " SkillsReq: " + mySkillsReq
-                + " Description: " + myDescription + " MiscComments: " + myMiscComments;
+        return myCompany;
     }
+    
 }

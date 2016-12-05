@@ -56,6 +56,18 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
      */
     private JLabel[] myTxfLabel = new JLabel[8];
     /**
+     * Fields for input jobs.
+     */
+    private JTextField[] myTxfFieldJobs = new JTextField[6];
+    /**
+     * Fields for input internships.
+     */
+    private JTextField[] myTxfFieldInternships = new JTextField[7];
+    /**
+     * Fields for input schools.
+     */
+    private JTextField[] myTxfFieldSchools = new JTextField[5];
+    /**
      * Fields for input.
      */
     private JTextField[] myTxfField = new JTextField[8];
@@ -222,7 +234,6 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         fields.add(removeInternship);
         final int check = JOptionPane.showConfirmDialog(null, fields, 
                 "Data Entry", JOptionPane.OK_CANCEL_OPTION);
-
     }
 
     /**
@@ -240,9 +251,9 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
             myTxfLabel[i] = new JLabel(labelNames[i]);
-            myTxfField[i] = new JTextField(25);
+            myTxfFieldJobs[i] = new JTextField(25);
             panel.add(myTxfLabel[i]);
-            panel.add(myTxfField[i]);
+            panel.add(myTxfFieldJobs[i]);
             fields.add(panel);
         }
         final JPanel panel = new JPanel();
@@ -257,9 +268,9 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         if (check == JOptionPane.CANCEL_OPTION) {
             return STRCANCEL;
         }
-        return new Job(myTxfField[0].getText(), myTxfField[1].getText(),
-                myTxfField[2].getText(), myTxfField[3].getText(), myTxfField[4].getText(),
-                Double.parseDouble(myTxfField[5].getText()), activeBox.isSelected());
+        return new Job(myTxfFieldJobs[0].getText(), myTxfFieldJobs[1].getText(),
+                myTxfFieldJobs[2].getText(), myTxfFieldJobs[3].getText(), myTxfFieldJobs[4].getText(),
+                Double.parseDouble(myTxfFieldJobs[5].getText()), activeBox.isSelected());
 
     }
 
@@ -279,9 +290,9 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
             myTxfLabel[i] = new JLabel(labelNames[i]);
-            myTxfField[i] = new JTextField(25);
+            myTxfFieldInternships[i] = new JTextField(25);
             panel.add(myTxfLabel[i]);
-            panel.add(myTxfField[i]);
+            panel.add(myTxfFieldInternships[i]);
             fields.add(panel);
         }
         final JPanel panel = new JPanel();
@@ -292,10 +303,10 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         if (check == JOptionPane.CANCEL_OPTION) {
             return STRCANCEL;
         }
-        return new Internship(myTxfField[0].getText(), myTxfField[1].getText(),
-                myTxfField[2].getText(), myTxfField[3].getText(),
-                myTxfField[4].getText(), Double.parseDouble(myTxfField[5].getText()),
-                Integer.parseInt(myTxfField[6].getText()));
+        return new Internship(myTxfFieldInternships[0].getText(), myTxfFieldInternships[1].getText(),
+                myTxfFieldInternships[2].getText(), myTxfFieldInternships[3].getText(),
+                myTxfFieldInternships[4].getText(), Double.parseDouble(myTxfFieldInternships[5].getText()),
+                Integer.parseInt(myTxfFieldInternships[6].getText()));
     }
 
     /**
@@ -310,9 +321,9 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
             myTxfLabel[i] = new JLabel(labelNames[i]);
-            myTxfField[i] = new JTextField(25);
+            myTxfFieldSchools[i] = new JTextField(25);
             panel.add(myTxfLabel[i]);
-            panel.add(myTxfField[i]);
+            panel.add(myTxfFieldSchools[i]);
             fields.add(panel);
         }
         final JPanel panel = new JPanel();
@@ -323,9 +334,9 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         if (check == JOptionPane.CANCEL_OPTION) {
             return STRCANCEL;
         }
-        return new TransferCollege(myTxfField[0].getText(),
-                Double.parseDouble(myTxfField[1].getText()),myTxfField[2].getText(),
-                myTxfField[3].getText(),myTxfField[4].getText());
+        return new TransferCollege(myTxfFieldSchools[0].getText(),
+                Double.parseDouble(myTxfFieldSchools[1].getText()),myTxfFieldSchools[2].getText(),
+                myTxfFieldSchools[3].getText(),myTxfFieldSchools[4].getText());
     }
 
     /**
