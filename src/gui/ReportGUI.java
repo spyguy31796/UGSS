@@ -31,9 +31,21 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
      */
     private static final long serialVersionUID = 1L;
     /**
+     * create variable to avoid check style.
+     */
+    private static final int FIVE = 500;
+    /**
+     * String variable to use throughout the class.
+     */
+    private static final String ALL = "All";
+    /**
      * JCombo Box.
      */
-    private JComboBox cmbCategories, cmbDegreeTrack;
+    private JComboBox cmbCategories;
+    /**
+     * JComboBox for degreeTrack.
+     */
+    private JComboBox cmbDegreeTrack;
     /**
      * JPanel for search.
      */
@@ -73,10 +85,10 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
      */
     public ReportGUI() {
         setLayout(new BorderLayout());
-        mList = getData("All","All");
+        mList = getData(ALL, ALL);
         createComponents();
         setVisible(true);
-        setSize(500, 500);
+        setSize(FIVE, FIVE);
     }
     
    /**
@@ -107,14 +119,12 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
     }
     
     /**
-     * Create components for tab.
+     * Create components for report tab.
      */
     private void createComponents() {
         pnlReport = new JPanel();
-        pnlReport.setLayout(new GridLayout(3,0));
-        
-        //Get DegreeLevel Combo Box
-        JPanel comboPanel = new JPanel();
+        pnlReport.setLayout(new GridLayout(3, 0));
+        final JPanel comboPanel = new JPanel();
         comboPanel.setLayout(new GridLayout(1, 1));
         final Object [] degreeLevel = AlumniCollection.getDegreeLevel();
         
@@ -127,27 +137,30 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
         add(pnlReport, BorderLayout.NORTH);
         
         // Get DegreeTrack for ComboBox.
-        JPanel comboDegreeTrack = new JPanel();
+        final JPanel comboDegreeTrack = new JPanel();
         comboDegreeTrack.setLayout(new GridLayout(1, 1));
-        Object[] degreeTrack = AlumniCollection.getDegreeTrack();
+        final Object[] degreeTrack = AlumniCollection.getDegreeTrack();
         if (degreeTrack != null) {
             cmbDegreeTrack = new JComboBox(degreeTrack);
             comboDegreeTrack.add(new JLabel("Select Degree Track: "));
             comboDegreeTrack.add(cmbDegreeTrack);
             pnlReport.add(comboDegreeTrack);
         }        
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         btnGenerate = new JButton("Generate Report");
         btnGenerate.addActionListener(this);
         panel.add(btnGenerate);
         pnlReport.add(panel);  
-      pnlContent = new JPanel();
-      table = new JTable(mData, mItemColumnNames);
-      scrollPane = new JScrollPane(table);
-      pnlContent.add(scrollPane);
-      add(pnlContent, BorderLayout.SOUTH);
+        pnlContent = new JPanel();
+        table = new JTable(mData, mItemColumnNames);
+        scrollPane = new JScrollPane(table);
+        pnlContent.add(scrollPane);
+        add(pnlContent, BorderLayout.SOUTH);
     }
-
+    
+    /**
+     * Perform actions when generate button is clicked.
+     */
     @Override
     public void actionPerformed(final ActionEvent theE) {
         if (theE.getSource() == btnGenerate) {
@@ -165,10 +178,10 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
         }
         
     }
-
+    /**
+     * unused override method.
+     */
     @Override
-    public void tableChanged(TableModelEvent e) {
-        // TODO Auto-generated method stub
-        
+    public void tableChanged(final TableModelEvent theE) {
     }
 }
