@@ -56,8 +56,8 @@ public class AlumniDB {
         } else if (!ALL.equals(theDegreeLevel) && ALL.equals(theDegreeTrack)) {
             query = "Select * from Alumni where degreeLevel = \"" + theDegreeLevel + "\"";
         } else {
-            query = "select * " + "from Alumni where degreeLevel = \" " + theDegreeLevel 
-                    + " \" and degreeTrack = \"" + theDegreeTrack + "\"";
+            query = "select * from Alumni where degreeLevel = \"" + theDegreeLevel 
+                    + "\"  and degreeTrack = \"" + theDegreeTrack + "\"";
         }     
         try {
             stmt = mConnection.createStatement();
