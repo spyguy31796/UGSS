@@ -97,11 +97,11 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
     JComboBox comboJob;
 
     JComboBox comboInternships;
-    
+
     JButton removeCollege;
-    
+
     JButton removeJob;
-    
+
     JButton removeInternship;
 
     /**
@@ -119,12 +119,12 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
      */
     private void createComponents() {
         myPnlAdd = new JPanel();
-        myPnlAdd.setLayout(new GridLayout(10, 0));
+        myPnlAdd.setLayout(new GridLayout(9, 0));
         final String[] labelNames = {"Enter Name:", "Enter Degree Track: ",
                 "Enter Degree Level: ", "Enter Graduated Year: ",
                 "Enter Graduated Term: ", "Enter GPA: ",
                 "Enter University Email: ", 
-                "Enter Personal Email: "};
+        "Enter Personal Email: "};
         for (int i = 0; i < labelNames.length; i++) {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -143,15 +143,21 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         btnJobs.addActionListener(this);
         myBtnAddAlumni = new JButton("Add");
         myBtnAddAlumni.addActionListener(this);
-        btnRemove = new JButton("Remove Other Records");
+        btnRemove = new JButton("Remove Records");
         btnRemove.addActionListener(this);
-        panel.add(myBtnTransferCollege);
-        panel.add(myBtnInternships);
-        panel.add(btnJobs);
-        panel.add(btnRemove);
-        panel.add(myBtnAddAlumni);
+        JPanel bPanel = new JPanel();
+        JPanel superPanel = new JPanel();
+        superPanel.setLayout(new GridLayout(2,0));
+        bPanel.add(myBtnTransferCollege);
+        bPanel.add(myBtnInternships);
+        bPanel.add(btnJobs);
+        bPanel.add(btnRemove);
+        superPanel.add(bPanel);
+        superPanel.add(myBtnAddAlumni);
+        //panel.add(superPanel);
         myPnlAdd.add(panel);
         add(myPnlAdd, BorderLayout.CENTER);
+        add(superPanel, BorderLayout.PAGE_END);
     }
 
     /**
@@ -270,6 +276,28 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
                 "Data Entry", JOptionPane.OK_CANCEL_OPTION);
         if (check == JOptionPane.CANCEL_OPTION) {
             return STRCANCEL;
+        }if(myTxfFieldJobs[0].getText().length() == 0){
+            JOptionPane.showMessageDialog(null, "Enter a Company Name");
+            return STRCANCEL;
+        }else if(myTxfFieldJobs[1].getText().length() == 0){
+            JOptionPane.showMessageDialog(null, "Enter a Position");
+            return STRCANCEL;
+        }else if(myTxfFieldJobs[2].getText().length() == 0){
+            myTxfFieldJobs[2].setText("");
+        }else if(myTxfFieldJobs[3].getText().length() == 0){
+            myTxfFieldJobs[3].setText("");
+        }else if(myTxfFieldJobs[4].getText().length() == 0){
+            myTxfFieldJobs[4].setText("");
+        }else if(myTxfFieldJobs[5].getText().length() == 0){
+            JOptionPane.showMessageDialog(null, "Enter Salary");
+            return STRCANCEL;
+        }        
+
+        if(myTxfFieldJobs[5].getText().length() == 0){
+            try{Double.parseDouble(myTxfFieldJobs[5].getText());}catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(null, "Salary Must be a Decimal");
+                return STRCANCEL;
+            }
         }
         return new Job(myTxfFieldJobs[0].getText(), myTxfFieldJobs[1].getText(),
                 myTxfFieldJobs[2].getText(), myTxfFieldJobs[3].getText(), myTxfFieldJobs[4].getText(),
@@ -284,11 +312,11 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
     private Object performAddInternship() {
         final JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(9, 0));
-        final String[] labelNames = {"Enter Company Name:", "Enter Position: ", 
+        final String[] labelNames = {"*Enter Company Name:", "*Enter Position: ", 
                 "Enter Required Skills: ",
                 "Enter Description: ",
-                "Enter Comments:", "Enter Wage: ",
-        "Enter Duration:"};
+                "Enter Comments:", "*Enter Wage: ",
+        "*Enter Duration (in years):"};
         for (int i = 0; i < labelNames.length; i++) {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -305,6 +333,36 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
                 "Data Entry", JOptionPane.OK_CANCEL_OPTION);
         if (check == JOptionPane.CANCEL_OPTION) {
             return STRCANCEL;
+        }if(myTxfFieldInternships[0].getText().length() == 0){
+            JOptionPane.showMessageDialog(null, "Enter a Company Name");
+            return STRCANCEL;
+        }else if(myTxfFieldInternships[1].getText().length() == 0){
+            JOptionPane.showMessageDialog(null, "Enter a Position");
+            return STRCANCEL;
+        }else if(myTxfFieldInternships[2].getText().length() == 0){
+            myTxfFieldInternships[2].setText("");
+        }else if(myTxfFieldInternships[3].getText().length() == 0){
+            myTxfFieldInternships[3].setText("");
+        }else if(myTxfFieldInternships[4].getText().length() == 0){
+            myTxfFieldInternships[4].setText("");
+        }else if(myTxfFieldInternships[5].getText().length() == 0){
+            JOptionPane.showMessageDialog(null, "Enter Wage");
+            return STRCANCEL;
+        }else if(myTxfFieldInternships[6].getText().length() == 0){
+            JOptionPane.showMessageDialog(null, "Enter Duration");
+            return STRCANCEL;
+        }
+        if(myTxfFieldInternships[5].getText().length() == 0){
+            try{Double.parseDouble(myTxfFieldInternships[5].getText());}catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(null, "Wage Must be a Decimal");
+                return STRCANCEL;
+            }
+        }
+        if(myTxfFieldInternships[6].getText().length() == 0){
+            try{Integer.parseInt(myTxfFieldInternships[6].getText());}catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(null, "Duration Must be an Integer");
+                return STRCANCEL;
+            }
         }
         return new Internship(myTxfFieldInternships[0].getText(), myTxfFieldInternships[1].getText(),
                 myTxfFieldInternships[2].getText(), myTxfFieldInternships[3].getText(),
@@ -319,7 +377,7 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
     private Object performAddTransferCollege() {
         final JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(6, 0));
-        final String[] labelNames = {"College Name:", "GPA:", "Degree:", "Year:", "Term:"};
+        final String[] labelNames = {"*College Name:", "*GPA:", "*Degree:", "*Year:", "*Term:"};
         for (int i = 0; i < labelNames.length; i++) {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -337,9 +395,32 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         if (check == JOptionPane.CANCEL_OPTION) {
             return STRCANCEL;
         }
-        return new TransferCollege(myTxfFieldSchools[0].getText(),
-                Double.parseDouble(myTxfFieldSchools[1].getText()),myTxfFieldSchools[2].getText(),
-                myTxfFieldSchools[3].getText(),myTxfFieldSchools[4].getText());
+        if(myTxfFieldSchools[0].getText().length() == 0){
+            JOptionPane.showMessageDialog(null, "Enter a College Name");
+            return STRCANCEL;
+        }else if(myTxfFieldSchools[1].getText().length() == 0){
+            JOptionPane.showMessageDialog(null, "Enter a GPA");
+            return STRCANCEL; 
+        }else if(myTxfFieldSchools[2].getText().length() == 0){
+            JOptionPane.showMessageDialog(null, "Enter a Degree");
+            return STRCANCEL;
+        }else if(myTxfFieldSchools[3].getText().length() == 0){
+            JOptionPane.showMessageDialog(null, "Enter a Year");
+            return STRCANCEL;
+        }else if(myTxfFieldSchools[4].getText().length() == 0){
+            JOptionPane.showMessageDialog(null, "Enter a Term");
+            return STRCANCEL;
+        }
+        if(myTxfFieldSchools[1].getText().length() != 0){
+            try{Double.parseDouble(myTxfFieldSchools[1].getText());}catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(null, "GPA must be formatted as a decimal");
+                return STRCANCEL;
+            }
+        }
+        return new TransferCollege(myTxfFieldSchools[0].getText(), 
+                Double.parseDouble(myTxfFieldSchools[1].getText()), myTxfFieldSchools[2].getText(), 
+                myTxfFieldSchools[3].getText(), myTxfFieldSchools[4].getText());
+
     }
 
     /**
@@ -358,19 +439,27 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         }
         String dTrack = myTxfField[1].getText();
         if (dTrack.length() == 0) {
-            dTrack = null;
+            JOptionPane.showMessageDialog(null, "Enter a Degree Track");
+            myTxfField[1].setFocusable(true);
+            return;
         }
         String dLevel = myTxfField[2].getText();
         if (dLevel.length() == 0) {
-            dLevel = null;
+            JOptionPane.showMessageDialog(null, "Enter an Degree Level");
+            myTxfField[2].setFocusable(true);
+            return;
         }
         String year = myTxfField[3].getText();
         if (year.length() == 0) {
-            year = null;
+            JOptionPane.showMessageDialog(null, "Enter a Graduated Year");
+            myTxfField[3].setFocusable(true);
+            return;
         }
         String term = myTxfField[4].getText();
         if (term .length() == 0) {
-            term = null;
+            JOptionPane.showMessageDialog(null, "Enter a Graduated Term");
+            myTxfField[4].setFocusable(true);
+            return;
         }
         String strGpa = myTxfField[5].getText();
         double gpa = 0.0;
@@ -383,16 +472,33 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
                 myTxfField[5].setFocusable(true);
                 return;
             }
+        }else{
+            JOptionPane.showMessageDialog(null, "Enter a GPA");
+            myTxfField[5].setFocusable(true);
+            return;
         }
         String uEmail = myTxfField[6].getText();
         if (uEmail.length() == 0) {
-            uEmail = null;
+            JOptionPane.showMessageDialog(null, "Enter an University Email");
+            myTxfField[6].setFocusable(true);
+            return;
         }
         String pEmail = myTxfField[7].getText();
         if (pEmail.length() == 0) {
-            pEmail = null;
+            JOptionPane.showMessageDialog(null, "Enter a Personal Email");
+            myTxfField[7].setFocusable(true);
+            return;
         }
         Alumni al;
+        if(myInternships==null||myInternships.size() == 0){
+            myInternships = null;
+        }
+        if(myJobs==null||myJobs.size() == 0){
+            myJobs = null;
+        }
+        if(myColleges==null||myColleges.size() == 0){
+            myColleges = null;
+        }
         al = new Alumni(name, dTrack, dLevel,
                 year, term, gpa, uEmail, pEmail, myInternships, myJobs, myColleges);
         String message = "Alumni add failed";
