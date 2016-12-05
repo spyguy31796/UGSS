@@ -654,6 +654,9 @@ public class ViewGUI extends JPanel implements ActionListener {
             mainPanel.add(comboPanel, BorderLayout.CENTER);
             return JOptionPane.showConfirmDialog(null, mainPanel, "Select Internship", JOptionPane.OK_OPTION);
         }
+        else {
+            JOptionPane.showMessageDialog(null, "There are no Internships", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         return JOptionPane.CANCEL_OPTION;
     }
     
@@ -1044,24 +1047,10 @@ public class ViewGUI extends JPanel implements ActionListener {
                     }
                     break;
                 case 3: // Year
-                    try {
-                        int integer = Integer.parseInt(textData);
-                        if (textData.length() != 4 ) {
-                            JOptionPane.showMessageDialog(null, "Year must be four digits long");
-                        } else {
-                            modified= AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.YEAR, textData);
-                        }
-                    }
-                    catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(null, "Year is invalid");
-                    }
+                    modified= AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.YEAR, textData);
                     break;
-                case 4: // Term
-                    if (textData.length() > 7 ) {
-                        JOptionPane.showMessageDialog(null, "Invalid Term");
-                    } else {
-                        modified = AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.TERM, textData);
-                    }
+                case 4: // Term                   
+                    modified = AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.TERM, textData);                    
                     break;
                 case 5: // GPA       
                     try {
@@ -1134,6 +1123,7 @@ public class ViewGUI extends JPanel implements ActionListener {
         }
         else { // We are going to need to probably refresh panel so we're going to do that at the very end
             // to reuse code
+            int selection2 = table.getSelectedRow();
             if (e.getSource() == editBtn) { // Opens up edit panel
                 int rowSelected = table.getSelectedRow();
                 if (rowSelected == -1) {
@@ -1227,6 +1217,7 @@ public class ViewGUI extends JPanel implements ActionListener {
                 currentPanel.add(listPanel);
                 currentPanel.revalidate();
                 this.repaint();
+                table.setRowSelectionInterval(selection2, selection2);
             }
             else if (e.getSource() == idSearch) { // Search by ID
                 currentPanel.removeAll();
@@ -1236,6 +1227,7 @@ public class ViewGUI extends JPanel implements ActionListener {
                 currentPanel.add(listPanel);
                 currentPanel.revalidate();
                 this.repaint();
+                table.setRowSelectionInterval(selection2, selection2);
             }
         }
 
