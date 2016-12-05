@@ -85,7 +85,7 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
      */
     public ReportGUI() {
         setLayout(new BorderLayout());
-        mList = getData(ALL, ALL);
+        mList = getData(null,null);
         createComponents();
         setVisible(true);
         setSize(FIVE, FIVE);
