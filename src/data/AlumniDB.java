@@ -162,7 +162,6 @@ public class AlumniDB {
                 ois = new ObjectInputStream(baip);
                 internships = (List<Internship>) ois.readObject();
                 
-                System.out.println(internships.toString());
                 
                 ois.close();
                 baip.close();
