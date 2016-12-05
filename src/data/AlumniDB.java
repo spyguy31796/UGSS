@@ -156,7 +156,6 @@ public class AlumniDB {
                 alumni.setMyID(id);
                 
                 mAlumniList.add(alumni);                
-                
             }
             stmt.close();
         } catch (SQLException e) {

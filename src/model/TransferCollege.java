@@ -102,4 +102,8 @@ public class TransferCollege implements Serializable {
     public void setMyGPA(double myGPA) {
         this.myGPA = myGPA;
     }
+    public String toString() {
+        return myName;
+    }
+    
 }
