@@ -252,10 +252,10 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
     private Object performAddJob() {
         final JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(8,0));
-        final String[] labelNames = {"Enter Company Name:", 
-                "Enter Position: ", "Enter Required Skills: ",
+        final String[] labelNames = {"*Enter Company Name:", 
+                "*Enter Position: ", "Enter Required Skills: ",
                 "Enter Description: ",
-                "Enter Comments:", "Enter Salary: "};
+                "Enter Comments:", "*Enter Salary: "};
         for (int i = 0; i < labelNames.length; i++) {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
