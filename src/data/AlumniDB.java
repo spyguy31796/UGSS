@@ -174,18 +174,15 @@ public class AlumniDB {
                 ois.close();
                 baip.close();
             
-                baip = new ByteArrayInputStream(serColleges);
+               baip = new ByteArrayInputStream(serColleges);
                 ois = new ObjectInputStream(baip);
                 List<TransferCollege> college = (List<TransferCollege>) ois.readObject();
                 
                 ois.close();
                 baip.close();
-                
-                //Alumni al = new Alumni();
-                // TO-DO
-                // Cast internships, jobs, and colleges to lists
-                // Create the Alumni to return
-                // Add alumni to list
+                alumni = new Alumni(name, track, level, year, term, gpa, uniEmail, persEmail, internships, jobs, colleges);
+                alumni.setMyID(id);                                         
+                mAlumniList.add(alumni); 
             }
             stmt.close();
         } catch (SQLException e) {
