@@ -1,4 +1,6 @@
 package model;
+
+import data.AlumniDB;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -94,20 +96,22 @@ public class AlumniCollection {
     }
     
     /**
-     * Add Alumni
-     * @param theAlumni
+     * Add Alumni.
+     * @param theAlumni the alumni object to add.
+     * @return boolean representing failure or success of adding alumni.
      */
-    public static boolean add(final Alumni theAlumni){
+    public static boolean add(final Alumni theAlumni) {
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
         }
         try {
             mAlumniDB.addAlumni(theAlumni);
-        } catch (IOException e) {
+            return true;
+        } catch (final IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return true;
+        return false;
     }
     
     /**
@@ -119,7 +123,6 @@ public class AlumniCollection {
             mAlumniDB = new AlumniDB();
         }
             return mAlumniDB.getAllAlumni();
-
     }
 
     /**
@@ -135,6 +138,21 @@ public class AlumniCollection {
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
+        return null;
+    }
+    /**
+    This method will provide all available majors.
+    @return an object array of all objects, returns null if an error occurs.
+  */       
+    public static Object[] getDegreeTrack() {
+        if (mAlumniDB == null) {
+            mAlumniDB = new AlumniDB();
+        }
+        try {
+            return mAlumniDB.getDegreeTrack();
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

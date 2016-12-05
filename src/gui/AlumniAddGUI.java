@@ -6,8 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
-
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import model.Alumni;
 import model.AlumniCollection;
@@ -15,18 +19,64 @@ import model.Internship;
 import model.Job;
 import model.TransferCollege;
 
-
-public class AlumniAddGUI extends JPanel implements ActionListener{
+/**
+ * 
+ * @author GROUP8
+ * @version 12/3/2016
+ *
+ */
+public class AlumniAddGUI extends JPanel implements ActionListener {
+    /**
+     * Required serialization #.
+     */
     private static final long serialVersionUID = 1779520078061383929L;
-    ArrayList jobs, colleges, internships;
-    private JPanel pnlAdd =new JPanel();
-    private JLabel[] txfLabel = new JLabel[8];
-    private JTextField[] txfField = new JTextField[8];
-    private JButton btnAddItem, btnTransferCollege, btnInternships, btnJobs;
+    /**
+     * String representing the word Cancelled.
+     */
+    private static final String STRCANCEL = "cancelled";
+    /**
+     * ArrayList containing jobs to add to the alumni.
+     */
+    private ArrayList myJobs;
+    /**
+     * ArrayList containing colleges to add to the alumni.
+     */
+    private ArrayList myColleges;
+    /**
+     * ArrayList containing internships to add to the alumni.
+     */
+    private ArrayList myInternships;
+    /**
+     * Add Panel.
+     */
+    private JPanel myPnlAdd = new JPanel();
+    /**
+     * Labels for Fields.
+     */
+    private JLabel[] myTxfLabel = new JLabel[8];
+    /**
+     * Fields for input.
+     */
+    private JTextField[] myTxfField = new JTextField[8];
+    /**
+     * Button to add alumni.
+     */
+    private JButton myBtnAddAlumni; 
+    /**
+     * Button to add college.
+     */
+    private JButton myBtnTransferCollege; 
+    /**
+     * Button to add internship.
+     */
+    private JButton myBtnInternships;
+    /**
+     * Button to add job.
+     */
+    private JButton btnJobs;
 
     /**
-     * Use this for Item administration. Add components that contain the list,
-     * search and add to this.
+     * Used for Alumni administration.
      */
     public AlumniAddGUI() {
         setLayout(new BorderLayout());
@@ -36,39 +86,40 @@ public class AlumniAddGUI extends JPanel implements ActionListener{
     }
 
     /**
-     * Create the three panels to add to this GUI. One for list, one for search,
-     * one for add.
-     * TODO Add internships, jobs, and transferColleges
+     * Creates the components that allow data to be inputted into the system.
      */
     private void createComponents() {
-        pnlAdd = new JPanel();
-        pnlAdd.setLayout(new GridLayout(10, 0));
-        String labelNames[] = { "Enter Name:", "Enter Degree Track: ", "Enter Degree Level: ","Enter Current Year: ",
-                "Enter Term: ","Enter GPA: ","Enter University Email: ","Enter Personal Email: "};
+        myPnlAdd = new JPanel();
+        myPnlAdd.setLayout(new GridLayout(10, 0));
+        final String[] labelNames = {"Enter Name:", "Enter Degree Track: ",
+                                        "Enter Degree Level: ", "Enter Current Year: ",
+                                        "Enter Term: ", "Enter GPA: ",
+                                        "Enter University Email: ", 
+                                        "Enter Personal Email: "};
         for (int i = 0; i < labelNames.length; i++) {
-            JPanel panel = new JPanel();
+            final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
-            txfLabel[i] = new JLabel(labelNames[i]);
-            txfField[i] = new JTextField(25);
-            panel.add(txfLabel[i]);
-            panel.add(txfField[i]);
-            pnlAdd.add(panel);
+            myTxfLabel[i] = new JLabel(labelNames[i]);
+            myTxfField[i] = new JTextField(25);
+            panel.add(myTxfLabel[i]);
+            panel.add(myTxfField[i]);
+            myPnlAdd.add(panel);
         }
-        JPanel panel = new JPanel();
-        btnTransferCollege = new JButton("New Transfer College");
-        btnTransferCollege.addActionListener(this);
-        btnInternships = new JButton("New Internships");
-        btnInternships.addActionListener(this);
+        final JPanel panel = new JPanel();
+        myBtnTransferCollege = new JButton("New Transfer College");
+        myBtnTransferCollege.addActionListener(this);
+        myBtnInternships = new JButton("New Internships");
+        myBtnInternships.addActionListener(this);
         btnJobs = new JButton("New Jobs");
         btnJobs.addActionListener(this);
-        btnAddItem = new JButton("Add");
-        btnAddItem.addActionListener(this);
-        panel.add(btnTransferCollege);
-        panel.add(btnInternships);
+        myBtnAddAlumni = new JButton("Add");
+        myBtnAddAlumni.addActionListener(this);
+        panel.add(myBtnTransferCollege);
+        panel.add(myBtnInternships);
         panel.add(btnJobs);
-        panel.add(btnAddItem);
-        pnlAdd.add(panel);
-        add(pnlAdd, BorderLayout.CENTER);
+        panel.add(myBtnAddAlumni);
+        myPnlAdd.add(panel);
+        add(myPnlAdd, BorderLayout.CENTER);
 
     }
 
@@ -76,111 +127,137 @@ public class AlumniAddGUI extends JPanel implements ActionListener{
      * Make the buttons work!
      */
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnAddItem) {
+    public void actionPerformed(final ActionEvent theE) {
+        if (theE.getSource() == myBtnAddAlumni) {
             performAddAlumni();
-        }else if(e.getSource() == btnTransferCollege){
-            if(colleges==null){
-                colleges = new ArrayList();
+        } else if (theE.getSource() == myBtnTransferCollege) {
+            if (myColleges == null) {
+                myColleges = new ArrayList();
             }
-            Object temp = performAddTransferCollege();
-            if(temp.toString()!="Cancelled"){
-                colleges.add((TransferCollege)temp);
+            final Object temp = performAddTransferCollege();
+            if (!STRCANCEL.equals(temp.toString())) {
+                myColleges.add((TransferCollege) temp);
             }
-        }else if(e.getSource() == btnInternships){
-            if(internships==null){
-                internships = new ArrayList();
+        } else if (theE.getSource() == myBtnInternships) {
+            if (myInternships == null) {
+                myInternships = new ArrayList();
             }
-            Object temp = performAddInternship();
-            if(temp.toString()!="Cancelled"){
-                internships.add((Internship)temp);
+            final Object temp = performAddInternship();
+            if (!STRCANCEL.equals(temp.toString())) {
+                myInternships.add((Internship) temp);
             }
-        }else if(e.getSource() == btnJobs){
-            if(jobs==null){
-                jobs = new ArrayList();
+        } else if (theE.getSource() == btnJobs) {
+            if (myJobs == null) {
+                myJobs = new ArrayList();
             }
-            Object temp = performAddJob();
-            if(temp.toString()!="Cancelled"){
-                jobs.add((Job)temp);
+            final Object temp = performAddJob();
+            if (!STRCANCEL.equals(temp.toString())) {
+                myJobs.add((Job) temp);
             }
         }
     }
 
+    /**
+     * 
+     * @return Job Object or Cancel String.
+     */
     private Object performAddJob() {
-        JPanel fields = new JPanel();
+        final JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(8,0));
-        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Salary: "};
+        final String[] labelNames = {"Enter Company Name:", 
+                                        "Enter Position: ", "Enter Required Skills: ",
+                                        "Enter Description: ",
+                                        "Enter Comments:", "Enter Salary: "};
         for (int i = 0; i < labelNames.length; i++) {
-            JPanel panel = new JPanel();
+            final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
-            txfLabel[i] = new JLabel(labelNames[i]);
-            txfField[i] = new JTextField(25);
-            panel.add(txfLabel[i]);
-            panel.add(txfField[i]);
+            myTxfLabel[i] = new JLabel(labelNames[i]);
+            myTxfField[i] = new JTextField(25);
+            panel.add(myTxfLabel[i]);
+            panel.add(myTxfField[i]);
             fields.add(panel);
         }
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 0));
-        JCheckBox activeBox = new JCheckBox();
+        final JCheckBox activeBox = new JCheckBox();
         activeBox.setSelected(false);
         panel.add(new JLabel("Active?"));
         panel.add(activeBox);
         fields.add(panel);
-        int check = JOptionPane.showConfirmDialog(null, fields, "Data Entry", JOptionPane.OK_CANCEL_OPTION);
-        //System.out.println(txfField[0].getText()+" "+txfField[1].getText()+" "+txfField[2].getText()+" "+txfField[3].getText()+" "+txfField[4].getText()+" "+Double.parseDouble(txfField[5].getText())+" "+activeBox.isSelected());
-        if(check==JOptionPane.CANCEL_OPTION){
-            return "Cancelled";
+        final int check = JOptionPane.showConfirmDialog(null, fields, 
+                "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+        if (check == JOptionPane.CANCEL_OPTION) {
+            return STRCANCEL;
         }
-        return new Job(txfField[0].getText(),txfField[1].getText(),txfField[2].getText(),txfField[3].getText(),txfField[4].getText(),Double.parseDouble(txfField[5].getText()),activeBox.isSelected());
+        return new Job(myTxfField[0].getText(), myTxfField[1].getText(),
+                myTxfField[2].getText(), myTxfField[3].getText(), myTxfField[4].getText(),
+                Double.parseDouble(myTxfField[5].getText()), activeBox.isSelected());
 
     }
 
+    /**
+     * 
+     * @return Internship object or Cancel String
+     */
     private Object performAddInternship() {
-        JPanel fields = new JPanel();
-        fields.setLayout(new GridLayout(9,0));
-        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Wage: ","Enter Duration:"};
+        final JPanel fields = new JPanel();
+        fields.setLayout(new GridLayout(9, 0));
+        final String[] labelNames = {"Enter Company Name:", "Enter Position: ", 
+                                     "Enter Required Skills: ",
+                                     "Enter Description: ",
+                                     "Enter Comments:", "Enter Wage: ",
+                                     "Enter Duration:"};
         for (int i = 0; i < labelNames.length; i++) {
-            JPanel panel = new JPanel();
+            final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
-            txfLabel[i] = new JLabel(labelNames[i]);
-            txfField[i] = new JTextField(25);
-            panel.add(txfLabel[i]);
-            panel.add(txfField[i]);
+            myTxfLabel[i] = new JLabel(labelNames[i]);
+            myTxfField[i] = new JTextField(25);
+            panel.add(myTxfLabel[i]);
+            panel.add(myTxfField[i]);
             fields.add(panel);
         }
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 0));
         fields.add(panel);
-        int check = JOptionPane.showConfirmDialog(null, fields, "Data Entry", JOptionPane.OK_CANCEL_OPTION);
-        //System.out.println(txfField[0].getText()+" "+txfField[1].getText()+" "+txfField[2].getText()+" "+txfField[3].getText()+" "+txfField[4].getText()+" "+Double.parseDouble(txfField[5].getText())+" "+activeBox.isSelected());
-        if(check==JOptionPane.CANCEL_OPTION){
-            return "Cancelled";
+        final int check = JOptionPane.showConfirmDialog(null, fields,
+                "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+        if (check == JOptionPane.CANCEL_OPTION) {
+            return STRCANCEL;
         }
-        return new Internship(txfField[0].getText(),txfField[1].getText(),txfField[2].getText(),txfField[3].getText(),txfField[4].getText(),Double.parseDouble(txfField[5].getText()),Integer.parseInt(txfField[6].getText()));
+        return new Internship(myTxfField[0].getText(), myTxfField[1].getText(),
+                myTxfField[2].getText(), myTxfField[3].getText(),
+                myTxfField[4].getText(), Double.parseDouble(myTxfField[5].getText()),
+                Integer.parseInt(myTxfField[6].getText()));
     }
 
+    /**
+     * 
+     * @return Transfer College object or Cancel String.
+     */
     private Object performAddTransferCollege() {
-        JPanel fields = new JPanel();
-        fields.setLayout(new GridLayout(6,0));
-        String labelNames[] = { "College Name:", "GPA:", "Degree:","Year:","Term:"};
+        final JPanel fields = new JPanel();
+        fields.setLayout(new GridLayout(6, 0));
+        final String[] labelNames = {"College Name:", "GPA:", "Degree:", "Year:", "Term:"};
         for (int i = 0; i < labelNames.length; i++) {
-            JPanel panel = new JPanel();
+            final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
-            txfLabel[i] = new JLabel(labelNames[i]);
-            txfField[i] = new JTextField(25);
-            panel.add(txfLabel[i]);
-            panel.add(txfField[i]);
+            myTxfLabel[i] = new JLabel(labelNames[i]);
+            myTxfField[i] = new JTextField(25);
+            panel.add(myTxfLabel[i]);
+            panel.add(myTxfField[i]);
             fields.add(panel);
         }
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 0));
         fields.add(panel);
-        int check = JOptionPane.showConfirmDialog(null, fields, "Data Entry", JOptionPane.OK_CANCEL_OPTION);
-        //System.out.println(txfField[0].getText()+" "+txfField[1].getText()+" "+txfField[2].getText()+" "+txfField[3].getText()+" "+txfField[4].getText()+" "+Double.parseDouble(txfField[5].getText())+" "+activeBox.isSelected());
-        if(check==JOptionPane.CANCEL_OPTION){
-            return "Cancelled";
+        final int check = JOptionPane.showConfirmDialog(null, fields, 
+                "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+        if (check == JOptionPane.CANCEL_OPTION) {
+            return STRCANCEL;
         }
-        return new TransferCollege(txfField[0].getText(),Double.parseDouble(txfField[1].getText()),txfField[2].getText(),txfField[3].getText(),txfField[4].getText());
+        return new TransferCollege(myTxfField[0].getText(),
+                Double.parseDouble(myTxfField[1].getText()),myTxfField[2].getText(),
+                myTxfField[3].getText(),myTxfField[4].getText());
     }
 
     /**
@@ -191,59 +268,60 @@ public class AlumniAddGUI extends JPanel implements ActionListener{
      */
     private void performAddAlumni() {
 
-        String name = txfField[0].getText();
+        final String name = myTxfField[0].getText();
         if (name.length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter an Alumni name");
-            txfField[0].setFocusable(true);
+            myTxfField[0].setFocusable(true);
             return;
         }
-        String dTrack = txfField[1].getText();
+        String dTrack = myTxfField[1].getText();
         if (dTrack.length() == 0) {
             dTrack = null;
         }
-        String dLevel = txfField[2].getText();
+        String dLevel = myTxfField[2].getText();
         if (dLevel.length() == 0) {
             dLevel = null;
         }
-        String Year = txfField[3].getText();
-        if (Year.length() == 0) {
-            Year = null;
+        String year = myTxfField[3].getText();
+        if (year.length() == 0) {
+            year = null;
         }
-        String Term = txfField[4].getText();
-        if (Term .length() == 0) {
-            Term = null;
+        String term = myTxfField[4].getText();
+        if (term .length() == 0) {
+            term = null;
         }
-        String GPA = txfField[5].getText();
+        String strGpa = myTxfField[5].getText();
         double gpa = 0.0;
-        if (GPA.length() != 0) {
+        if (strGpa.length() != 0) {
             try {
-                gpa = Double.parseDouble(GPA);
-            } catch (NumberFormatException e) {
+                gpa = Double.parseDouble(strGpa);
+            } catch (final NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Enter GPA as decimal");
-                txfField[5].setText("");
-                txfField[5].setFocusable(true);
+                myTxfField[5].setText("");
+                myTxfField[5].setFocusable(true);
                 return;
             }
         }
-        String uEmail = txfField[6].getText();
+        String uEmail = myTxfField[6].getText();
         if (uEmail.length() == 0) {
             uEmail = null;
         }
-        String pEmail = txfField[7].getText();
+        String pEmail = myTxfField[7].getText();
         if (pEmail.length() == 0) {
             pEmail = null;
         }
         Alumni al;
-        al = new Alumni(name, dTrack, dLevel, Year, Term, gpa, uEmail, pEmail,null,null,null);
+        al = new Alumni(name, 1, dTrack, dLevel,
+                year, term, gpa, uEmail, pEmail, null, null, null);
         String message = "Alumni add failed";
         if (AlumniCollection.add(al)) {
             message = "Alumni added";
         }
         JOptionPane.showMessageDialog(null, message);
         // Clear all text fields.
-        for (int i = 0; i < txfField.length; i++) {
-            if (txfField[i].getText().length() != 0) {
-                txfField[i].setText("");
+        for (int i = 0; i < myTxfField.length; i++) {
+            if (myTxfField[i].getText().length() != 0) {
+                myTxfField[i].setText("");
             }
         }
 

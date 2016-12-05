@@ -153,6 +153,34 @@ public class AlumniDB {
                 alumni.setMyID(id);
                 
                 mAlumniList.add(alumni);                
+                ByteArrayInputStream baip = new ByteArrayInputStream(serInternships);
+                ObjectInputStream ois = new ObjectInputStream(baip);
+                List<Internship> internships = (List<Internship>) ois.readObject();
+                
+                System.out.println(internships.toString());
+                
+                ois.close();
+                baip.close();
+                
+                baip = new ByteArrayInputStream(serJobs);
+                ois = new ObjectInputStream(baip);
+                List<Job> jobs = (List<Job>) ois.readObject();
+                
+                ois.close();
+                baip.close();
+            
+                baip = new ByteArrayInputStream(serColleges);
+                ois = new ObjectInputStream(baip);
+                List<TransferCollege> college = (List<TransferCollege>) ois.readObject();
+                
+                ois.close();
+                baip.close();
+                
+                //Alumni al = new Alumni();
+                // TO-DO
+                // Cast internships, jobs, and colleges to lists
+                // Create the Alumni to return
+                // Add alumni to list
             }
             stmt.close();
         } catch (SQLException e) {
@@ -261,9 +289,9 @@ public class AlumniDB {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Error adding item: " + e.getMessage();
+            return "Error adding alumni: " + e.getMessage();
         }
-        return "Added Item Successfully";
+        return "Added Alumni Successfully";
     }
     
     /**
