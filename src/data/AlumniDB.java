@@ -25,8 +25,12 @@ import model.TransferCollege;
  * @author Group 8
  *
  */
+    
 public class AlumniDB {
-
+    /**
+     * String variable to use throughout the class.
+     */
+    private static final String ALL = "All";
     private Connection mConnection;
     private List<Alumni> mAlumniList;
 
@@ -45,11 +49,11 @@ public class AlumniDB {
         }
         String query;
         Statement stmt = null;
-        if (theDegreeLevel.equals("All") && theDegreeTrack.equals("All")) {
+        if (ALL.equals(theDegreeLevel) && ALL.equals(theDegreeTrack)) {
             query = "select * " + "from Alumni";
-        } else if (theDegreeLevel.equals("All") && !theDegreeTrack.equals("All")) {
+        } else if (ALL.equals(theDegreeLevel) && !ALL.equals(theDegreeTrack)) {
             query = "Select * from Alumni where degreeTrack = \"" + theDegreeTrack + "\"";
-        } else if (!theDegreeLevel.equals("All") && theDegreeTrack.equals("All")) {
+        } else if (!ALL.equals(theDegreeLevel) && ALL.equals(theDegreeTrack)) {
             query = "Select * from Alumni where degreeLevel = \"" + theDegreeLevel + "\"";
         } else {
             query = "select * " + "from Alumni where degreeLevel = \" " + theDegreeLevel 
@@ -57,16 +61,16 @@ public class AlumniDB {
         }     
         try {
             stmt = mConnection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            final ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                String name = rs.getString("name");
-                int id = rs.getInt("id");
-                String track = rs.getString("degreeTrack");
-                String level = rs.getString("degreeLevel");
-                Alumni temp = new Alumni(name,id,track,level);
+                final String name = rs.getString("name");
+                final int id = rs.getInt("id");
+                final String track = rs.getString("degreeTrack");
+                final String level = rs.getString("degreeLevel");
+                final Alumni temp = new Alumni(name, id, track, level);
                 filterList.add(temp);
             }
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             System.out.println(e);
         } finally {
             if (stmt != null) {
@@ -153,6 +157,35 @@ public class AlumniDB {
                 alumni.setMyID(id);
                 
                 mAlumniList.add(alumni);                
+                
+                baip = new ByteArrayInputStream(serInternships);
+                ois = new ObjectInputStream(baip);
+                internships = (List<Internship>) ois.readObject();
+                
+                System.out.println(internships.toString());
+                
+                ois.close();
+                baip.close();
+                
+                baip = new ByteArrayInputStream(serJobs);
+                ois = new ObjectInputStream(baip);
+                jobs = (List<Job>) ois.readObject();
+                
+                ois.close();
+                baip.close();
+            
+                baip = new ByteArrayInputStream(serColleges);
+                ois = new ObjectInputStream(baip);
+                List<TransferCollege> college = (List<TransferCollege>) ois.readObject();
+                
+                ois.close();
+                baip.close();
+                
+                //Alumni al = new Alumni();
+                // TO-DO
+                // Cast internships, jobs, and colleges to lists
+                // Create the Alumni to return
+                // Add alumni to list
             }
             stmt.close();
         } catch (SQLException e) {
@@ -261,15 +294,15 @@ public class AlumniDB {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Error adding item: " + e.getMessage();
+            return "Error adding alumni: " + e.getMessage();
         }
-        return "Added Item Successfully";
+        return "Added Alumni Successfully";
     }
     
     /**
      * Retrieves all Distinct Degree Level in database.
      * @return list of Degree Level
-     * @throws SQLException.
+     * @throws SQLException thorws exeption
      */
     public Object[] getDegreeLevel() throws SQLException {
         if (mConnection == null) {
@@ -277,12 +310,12 @@ public class AlumniDB {
         }
         Statement stmt = null;
         final String query = "select distinct degreeLevel " + "from Alumni ";
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<String>();
         try {
             stmt = mConnection.createStatement();
             final ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                String major = rs.getString("degreeLevel");
+                final String major = rs.getString("degreeLevel");
                 list.add(major);
             }
         } catch (final SQLException e) {
@@ -299,7 +332,7 @@ public class AlumniDB {
     /**
      * Retrieves all Distinct Degree Track in database.
      * @return list of Degree Track
-     * @throws SQLException.
+     * @throws SQLException throws DB exception
      */
     public Object[] getDegreeTrack() throws SQLException {
         if (mConnection == null) {

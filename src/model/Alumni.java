@@ -1,19 +1,74 @@
 package model;
 import java.util.List;
 
+/**
+ * Alumni object to store data on a single alumni.
+ * 
+ * @author GROUP8
+ * @version 12/3/2016
+ *
+ */
 public class Alumni {
+    /**
+     * Alumni Name.
+     */
     private String myName;
+    /**
+     * Alumni ID.
+     */
     private int myID;
+    /**
+     * Alumni DegreeTrack.
+     */
     private String myDegreeTrack;
+    /**
+     * Alumni Degree Level.
+     */
     private String myDegreeLevel;
+    /**
+     * Alumni Graduated Year.
+     */
     private String myYear;
+    /**
+     * Alumni Graduated Term.
+     */
     private String myTerm;
+    /**
+     * Alumni GPA.
+     */
     private double myCurrentGPA;
+    /**
+     * Alumni University Email.
+     */
     private String myUniEmail;
+    /**
+     * Alumni Personal Email.
+     */
     private String myPersEmail;
-    private List<Internship> myInternships; 
+    /**
+     * Alumni Internships.
+     */
+    private List<Internship> myInternships;
+    /**
+     * Alumni Jobs.
+     */
     private List<Job> myJobs;
+    /**
+     * Alumni Transfer Colleges.
+     */
     private List<TransferCollege> myTransferColleges;
+    /**
+     * 
+     * @param theName
+     * @param theID
+     * @param theDegreeTrack
+     * @param theDegreeLevel
+     * @param theYear
+     * @param theTerm
+     * @param theCurrentGPA
+     * @param theUniEmail
+     * @param thePersEmail
+     */
     public Alumni(final String theName, final String theDegreeTrack, 
             final String theDegreeLevel, final String theYear, final String theTerm,
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail) {
@@ -26,6 +81,21 @@ public class Alumni {
         myUniEmail = theUniEmail;
         myPersEmail = thePersEmail;
     }
+    /**
+     * 
+     * @param theName
+     * @param theID
+     * @param theDegreeTrack
+     * @param theDegreeLevel
+     * @param theYear
+     * @param theTerm
+     * @param theCurrentGPA
+     * @param theUniEmail
+     * @param thePersEmail
+     * @param theInternships
+     * @param theJobs
+     * @param theTransferColleges
+     */
     public Alumni(final String theName, final String theDegreeTrack, 
             final String theDegreeLevel, final String theYear, final String theTerm,
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail, 

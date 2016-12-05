@@ -56,7 +56,7 @@ public class MainGUI extends JFrame {
             panel.add(new ViewGUI());
         } else if(type.equalsIgnoreCase("Add Alumni")){
             panel.add(new AlumniAddGUI());
-        } else if(type.equalsIgnoreCase("Report")){
+        } else if ("Report".equalsIgnoreCase(type)) {
             panel.add(new ReportGUI());
         }
         return panel;
