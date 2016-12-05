@@ -6,65 +6,94 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import data.AlumniDB;
 
 /**
- * Collection which stores Alumni.
- * @author GROUP8
- * @version 12/3/2016
- *
+ * For holding, modifying, and accessing all alumni in the system.
+ * @author Group 8
+ * @version 12.03.2016
  */
-public final class AlumniCollection {
-    /**
-     * AlumniDB object to store and retrieve from database.
-     */
+public class AlumniCollection {
+
+    /** The DB where the alumni are actually stored. */
     private static AlumniDB mAlumniDB;
+    
     /**
-     * Private Constructor for Utility Class.
+     * Will update an Alumni. All fields but the id field can be modified.
+     * @param theAlumni the alumni to be updated.
+     * @param theColumn The field to be updated.
+     * @param theData The new data to be put in the field.
+     * @return boolean signifying success or failure.
      */
-    private AlumniCollection() { };  
+    public static boolean updateAlumni(Alumni theAlumni, DataTypes theColumn, Object theData) {
+        
+        String stringColumn = null;
+        
+        
+        // Figure out what we're modifying and correct the columns and data so that they'll work in SQL
+        switch(theColumn) {
+        case NAME: stringColumn = "`name`"; break;
+        case TRACK: stringColumn = "degreeTrack"; break;
+        case LEVEL: stringColumn = "degreeLevel"; break;
+        case YEAR: stringColumn = "`year`"; break;
+        case TERM: stringColumn = "term"; break;
+        case GPA: stringColumn = "gpa"; break;
+        case UNIEMAIL: stringColumn = "uniEmail"; break;
+        case PERSEMAIL: stringColumn = "persEmail"; break;
+        case INTNSHIP: stringColumn = "internships"; break;
+        case JOB: stringColumn = "jobs"; break;
+        case COLLEGES: stringColumn = "transferColleges"; break;
+        default: return false;
+        }
+          
+        if (mAlumniDB == null) {
+            mAlumniDB = new AlumniDB();
+        }
+        
+        return mAlumniDB.updateAlumni(theAlumni.getMyID(), stringColumn, theData);
+                
+    }
+    
     /**
-     * Finds all alumni with a certain value in a certain category.
-     * @param theCategory the category to be searched.
-     * @param theSearch desired value of the selected category.
-     * @return a list of alumni meeting the search criteria.
+     * Searches for Alumni containing the name or part of the name given.
+     * @param name
+     * @return
      */
-    public static List<Alumni> search(final String theCategory, final String theSearch) {
+    public static List<Alumni> searchName(final String name) {
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
         }
         ArrayList<Alumni> cList = new ArrayList<Alumni>();
-        try {
-            cList = (ArrayList<Alumni>) mAlumniDB.getAlumni(theCategory, theSearch);
-        } catch (final SQLException e) {
-            e.printStackTrace();
-        } catch (final ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (final IOException e) {
-            e.printStackTrace();
+        List<Alumni> filterList = new ArrayList<Alumni>();  
+        cList = (ArrayList<Alumni>) mAlumniDB.getAllAlumni();
+        String lwerCase = name.toLowerCase();
+        for (Alumni a : cList) { 
+            if (a.getMyName().toLowerCase().contains(lwerCase)) {
+                filterList.add(a);
+            }
         }
-        return cList;
+
+        return filterList;
     }
     
     /**
-     * Return a list of Alumni for report with the matching conditions.
-     * @param theLevel degree Level
-     * @param theTrack degree Track
-     * @return a list of items that match
+     * Will search for an Alumni with the matching ID.
+     * @param theID
+     * @return
      */
-    public static List<Alumni> reportsearch(final String theLevel, 
-            final String theTrack) {
-        final List<Alumni> list = new ArrayList<Alumni>();
+    public static Alumni searchID(int theID) {
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
         }
-        try {
-            return mAlumniDB.getReportAlumni(theLevel, theTrack);
-        } catch (final SQLException e) {
-            e.printStackTrace();
+        ArrayList<Alumni> cList = (ArrayList<Alumni>) mAlumniDB.getAllAlumni();
+        for (Alumni a : cList) { 
+            if (a.getMyID() == theID) {
+                return a;
+            }
         }
-        return list;
+
+        return null;
     }
-    
     
     /**
      * Add Alumni.
@@ -86,41 +115,31 @@ public final class AlumniCollection {
     }
     
     /**
-     * This will return a list of Alumni.
+     * This will return a list of all Alumni.
      * @return list of Alumni
      */
     public static List<Alumni> getAlumni() {
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
         }
-        try {
             return mAlumniDB.getAllAlumni();
-        } catch (final SQLException e) {
-            e.printStackTrace();
-        } catch (final ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**
       This method will provide all available majors.
-      @return array of Degree Level.
+      @return
     */       
-    public static Object[] getDegreeLevel() {
+    public static Object[] getMajor(){
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
         }
-        try {
-            return mAlumniDB.getDegreeLevel();
-        } catch (final SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            //return mAlumniDB.getMajor();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return null;
     }
-    
     /**
     This method will provide all available majors.
     @return an object array of all objects, returns null if an error occurs.

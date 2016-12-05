@@ -9,6 +9,11 @@ import java.io.Serializable;
  */
 public class Internship extends Employment implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8442795014510871481L;
+
     /** Hourly pay rate (dollars). */
     private double myWage;
     
