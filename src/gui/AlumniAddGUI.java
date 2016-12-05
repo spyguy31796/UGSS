@@ -121,10 +121,10 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         myPnlAdd = new JPanel();
         myPnlAdd.setLayout(new GridLayout(10, 0));
         final String[] labelNames = {"Enter Name:", "Enter Degree Track: ",
-                "Enter Degree Level: ", "Enter Current Year: ",
-                "Enter Term: ", "Enter GPA: ",
+                "Enter Degree Level: ", "Enter Graduated Year: ",
+                "Enter Graduated Term: ", "Enter GPA: ",
                 "Enter University Email: ", 
-        "Enter Personal Email: "};
+                "Enter Personal Email: "};
         for (int i = 0; i < labelNames.length; i++) {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -198,16 +198,19 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
             performRemove();
         } else if(theE.getSource() == removeCollege) {
             myColleges.remove(comboCollege.getSelectedIndex());
-            comboCollege.invalidate();
-            comboCollege.repaint();
+            refreshCombo(comboCollege,myColleges);
         } else if(theE.getSource() == removeJob) {
             myJobs.remove(comboJob.getSelectedIndex());
-            comboJob.invalidate();
-            comboJob.repaint();
+            refreshCombo(comboJob,myJobs);
         } else if(theE.getSource() == removeInternship) {
             myInternships.remove(comboInternships.getSelectedIndex());
-            comboInternships.invalidate();
-            comboInternships.repaint();
+            refreshCombo(comboInternships,myInternships);
+        }
+    }
+    private void refreshCombo(final JComboBox theJC, final ArrayList theAR){
+        theJC.removeAllItems();
+        for(int i = 0;i < theAR.size(); i++){
+            theJC.addItem(theAR.get(i));
         }
     }
 
