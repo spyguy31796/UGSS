@@ -152,37 +152,11 @@ public class AlumniDB {
                     baip.close();
                 }
                
-
                 alumni = new Alumni(name, track, level, year, term, gpa, uniEmail, persEmail, internships, jobs, colleges);
                 alumni.setMyID(id);
                 
                 mAlumniList.add(alumni);                
                 
-                baip = new ByteArrayInputStream(serInternships);
-                ois = new ObjectInputStream(baip);
-                internships = (List<Internship>) ois.readObject();
-                
-                System.out.println(internships.toString());
-                
-                ois.close();
-                baip.close();
-                
-                baip = new ByteArrayInputStream(serJobs);
-                ois = new ObjectInputStream(baip);
-                jobs = (List<Job>) ois.readObject();
-                
-                ois.close();
-                baip.close();
-            
-               baip = new ByteArrayInputStream(serColleges);
-                ois = new ObjectInputStream(baip);
-                List<TransferCollege> college = (List<TransferCollege>) ois.readObject();
-                
-                ois.close();
-                baip.close();
-                alumni = new Alumni(name, track, level, year, term, gpa, uniEmail, persEmail, internships, jobs, colleges);
-                alumni.setMyID(id);                                         
-                mAlumniList.add(alumni); 
             }
             stmt.close();
         } catch (SQLException e) {
