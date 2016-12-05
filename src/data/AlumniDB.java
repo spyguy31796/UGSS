@@ -157,9 +157,10 @@ public class AlumniDB {
                 alumni.setMyID(id);
                 
                 mAlumniList.add(alumni);                
-                ByteArrayInputStream baip = new ByteArrayInputStream(serInternships);
-                ObjectInputStream ois = new ObjectInputStream(baip);
-                List<Internship> internships = (List<Internship>) ois.readObject();
+                
+                baip = new ByteArrayInputStream(serInternships);
+                ois = new ObjectInputStream(baip);
+                internships = (List<Internship>) ois.readObject();
                 
                 System.out.println(internships.toString());
                 
@@ -168,7 +169,7 @@ public class AlumniDB {
                 
                 baip = new ByteArrayInputStream(serJobs);
                 ois = new ObjectInputStream(baip);
-                List<Job> jobs = (List<Job>) ois.readObject();
+                jobs = (List<Job>) ois.readObject();
                 
                 ois.close();
                 baip.close();

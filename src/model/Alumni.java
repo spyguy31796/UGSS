@@ -69,7 +69,7 @@ public class Alumni {
      * @param theUniEmail
      * @param thePersEmail
      */
-    public Alumni(final String theName, final int theID, final String theDegreeTrack, 
+    public Alumni(final String theName, final String theDegreeTrack, 
             final String theDegreeLevel, final String theYear, final String theTerm,
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail) {
         myName = theName;
@@ -96,7 +96,7 @@ public class Alumni {
      * @param theJobs
      * @param theTransferColleges
      */
-    public Alumni(final String theName, final int theID, final String theDegreeTrack, 
+    public Alumni(final String theName, final String theDegreeTrack, 
             final String theDegreeLevel, final String theYear, final String theTerm,
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail, 
             final List<Internship> theInternships, final List<Job> theJobs, 

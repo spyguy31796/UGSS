@@ -17,7 +17,7 @@ public class AlumniCollection {
 
     /** The DB where the alumni are actually stored. */
     private static AlumniDB mAlumniDB;
-    
+
     /**
      * Will update an Alumni. All fields but the id field can be modified.
      * @param theAlumni the alumni to be updated.
@@ -26,10 +26,10 @@ public class AlumniCollection {
      * @return boolean signifying success or failure.
      */
     public static boolean updateAlumni(Alumni theAlumni, DataTypes theColumn, Object theData) {
-        
+
         String stringColumn = null;
-        
-        
+
+
         // Figure out what we're modifying and correct the columns and data so that they'll work in SQL
         switch(theColumn) {
         case NAME: stringColumn = "`name`"; break;
@@ -45,15 +45,15 @@ public class AlumniCollection {
         case COLLEGES: stringColumn = "transferColleges"; break;
         default: return false;
         }
-          
+
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
         }
-        
+
         return mAlumniDB.updateAlumni(theAlumni.getMyID(), stringColumn, theData);
-                
+
     }
-    
+
     /**
      * Searches for Alumni containing the name or part of the name given.
      * @param name
@@ -75,7 +75,7 @@ public class AlumniCollection {
 
         return filterList;
     }
-    
+
     /**
      * Will search for an Alumni with the matching ID.
      * @param theID
@@ -94,7 +94,7 @@ public class AlumniCollection {
 
         return null;
     }
-    
+
     /**
      * Add Alumni.
      * @param theAlumni the alumni object to add.
@@ -113,7 +113,7 @@ public class AlumniCollection {
         }
         return false;
     }
-    
+
     /**
      * This will return a list of all Alumni.
      * @return list of Alumni
@@ -122,28 +122,28 @@ public class AlumniCollection {
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
         }
-            return mAlumniDB.getAllAlumni();
+        return mAlumniDB.getAllAlumni();
     }
 
     /**
-      This method will provide all available majors.
-      @return
-    */       
-    public static Object[] getMajor(){
+    This method will provide all available majors.
+    @return array of Degree Level.
+     */       
+    public static Object[] getDegreeLevel() {
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
         }
-//        try {
-//            //return mAlumniDB.getMajor();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            return mAlumniDB.getDegreeLevel();
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
     /**
     This method will provide all available majors.
     @return an object array of all objects, returns null if an error occurs.
-  */       
+     */       
     public static Object[] getDegreeTrack() {
         if (mAlumniDB == null) {
             mAlumniDB = new AlumniDB();
@@ -155,4 +155,23 @@ public class AlumniCollection {
         }
         return null;
     }
+    /**
+     * Return a list of Alumni for report with the matching conditions.
+     * @param theLevel degree Level
+     * @param theTrack degree Track
+     * @return a list of items that match
+     */
+    public static List<Alumni> reportsearch(final String theLevel, 
+            final String theTrack) {
+        final List<Alumni> list = new ArrayList<Alumni>();
+        if (mAlumniDB == null) {
+            mAlumniDB = new AlumniDB();
+        }
+        try {
+            return mAlumniDB.getReportAlumni(theLevel, theTrack);
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }  
 }
