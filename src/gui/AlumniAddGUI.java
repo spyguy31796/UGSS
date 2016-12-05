@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -74,6 +75,22 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
      * Button to add job.
      */
     private JButton btnJobs;
+    /**
+     * Button to remove transferCollege, internship, or job info.
+     */
+    private JButton btnRemove;
+
+    JComboBox comboCollege;
+
+    JComboBox comboJob;
+
+    JComboBox comboInternships;
+    
+    JButton removeCollege;
+    
+    JButton removeJob;
+    
+    JButton removeInternship;
 
     /**
      * Used for Alumni administration.
@@ -92,10 +109,10 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         myPnlAdd = new JPanel();
         myPnlAdd.setLayout(new GridLayout(10, 0));
         final String[] labelNames = {"Enter Name:", "Enter Degree Track: ",
-                                        "Enter Degree Level: ", "Enter Current Year: ",
-                                        "Enter Term: ", "Enter GPA: ",
-                                        "Enter University Email: ", 
-                                        "Enter Personal Email: "};
+                "Enter Degree Level: ", "Enter Current Year: ",
+                "Enter Term: ", "Enter GPA: ",
+                "Enter University Email: ", 
+        "Enter Personal Email: "};
         for (int i = 0; i < labelNames.length; i++) {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -114,13 +131,15 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         btnJobs.addActionListener(this);
         myBtnAddAlumni = new JButton("Add");
         myBtnAddAlumni.addActionListener(this);
+        btnRemove = new JButton("Remove Other Records");
+        btnRemove.addActionListener(this);
         panel.add(myBtnTransferCollege);
         panel.add(myBtnInternships);
         panel.add(btnJobs);
+        panel.add(btnRemove);
         panel.add(myBtnAddAlumni);
         myPnlAdd.add(panel);
         add(myPnlAdd, BorderLayout.CENTER);
-
     }
 
     /**
@@ -154,7 +173,56 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
             if (!STRCANCEL.equals(temp.toString())) {
                 myJobs.add((Job) temp);
             }
+        } else if (theE.getSource() == btnRemove) {
+            if(myJobs == null){
+                myJobs = new ArrayList();
+            }
+            if(myColleges == null){
+                myColleges = new ArrayList();
+            }
+            if(myInternships == null){
+                myInternships = new ArrayList();
+            }
+            performRemove();
+        } else if(theE.getSource() == removeCollege) {
+            myColleges.remove(comboCollege.getSelectedIndex());
+            comboCollege.invalidate();
+            comboCollege.repaint();
+        } else if(theE.getSource() == removeJob) {
+            myJobs.remove(comboJob.getSelectedIndex());
+            comboJob.invalidate();
+            comboJob.repaint();
+        } else if(theE.getSource() == removeInternship) {
+            myInternships.remove(comboInternships.getSelectedIndex());
+            comboInternships.invalidate();
+            comboInternships.repaint();
         }
+    }
+
+    /**
+     * Removes selected Job, Internship, or College Records
+     */
+    private void performRemove() {
+        JPanel fields = new JPanel();
+        fields.setLayout(new GridLayout(4,0));
+        comboCollege = new JComboBox(myColleges.toArray());
+        comboJob = new JComboBox(myJobs.toArray());
+        comboInternships = new JComboBox(myInternships.toArray());
+        removeCollege = new JButton("Remove");
+        removeCollege.addActionListener(this);
+        removeJob = new JButton("Remove");
+        removeJob.addActionListener(this);
+        removeInternship = new JButton("Remove");
+        removeInternship.addActionListener(this);
+        fields.add(comboCollege);
+        fields.add(removeCollege);
+        fields.add(comboJob);
+        fields.add(removeJob);
+        fields.add(comboInternships);
+        fields.add(removeInternship);
+        final int check = JOptionPane.showConfirmDialog(null, fields, 
+                "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+
     }
 
     /**
@@ -165,9 +233,9 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         final JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(8,0));
         final String[] labelNames = {"Enter Company Name:", 
-                                        "Enter Position: ", "Enter Required Skills: ",
-                                        "Enter Description: ",
-                                        "Enter Comments:", "Enter Salary: "};
+                "Enter Position: ", "Enter Required Skills: ",
+                "Enter Description: ",
+                "Enter Comments:", "Enter Salary: "};
         for (int i = 0; i < labelNames.length; i++) {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -203,10 +271,10 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         final JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(9, 0));
         final String[] labelNames = {"Enter Company Name:", "Enter Position: ", 
-                                     "Enter Required Skills: ",
-                                     "Enter Description: ",
-                                     "Enter Comments:", "Enter Wage: ",
-                                     "Enter Duration:"};
+                "Enter Required Skills: ",
+                "Enter Description: ",
+                "Enter Comments:", "Enter Wage: ",
+        "Enter Duration:"};
         for (int i = 0; i < labelNames.length; i++) {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
