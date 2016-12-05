@@ -37,8 +37,11 @@ public abstract class Employment implements Serializable {
      * @param theDescription A description of what the job entailed.
      * @param theMiscComments Any miscellaneous comments.
      */
-    Employment(final String theCompany, final String thePosition, final String theSkillsReq, 
+    protected Employment(final String theCompany, final String thePosition, final String theSkillsReq, 
             final String theDescription, final String theMiscComments) {
+        if (theCompany == null || thePosition == null) {
+            throw new IllegalArgumentException();
+        }
         myCompany = theCompany;
         myPosition = thePosition;
         mySkillsReq = theSkillsReq;
@@ -58,6 +61,9 @@ public abstract class Employment implements Serializable {
      * @param theCompany new company that myCompany is changed to.
      */
     public void setMyCompany(final String theCompany) {
+        if (theCompany == null) {
+            throw new IllegalArgumentException();
+        }
         myCompany = theCompany;
     }
 
@@ -73,6 +79,9 @@ public abstract class Employment implements Serializable {
      * @param thePosition new position that myPosition is changed to.
      */
     public void setMyPosition(final String thePosition) {
+        if (thePosition == null) {
+            throw new IllegalArgumentException();
+        }
         myPosition = thePosition;
     }
 
