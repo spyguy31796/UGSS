@@ -14,11 +14,10 @@ public class Alumni {
     private List<Internship> myInternships; 
     private List<Job> myJobs;
     private List<TransferCollege> myTransferColleges;
-    public Alumni(final String theName, final int theID, final String theDegreeTrack, 
+    public Alumni(final String theName, final String theDegreeTrack, 
             final String theDegreeLevel, final String theYear, final String theTerm,
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail) {
         myName = theName;
-        myID = theID;
         myDegreeTrack = theDegreeTrack;
         myDegreeLevel = theDegreeLevel;
         myYear = theYear;
@@ -27,12 +26,15 @@ public class Alumni {
         myUniEmail = theUniEmail;
         myPersEmail = thePersEmail;
     }
-    public Alumni(final String theName, final int theID, final String theDegreeTrack, 
+    public Alumni(final String theName, final String theDegreeTrack, 
             final String theDegreeLevel, final String theYear, final String theTerm,
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail, 
             final List<Internship> theInternships, final List<Job> theJobs, 
             final List<TransferCollege> theTransferColleges) {
-        this(theName,theID,theDegreeTrack,theDegreeLevel,theYear,theTerm,theCurrentGPA,theUniEmail,thePersEmail);
+        this(theName,theDegreeTrack,theDegreeLevel,theYear,theTerm,theCurrentGPA,theUniEmail,thePersEmail);
+        myInternships = theInternships;
+        myJobs = theJobs;
+        myTransferColleges = theTransferColleges;
         
     }
     /**
@@ -120,6 +122,78 @@ public class Alumni {
      */
     public List<TransferCollege> getMyTransferColleges() {
         return myTransferColleges;
+    }
+    /**
+     * @param myName the myName to set
+     */
+    public void setMyName(String myName) {
+        this.myName = myName;
+    }
+    /**
+     * @param myID the myID to set
+     */
+    public void setMyID(int myID) {
+        this.myID = myID;
+    }
+    /**
+     * @param myDegreeTrack the myDegreeTrack to set
+     */
+    public void setMyDegreeTrack(String myDegreeTrack) {
+        this.myDegreeTrack = myDegreeTrack;
+    }
+    /**
+     * @param myDegreeLevel the myDegreeLevel to set
+     */
+    public void setMyDegreeLevel(String myDegreeLevel) {
+        this.myDegreeLevel = myDegreeLevel;
+    }
+    /**
+     * @param myYear the myYear to set
+     */
+    public void setMyYear(String myYear) {
+        this.myYear = myYear;
+    }
+    /**
+     * @param myTerm the myTerm to set
+     */
+    public void setMyTerm(String myTerm) {
+        this.myTerm = myTerm;
+    }
+    /**
+     * @param myCurrentGPA the myCurrentGPA to set
+     */
+    public void setMyCurrentGPA(double myCurrentGPA) {
+        this.myCurrentGPA = myCurrentGPA;
+    }
+    /**
+     * @param myUniEmail the myUniEmail to set
+     */
+    public void setMyUniEmail(String myUniEmail) {
+        this.myUniEmail = myUniEmail;
+    }
+    /**
+     * @param myPersEmail the myPersEmail to set
+     */
+    public void setMyPersEmail(String myPersEmail) {
+        this.myPersEmail = myPersEmail;
+    }
+    /**
+     * @param myInternships the myInternships to set
+     */
+    public void setMyInternships(List<Internship> myInternships) {
+        this.myInternships = myInternships;
+    }
+    /**
+     * @param myJobs the myJobs to set
+     */
+    public void setMyJobs(List<Job> myJobs) {
+        this.myJobs = myJobs;
+    }
+    /**
+     * @param myTransferColleges the myTransferColleges to set
+     */
+    public void setMyTransferColleges(List<TransferCollege> myTransferColleges) {
+        this.myTransferColleges = myTransferColleges;
     }
 
 }

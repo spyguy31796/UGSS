@@ -40,8 +40,8 @@ public class MainGUI extends JFrame {
         tabbedPane.addTab("Add Alumni", alPanel);
         JComponent sPanel = makeTextPanel("View");
         tabbedPane.addTab("View", sPanel);
-        JComponent rPanel = makeTextPanel("Report");
-        tabbedPane.addTab("Report", rPanel);
+        //JComponent rPanel = makeTextPanel("Report");
+        //tabbedPane.addTab("Report", rPanel);
         add(tabbedPane);
     }
 
