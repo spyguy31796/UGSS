@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -85,6 +86,9 @@ public class ViewGUI extends JPanel implements ActionListener {
     
    /** Combo boxes for making selections of internships/jobs/colleges. */
     private JComboBox modifyTypeSelections, itemRemoveModifySelection;
+    
+    /** Boolean to check whether last search was by name. */
+    private boolean lastSearchByName;
 
     /**
      * Constructs the GUI object.
@@ -93,6 +97,7 @@ public class ViewGUI extends JPanel implements ActionListener {
         setLayout(new BorderLayout());
 
         alumniList = getData(null, null);
+        lastSearchByName = true;
         createComponents();
         setVisible(true);
         setSize(500, 500);
@@ -235,8 +240,10 @@ public class ViewGUI extends JPanel implements ActionListener {
           {
             return false;//This causes all cells to be not editable
           }
+   
         };
         table = new JTable(model);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(table);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         mainPanel.add(scrollPane);
@@ -1106,6 +1113,7 @@ public class ViewGUI extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == nameSearch) { // Search by name
+            lastSearchByName = true;
             currentPanel.removeAll();
             alumniList = getData(DataTypes.NAME, searchTerm.getText());
             // Recreate the list to update it 
@@ -1115,6 +1123,7 @@ public class ViewGUI extends JPanel implements ActionListener {
             this.repaint();
         }
         else if (e.getSource() == idSearch) { // Search by ID
+            lastSearchByName = false;
             currentPanel.removeAll();
             alumniList = getData(DataTypes.ID, searchTerm.getText());
             // Recreate the list to update it 
@@ -1123,89 +1132,110 @@ public class ViewGUI extends JPanel implements ActionListener {
             currentPanel.revalidate();
             this.repaint();
         }
-        else if (e.getSource() == editBtn) { // Opens up edit panel
-            int rowSelected = table.getSelectedRow();
-            if (rowSelected == -1) {
-                JOptionPane.showMessageDialog(null, "No Alumni Selected");
+        else { // We are going to need to probably refresh panel so we're going to do that at the very end
+            // to reuse code
+            if (e.getSource() == editBtn) { // Opens up edit panel
+                int rowSelected = table.getSelectedRow();
+                if (rowSelected == -1) {
+                    JOptionPane.showMessageDialog(null, "No Alumni Selected");
+                }
+                else {
+                    currentAlumniSelected = alumniList.get(rowSelected);
+                    performEdit();              
+                }
             }
-            else {
-                currentAlumniSelected = alumniList.get(rowSelected);
-                performEdit();              
+            else if (e.getSource() == viewInternshipsBtn) { // Displays selected alumni's internships
+                int rowSelected = table.getSelectedRow();
+                if (rowSelected == -1) {
+                    JOptionPane.showMessageDialog(null, "No Alumni Selected");
+                }
+                else {
+                    currentAlumniSelected = alumniList.get(rowSelected);
+                    performView(DataTypes.INTNSHIP);        
+                }
             }
-        }
-        else if (e.getSource() == viewInternshipsBtn) { // Displays selected alumni's internships
-            int rowSelected = table.getSelectedRow();
-            if (rowSelected == -1) {
-                JOptionPane.showMessageDialog(null, "No Alumni Selected");
+            else if (e.getSource() == viewJobsBtn) { // Displays selected alumni's jobs
+                int rowSelected = table.getSelectedRow();
+                if (rowSelected == -1) {
+                    JOptionPane.showMessageDialog(null, "No Alumni Selected");
+                }
+                else {
+                    currentAlumniSelected = alumniList.get(rowSelected);
+                    performView(DataTypes.JOB);
+
+                }
             }
-            else {
-                currentAlumniSelected = alumniList.get(rowSelected);
-                performView(DataTypes.INTNSHIP);        
+            else if (e.getSource() == viewCollegesBtn) { // Displays selected alumni's colleges
+                int rowSelected = table.getSelectedRow();
+                if (rowSelected == -1) {
+                    JOptionPane.showMessageDialog(null, "No Alumni Selected");
+                }
+                else {
+                    currentAlumniSelected = alumniList.get(rowSelected);
+                    performView(DataTypes.COLLEGES);
+
+                }
             }
-        }
-        else if (e.getSource() == viewJobsBtn) { // Displays selected alumni's jobs
-            int rowSelected = table.getSelectedRow();
-            if (rowSelected == -1) {
-                JOptionPane.showMessageDialog(null, "No Alumni Selected");
+            else if (e.getSource() == modifyBtn) {  // Edits the currently selected Alumni          
+                performModify();
+
             }
-            else {
-                currentAlumniSelected = alumniList.get(rowSelected);
-                performView(DataTypes.JOB);
-                
+            else if (e.getSource() == addSelection) { // Brings up panel for adding 
+                // internships/jobs/colleges
+                int selection = modifyTypeSelections.getSelectedIndex();
+                if (selection == 0) { // Internship is being added
+                    performAddInternship();
+                }
+                else if (selection == 1) { // Job is being added
+                    performAddJob();
+                }
+                else if (selection == 2) { // College is being added
+                    performAddCollege();
+                }
             }
-        }
-        else if (e.getSource() == viewCollegesBtn) { // Displays selected alumni's colleges
-            int rowSelected = table.getSelectedRow();
-            if (rowSelected == -1) {
-                JOptionPane.showMessageDialog(null, "No Alumni Selected");
+            else if (e.getSource() == removeSelection) { // Brings up panel for removing 
+                // internships/jobs/colleges
+                int selection = modifyTypeSelections.getSelectedIndex();
+                if (selection == 0) { // Internship is being removed
+                    performRemoveIntship();
+                }
+                else if (selection == 1) { // Job is being removed
+                    performRemoveJob();
+                }
+                else if (selection == 2) { // College is being removed
+                    performRemoveCollege();
+                }
             }
-            else {
-                currentAlumniSelected = alumniList.get(rowSelected);
-                performView(DataTypes.COLLEGES);
-                
+            else if (e.getSource() == modifySelection) { // Brings up panel for modifying 
+                // internships/jobs/colleges
+                int selection = modifyTypeSelections.getSelectedIndex();
+                if (selection == 0) { // Internship is being modified
+                    performModifyInternshipSelection();
+                }
+                else if (selection == 1) { // Job is being modified
+                    performModifyJobSelection();
+                }
+                else if (selection == 2) { // College is being modified
+                    performModifyCollegeSelection();
+                }
             }
-        }
-        else if (e.getSource() == modifyBtn) {  // Edits the currently selected Alumni          
-            performModify();
-            
-        }
-        else if (e.getSource() == addSelection) { // Brings up panel for adding 
-            // internships/jobs/colleges
-            int selection = modifyTypeSelections.getSelectedIndex();
-            if (selection == 0) { // Internship is being added
-                performAddInternship();
+            if (lastSearchByName) {
+                currentPanel.removeAll();
+                alumniList = getData(DataTypes.NAME, searchTerm.getText());
+                // Recreate the list to update it 
+                listPanel = createListPanel();
+                currentPanel.add(listPanel);
+                currentPanel.revalidate();
+                this.repaint();
             }
-            else if (selection == 1) { // Job is being added
-                performAddJob();
-            }
-            else if (selection == 2) { // College is being added
-                performAddCollege();
-            }
-        }
-        else if (e.getSource() == removeSelection) { // Brings up panel for removing 
-            // internships/jobs/colleges
-            int selection = modifyTypeSelections.getSelectedIndex();
-            if (selection == 0) { // Internship is being removed
-                performRemoveIntship();
-            }
-            else if (selection == 1) { // Job is being removed
-                performRemoveJob();
-            }
-            else if (selection == 2) { // College is being removed
-                performRemoveCollege();
-            }
-        }
-        else if (e.getSource() == modifySelection) { // Brings up panel for modifying 
-            // internships/jobs/colleges
-            int selection = modifyTypeSelections.getSelectedIndex();
-            if (selection == 0) { // Internship is being modified
-                performModifyInternshipSelection();
-            }
-            else if (selection == 1) { // Job is being modified
-                performModifyJobSelection();
-            }
-            else if (selection == 2) { // College is being modified
-                performModifyCollegeSelection();
+            else if (e.getSource() == idSearch) { // Search by ID
+                currentPanel.removeAll();
+                alumniList = getData(DataTypes.ID, searchTerm.getText());
+                // Recreate the list to update it 
+                listPanel = createListPanel();
+                currentPanel.add(listPanel);
+                currentPanel.revalidate();
+                this.repaint();
             }
         }
 
