@@ -311,8 +311,8 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
             pEmail = null;
         }
         Alumni al;
-        al = new Alumni(name, 1, dTrack, dLevel,
-                year, term, gpa, uEmail, pEmail, null, null, null);
+        al = new Alumni(name, dTrack, dLevel,
+                year, term, gpa, uEmail, pEmail, myInternships, myJobs, myColleges);
         String message = "Alumni add failed";
         if (AlumniCollection.add(al)) {
             message = "Alumni added";

@@ -9,6 +9,11 @@ import java.io.Serializable;
  */
 public class Job extends Employment implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1865287520908536875L;
+
     /** Salary in dollars. */
     private double mySalary;
 
@@ -29,6 +34,9 @@ public class Job extends Employment implements Serializable {
             final String theDescription, final String theMiscComments, 
             final double theSalary, final boolean theActive) {
         super(theCompany, thePosition, theSkillsReq, theDescription, theMiscComments);
+        if (theSalary < 0) {
+            throw new IllegalArgumentException();
+        }
         mySalary = theSalary;
         myActive = theActive;
     }
@@ -45,6 +53,9 @@ public class Job extends Employment implements Serializable {
      * @param theSalary the new salary.
      */
     public void setSalary(final double theSalary) {
+        if (theSalary < 0) {
+            throw new IllegalArgumentException();
+        }
         mySalary = theSalary;
     }
 
@@ -61,5 +72,11 @@ public class Job extends Employment implements Serializable {
      */
     public void setActive(final boolean theActive) {
         myActive = theActive;
+    }
+
+
+    @Override
+    public String toString() {
+        return super.toString() + " Salary: " + mySalary + " Active: " + myActive;
     }
 }

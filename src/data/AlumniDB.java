@@ -35,79 +35,6 @@ public class AlumniDB {
     private List<Alumni> mAlumniList;
 
     /**
-     * Retrieves all Alumni that match the search term in the given column from the Alumni table.
-     * 
-     * @return list of Alumni
-     * @throws SQLException
-     * @throws IOException 
-     * @throws ClassNotFoundException 
-     */
-    public List<Alumni> getAlumni(String column, String search) throws SQLException, IOException, ClassNotFoundException {
-        if (mConnection == null) {
-            mConnection = DataConnection.getConnection();
-        }
-        Statement stmt = null;
-        String query = "select * " + "from Alumni where " + column + " = " + search;
-
-        mAlumniList = new ArrayList<Alumni>();
-        try {
-            stmt = mConnection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String track = rs.getString("degreeTrack");
-                String level = rs.getString("degreeLevel");
-                String year = rs.getString("year");
-                String term = rs.getString("term");
-                Double gpa = rs.getDouble("gpa");
-                String uniEmail = rs.getString("uniEmail");
-                String persEmail = rs.getString("persEmail");
-                byte[] serInternships = (byte[])rs.getObject("internships");
-                byte[] serJobs= (byte[])rs.getObject("jobs");
-                byte[] serColleges = (byte[])rs.getObject("transferColleges");
-                Alumni alumni = null;
-                
-                // Cast internships, jobs, and colleges to lists
-                // Create the Alumni to return
-                // Add alumni to list
-                
-                ByteArrayInputStream baip = new ByteArrayInputStream(serInternships);
-                ObjectInputStream ois = new ObjectInputStream(baip);
-                List<Internship> internships = (List<Internship>) ois.readObject();
-                
-                System.out.println(internships.toString());
-                
-                ois.close();
-                baip.close();
-                
-                baip = new ByteArrayInputStream(serJobs);
-                ois = new ObjectInputStream(baip);
-                List<Job> jobs = (List<Job>) ois.readObject();
-                
-                ois.close();
-                baip.close();
-            
-                baip = new ByteArrayInputStream(serColleges);
-                ois = new ObjectInputStream(baip);
-                List<TransferCollege> college = (List<TransferCollege>) ois.readObject();
-                
-                ois.close();
-                baip.close();
-                
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println(e);
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-        }
-        return mAlumniList;
-    }
-    
-    /**
      * Retrieve all Alumni that satisfy report conditions. 
      * @param theDegreeLevel degree Level.
      * @param theDegreeTrack degree Track.
@@ -161,14 +88,18 @@ public class AlumniDB {
      * @throws IOException 
      * @throws ClassNotFoundException 
      */
-    public List<Alumni> getAllAlumni() throws SQLException, IOException, ClassNotFoundException {
+    public List<Alumni> getAllAlumni() {
         if (mConnection == null) {
-            mConnection = DataConnection.getConnection();
+            try {
+                mConnection = DataConnection.getConnection();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         Statement stmt = null;
         String query = "select * " + "from Alumni";
 
-        mAlumniList = new ArrayList<Alumni>();
+        List<Alumni> mAlumniList = new ArrayList<Alumni>();
         try {
             stmt = mConnection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -186,14 +117,50 @@ public class AlumniDB {
                 byte[] serJobs= (byte[])rs.getObject("jobs");
                 byte[] serColleges = (byte[])rs.getObject("transferColleges");
                 Alumni alumni = null;
-                
+
                 // Cast internships, jobs, and colleges to lists
                 // Create the Alumni to return
                 // Add alumni to list
+                List<Internship> internships = new ArrayList<Internship>();
+                List<Job> jobs = new ArrayList<Job>();
+                List<TransferCollege> colleges = new ArrayList<TransferCollege>();
+
+                ByteArrayInputStream baip;
+                ObjectInputStream ois;
+                if (serInternships != null) {
+                    baip = new ByteArrayInputStream(serInternships);
+                    ois = new ObjectInputStream(baip);
+                    internships = (List<Internship>) ois.readObject();             
+
+                    ois.close();
+                    baip.close();
+                }              
+                if (serJobs != null) {
+                    baip = new ByteArrayInputStream(serJobs);
+                    ois = new ObjectInputStream(baip);
+                    jobs = (ArrayList<Job>) ois.readObject();
+
+                    ois.close();
+                    baip.close();
+                }             
+                if (serColleges != null) {
+                    baip = new ByteArrayInputStream(serColleges);
+                    ois = new ObjectInputStream(baip);
+                    colleges = (List<TransferCollege>) ois.readObject();
+
+                    ois.close();
+                    baip.close();
+                }
+               
+
+                alumni = new Alumni(name, track, level, year, term, gpa, uniEmail, persEmail, internships, jobs, colleges);
+                alumni.setMyID(id);
                 
-                ByteArrayInputStream baip = new ByteArrayInputStream(serInternships);
-                ObjectInputStream ois = new ObjectInputStream(baip);
-                List<Internship> internships = (List<Internship>) ois.readObject();
+                mAlumniList.add(alumni);                
+                
+                baip = new ByteArrayInputStream(serInternships);
+                ois = new ObjectInputStream(baip);
+                internships = (List<Internship>) ois.readObject();
                 
                 System.out.println(internships.toString());
                 
@@ -202,7 +169,7 @@ public class AlumniDB {
                 
                 baip = new ByteArrayInputStream(serJobs);
                 ois = new ObjectInputStream(baip);
-                List<Job> jobs = (List<Job>) ois.readObject();
+                jobs = (List<Job>) ois.readObject();
                 
                 ois.close();
                 baip.close();
@@ -220,41 +187,56 @@ public class AlumniDB {
                 // Create the Alumni to return
                 // Add alumni to list
             }
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println(e);
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+        
         return mAlumniList;
     }
 
     /**
-     * Modifies the data on an Item - Only description, price and condition can be modified.
+     * Modifies the data in an Alumni.
      * @param row
      * @param columnName
      * @param data
-     * @return Returns a message with success or failure.
+     * @return Returns boolean signifying success or failure.
      */
-    public String updateAlumni(Alumni alum, String columnName, Object data) {
-        int id = alum.getMyID();
-        String sql = "update Alumni set `" + columnName
-                + "` = ?  where id = ? ";
+    public boolean updateAlumni(int theID, String columnName, Object data) {
+        
+        int id = theID;
+        String sql = "update Alumni set " + columnName
+                + " = ?  where id = ? ";
         // For debugging - System.out.println(sql);
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = mConnection.prepareStatement(sql);
-            preparedStatement.setString(1, (String) data); 
+            if (data instanceof String) {
+                preparedStatement.setString(1,  (String)data); 
+            }
+            else if (data instanceof List) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(baos);
+                oos.writeObject(data);
+                byte[] itemAsBytes = baos.toByteArray();
+                ByteArrayInputStream bais = new 
+                        ByteArrayInputStream(itemAsBytes);
+                preparedStatement.setBinaryStream(1, bais, itemAsBytes.length);
+            } 
+            else { // Something must be wrong
+                return false;
+            }
             preparedStatement.setInt(2, id); // for id = ?
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e);
+            return true;
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
-            return "Error updating item: " + e.getMessage();
         }
-        return "Updated Item Successfully";
+        return false;
     }
     
     /**
