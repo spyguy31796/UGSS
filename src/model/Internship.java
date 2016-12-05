@@ -34,6 +34,9 @@ public class Internship extends Employment implements Serializable {
             final String theDescription, final String theMiscComments,
             final double theWage, final int theDuration) {
         super(theCompany, thePosition, theSkillsReq, theDescription, theMiscComments);
+        if (theWage < 0 || theDuration < 0) {
+            throw new IllegalArgumentException();
+        }
         myWage = theWage;
         myDuration = theDuration;
     }
@@ -49,6 +52,9 @@ public class Internship extends Employment implements Serializable {
      * @param theWage changes the wage.
      */
     public void setMyWage(final double theWage) {
+        if (theWage < 0) {
+            throw new IllegalArgumentException();
+        }
         myWage = theWage;
     }
 
@@ -63,6 +69,9 @@ public class Internship extends Employment implements Serializable {
      * @param theDuration changes the duration.
      */
     public void setMyDuration(final int theDuration) {
+        if (theDuration < 0) {
+            throw new IllegalArgumentException();
+        }
         myDuration = theDuration;
     }
     
