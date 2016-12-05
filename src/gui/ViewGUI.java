@@ -511,7 +511,6 @@ public class ViewGUI extends JPanel implements ActionListener {
         boolean requiredEntered = true;
         for (int i = 0; i < myJobFields.length; i++) {
             String data = myJobFields[i].getText();
-            System.out.println(i + ": " + data);
             if (data.length() != 0) {           
                 if (requiredEntered & data.length() > 50) {
                     JOptionPane.showMessageDialog(null, "Data entered must be less than 50 characters", "Entry is too Long", JOptionPane.ERROR_MESSAGE);
@@ -519,7 +518,6 @@ public class ViewGUI extends JPanel implements ActionListener {
                 }             
             }
             else if (requiredEntered & (i == 0 || i == 1 || i == 5)) {
-                System.out.println("Failure at" + i + ": " + data);
                 JOptionPane.showMessageDialog(null, "Error! Company Name, Position, and Salary are all required.", "Missing Required Entry", JOptionPane.ERROR_MESSAGE);
                 requiredEntered = false;
             }
