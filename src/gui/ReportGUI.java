@@ -1,23 +1,19 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableColumnModel;
 import model.Alumni;
 import model.AlumniCollection;
 
@@ -26,7 +22,7 @@ import model.AlumniCollection;
  * @author Bui
  * @version November 29,2016
  */
-public class ReportGUI extends JPanel implements ActionListener, TableModelListener {
+public class ReportGUI extends JPanel implements ActionListener {
     
     /**
      * auto generated ID.
@@ -43,11 +39,11 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
     /**
      * JCombo Box.
      */
-    private JComboBox<String> cmbCategories;
+    private JComboBox<String> myCmbCategories;
     /**
      * JComboBox for degreeTrack.
      */
-    private JComboBox<String> cmbDegreeTrack;
+    private JComboBox<String> myCmbDegreeTrack;
     /**
      * JPanel for search.
      */
@@ -85,7 +81,7 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
      */
     public ReportGUI() {
         setLayout(new BorderLayout());
-        mList = getData(ALL,ALL);
+        mList = getData(ALL, ALL);
         createComponents();
         setVisible(true);
         setSize(FIVE, FIVE);
@@ -130,18 +126,18 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
         comboPanel.setLayout(new GridLayout(1, 1));
         
         if (degreeLevel != null) {
-            cmbCategories = new JComboBox(degreeLevel);
+            myCmbCategories = new JComboBox(degreeLevel);
             comboPanel.add(new JLabel("Select Degree Level: "));
-            comboPanel.add(cmbCategories);
+            comboPanel.add(myCmbCategories);
             myPnlReport.add(comboPanel);
         }
         
         final JPanel comboDegreeTrack = new JPanel();
         comboDegreeTrack.setLayout(new GridLayout(1, 1));
         if (degreeTrack != null) {
-            cmbDegreeTrack = new JComboBox(degreeTrack);
+            myCmbDegreeTrack = new JComboBox(degreeTrack);
             comboDegreeTrack.add(new JLabel("Select Degree Track: "));
-            comboDegreeTrack.add(cmbDegreeTrack);
+            comboDegreeTrack.add(myCmbDegreeTrack);
             myPnlReport.add(comboDegreeTrack);
         } 
         add(myPnlReport, BorderLayout.NORTH);
@@ -165,22 +161,15 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
     @Override
     public void actionPerformed(final ActionEvent theE) {
         if (theE.getSource() == myBtnGenerate) {
-            final String searchKey = (String) cmbCategories.getSelectedItem();
-            final String searchKey1 = (String) cmbDegreeTrack.getSelectedItem();
+            final String searchKey = (String) myCmbCategories.getSelectedItem();
+            final String searchKey1 = (String) myCmbDegreeTrack.getSelectedItem();
             mList = getData(searchKey, searchKey1);
             myPnlContent.removeAll();
             myTable = new JTable(mData, mItemColumnNames);
-            myTable.getModel().addTableModelListener(this);
             myScrollPane = new JScrollPane(myTable);
             myPnlContent.add(myScrollPane);
             myPnlContent.revalidate();
             this.repaint();
         }       
-    }
-    /**
-     * unused override method.
-     */
-    @Override
-    public void tableChanged(final TableModelEvent theE) {
     }
 }
