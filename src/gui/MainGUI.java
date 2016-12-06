@@ -1,17 +1,33 @@
 package gui;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class MainGUI extends JFrame {
+public class MainGUI extends JFrame implements MouseListener {
 
     /**
      * 
      */
     private static final long serialVersionUID = 7352018073986710489L;
-
+    /**
+     * Report panel component.
+     */
+    private JComponent rPanel;
+    /**
+     * JPanel panel.
+     */
+    private JPanel panel;
+    /**
+     * TabbedPane.
+     */
+    private JTabbedPane tabbedPane;
     public static void main(String[] args) {
         new MainGUI();
     }
@@ -35,12 +51,13 @@ public class MainGUI extends JFrame {
      */
     private void createComponents()
     {
-        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane = new JTabbedPane();
         JComponent alPanel = makeTextPanel("Add Alumni");
         tabbedPane.addTab("Add Alumni", alPanel);
         JComponent sPanel = makeTextPanel("View");
         tabbedPane.addTab("View", sPanel);
-        JComponent rPanel = makeTextPanel("Report");
+        rPanel = makeTextPanel("Report");
+        rPanel.addMouseListener(this);
         tabbedPane.addTab("Report", rPanel);
         add(tabbedPane);
     }
@@ -51,7 +68,7 @@ public class MainGUI extends JFrame {
      * @return the panel
      */
     private JComponent makeTextPanel(String type) {
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         if (type.equalsIgnoreCase("View")) {
             panel.add(new ViewGUI());
         } else if(type.equalsIgnoreCase("Add Alumni")){
@@ -60,5 +77,42 @@ public class MainGUI extends JFrame {
             panel.add(new ReportGUI());
         }
         return panel;
+    }
+    /**
+     * Unimplemented method for MouseListener.
+     */
+    @Override
+    public void mouseClicked(MouseEvent theE) {       
+    }
+    /**
+     * Unimplemented method for MouseListener.
+     */
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+    /**
+     * Unimplemented method for MouseListener.
+     */
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+    /**
+     * This method will recall and update report pane.
+     */
+    @Override
+    public void mousePressed(MouseEvent theE) {
+        if (theE.getSource() == rPanel) {
+            tabbedPane.remove(rPanel);
+            rPanel = makeTextPanel("Report");
+            tabbedPane.addTab("Report",rPanel);
+            tabbedPane.setSelectedComponent(rPanel);
+        }
+        
+    }
+    /**
+     * Unimplemented method for MouseListener.
+     */
+    @Override
+    public void mouseReleased(MouseEvent e) {
     }
 }

@@ -1,13 +1,13 @@
 package tests;
 
 import static org.junit.Assert.*;
-
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import model.Alumni;
+>>>>>>> refs/remotes/origin/master
 import model.AlumniCollection;
 
 /**
@@ -20,7 +20,27 @@ public class AlumniCollectionTests {
     public void SetUp(){
         
     }
-    
+    /**
+     * Test reportSearch.
+     */
+    @Test
+    public void testReportAlumni(){
+        assertNotNull(AlumniCollection.reportsearch("All", "All"));
+    }
+    /**
+     * Test get degreeTrack.
+     */
+    @Test
+    public void testDegreeTrack(){
+        assertNotNull(AlumniCollection.getDegreeTrack());
+    }
+    /**
+     * Test get degreeLevel.
+     */
+    @Test
+    public void testDegreeLevel(){
+        assertNotNull(AlumniCollection.getDegreeLevel());
+    }
     // What about add methods?
     // Our ability to test is limited, right? Ex. GetAlumni - size of list will vary, just test for null?
     

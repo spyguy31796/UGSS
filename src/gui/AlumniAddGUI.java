@@ -203,14 +203,20 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
             }
             performRemove();
         } else if(theE.getSource() == removeCollege) {
-            myColleges.remove(comboCollege.getSelectedIndex());
-            refreshCombo(comboCollege,myColleges);
+            if(myColleges!=null&&myColleges.size()!=0){
+                myColleges.remove(comboCollege.getSelectedIndex());
+                refreshCombo(comboCollege,myColleges);
+            }
         } else if(theE.getSource() == removeJob) {
-            myJobs.remove(comboJob.getSelectedIndex());
-            refreshCombo(comboJob,myJobs);
+            if(myJobs!=null&&myJobs.size()!=0){
+                myJobs.remove(comboJob.getSelectedIndex());
+                refreshCombo(comboJob,myJobs);
+            }
         } else if(theE.getSource() == removeInternship) {
-            myInternships.remove(comboInternships.getSelectedIndex());
-            refreshCombo(comboInternships,myInternships);
+            if(myInternships!=null&&myInternships.size()!=0){
+                myInternships.remove(comboInternships.getSelectedIndex());
+                refreshCombo(comboInternships,myInternships);
+            }
         }
     }
     private void refreshCombo(final JComboBox theJC, final ArrayList theAR){
