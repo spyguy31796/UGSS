@@ -279,7 +279,7 @@ public class ViewGUI extends JPanel implements ActionListener {
     private int CollegeSelectionWindow() {
         List<TransferCollege> colleges = currentAlumniSelected.getMyTransferColleges();
 
-        if (colleges != null) {
+        if (colleges != null && colleges.size() > 0) {
             List<String> revised = new ArrayList<String>();
             for (int i = 0; i < colleges.size(); i++) {
                 revised.add("College: " + colleges.get(i).getMyName() + ", Year: " + colleges.get(i).getMyYear());
@@ -313,7 +313,7 @@ public class ViewGUI extends JPanel implements ActionListener {
         if (choice == JOptionPane.OK_OPTION) {
             if (itemRemoveModifySelection.getSelectedIndex() >= 0) {                 
                 int check = JOptionPane.showConfirmDialog(null, createCollegeWindow(), "Data Entry", JOptionPane.OK_CANCEL_OPTION);
-                if(check == JOptionPane.CANCEL_OPTION){
+                if(check == JOptionPane.CANCEL_OPTION || check == JOptionPane.CLOSED_OPTION){
                     return;
                 }
 
@@ -336,6 +336,13 @@ public class ViewGUI extends JPanel implements ActionListener {
                     modifiedCollege.setMyDegree(myCollegeFields[2].getText());
                 }
                 if (myCollegeFields[3].getText().length() != 0) {
+                    try {
+                        Integer.parseInt(myCollegeFields[3].getText())         ;
+                    }
+                    catch(NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Year must be a valid number", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     modifiedCollege.setMyYear(myCollegeFields[3].getText());
                 }
                 if (myCollegeFields[4].getText().length() != 0) {                   
@@ -384,7 +391,7 @@ public class ViewGUI extends JPanel implements ActionListener {
      */
     private void performAddCollege() {
       int check = JOptionPane.showConfirmDialog(null, createCollegeWindow(), "Data Entry", JOptionPane.OK_CANCEL_OPTION);
-      if(check==JOptionPane.CANCEL_OPTION){
+      if(check==JOptionPane.CANCEL_OPTION || check == JOptionPane.CLOSED_OPTION){
           return;
       }     
       
@@ -397,6 +404,14 @@ public class ViewGUI extends JPanel implements ActionListener {
       }
       catch (NumberFormatException e) {
           JOptionPane.showMessageDialog(null, "GPA is required and must be a valid number.", "Invalid number", JOptionPane.ERROR_MESSAGE);
+          return;
+      }
+      
+      try {
+          Integer.parseInt(myCollegeFields[3].getText())         ;
+      }
+      catch(NumberFormatException e) {
+          JOptionPane.showMessageDialog(null, "Year must be a valid number", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
           return;
       }
     
@@ -428,7 +443,7 @@ public class ViewGUI extends JPanel implements ActionListener {
     private int displayJobSelectionWindow() {
         List<Job> jobs = currentAlumniSelected.getMyJobs();
 
-        if (jobs != null) {
+        if (jobs != null && jobs.size() > 0) {
             List<String> revised = new ArrayList<String>();
             for (int i = 0; i < jobs.size(); i++) {
                 revised.add("Company: " + jobs.get(i).getMyCompany() + ", Position: " + jobs.get(i).getMyPosition());
@@ -488,6 +503,7 @@ public class ViewGUI extends JPanel implements ActionListener {
                     }
                     catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "Salary must be a valid number");
+                        return;
                     }
                 }     
                 lsJobs.remove(itemRemoveModifySelection.getSelectedIndex());
@@ -511,7 +527,7 @@ public class ViewGUI extends JPanel implements ActionListener {
      */
     private void performAddJob() {
         int check = JOptionPane.showConfirmDialog(null, createJobWindow(false), "Data Entry", JOptionPane.OK_CANCEL_OPTION);
-        if(check==JOptionPane.CANCEL_OPTION){
+        if(check!=JOptionPane.OK_OPTION){
             return;
         }
         // Check data
@@ -522,6 +538,7 @@ public class ViewGUI extends JPanel implements ActionListener {
                 if (requiredEntered & data.length() > 50) {
                     JOptionPane.showMessageDialog(null, "Data entered must be less than 50 characters", "Entry is too Long", JOptionPane.ERROR_MESSAGE);
                     requiredEntered = false;
+                    return;
                 }             
             }
             else if (requiredEntered & (i == 0 || i == 1 || i == 5)) {
@@ -531,6 +548,14 @@ public class ViewGUI extends JPanel implements ActionListener {
         }
         
         if (requiredEntered) {
+            try {
+                Double.parseDouble(myJobFields[5].getText());
+                
+            }
+            catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Salary must be a valid number", "Invalid Number", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
               Job newJob = new Job(myJobFields[0].getText(), myJobFields[1].getText(), myJobFields[2].getText(), 
                       myJobFields[3].getText(), myJobFields[4].getText(), Double.parseDouble(myJobFields[5].getText()), activeBox.isSelected());
               List<Job> lsJobs = currentAlumniSelected.getMyJobs();
@@ -616,7 +641,7 @@ public class ViewGUI extends JPanel implements ActionListener {
     private JPanel createInternshipWindow() {
         JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(9,0));
-        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Wage: ","Enter Duration:"};
+        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Wage: ","Enter Duration (in Months):"};
         for (int i = 0; i < labelNames.length; i++) {
             JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -636,7 +661,7 @@ public class ViewGUI extends JPanel implements ActionListener {
     private int displayInternshipSelectionWindow() {
         List<Internship> internships = currentAlumniSelected.getMyInternships();
         
-        if (internships != null) {
+        if (internships != null && internships.size() > 0) {
             List<String> revised = new ArrayList<String>();
             for (int i = 0; i < internships.size(); i++) {
                 revised.add("Company: " + internships.get(i).getMyCompany() + ", Position: " + internships.get(i).getMyPosition());
@@ -669,7 +694,7 @@ public class ViewGUI extends JPanel implements ActionListener {
         if (choice == JOptionPane.OK_OPTION) { // User wants to go ahead with modification
             if (itemRemoveModifySelection.getSelectedIndex() >= 0) {                                     
                 int check = JOptionPane.showConfirmDialog(null, displayInternshipWindow(), "Data Entry", JOptionPane.OK_CANCEL_OPTION);
-                if(check==JOptionPane.CANCEL_OPTION){
+                if(check!=JOptionPane.OK_OPTION){
                     return;
                 }
 
@@ -691,6 +716,10 @@ public class ViewGUI extends JPanel implements ActionListener {
                     modifiedShip.setMyMiscComments(myInternFields[4].getText());
                 }
                 if (myInternFields[5].getText().length() != 0) {
+                    if (myInternFields[5].getText().length() > 10) {
+                        JOptionPane.showMessageDialog(null, "Wage is too large.");
+                        return;
+                    }
                     try {
                         modifiedShip.setMyWage(Double.parseDouble(myInternFields[5].getText()));
                     }
@@ -700,6 +729,10 @@ public class ViewGUI extends JPanel implements ActionListener {
                     }
                 }     
                 if (myInternFields[6].getText().length() != 0) {
+                    if (myInternFields[6].getText().length() > 10) {
+                        JOptionPane.showMessageDialog(null, "Duration is too long.");
+                        return;
+                    }
                     try {
                         modifiedShip.setMyDuration(Integer.parseInt(myInternFields[6].getText()));
                     }
@@ -726,7 +759,7 @@ public class ViewGUI extends JPanel implements ActionListener {
     private JPanel displayInternshipWindow() {
         JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(9,0));
-        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Wage: ","Enter Duration:"};
+        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Wage: ","Enter Duration (in months):"};
         for (int i = 0; i < labelNames.length; i++) {
             JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -767,7 +800,7 @@ public class ViewGUI extends JPanel implements ActionListener {
     private void performAddInternship() {
       
         int check = JOptionPane.showConfirmDialog(null, displayInternshipWindow(), "Data Entry", JOptionPane.OK_CANCEL_OPTION);
-        if(check==JOptionPane.CANCEL_OPTION){
+        if(check!=JOptionPane.OK_OPTION){
             return;
         }
 
@@ -781,14 +814,23 @@ public class ViewGUI extends JPanel implements ActionListener {
         }
         
         try {
+            if (myInternFields[5].getText().length() > 10) {
+                JOptionPane.showMessageDialog(null, "Wage is too large.");
+                return;
+            }
             Double.parseDouble(myInternFields[5].getText());          
         }
         catch (NumberFormatException e) {
+            
             JOptionPane.showMessageDialog(null, "Wage is required and must be a valid number");
             return;
         }
         
         try {
+            if (myInternFields[6].getText().length() > 10) {
+                JOptionPane.showMessageDialog(null, "Duration is too long.");
+                return;
+            }
             Integer.parseInt(myInternFields[6].getText());
         }
         catch (NumberFormatException e) {
@@ -1047,10 +1089,26 @@ public class ViewGUI extends JPanel implements ActionListener {
                     }
                     break;
                 case 3: // Year
-                    modified= AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.YEAR, textData);
+                    if (textData.length() > 25) {
+                        JOptionPane.showMessageDialog(null, "Year is too long.");
+                    } else {
+                        try {
+                            Integer.parseInt(textData);
+                        }
+                        catch (NumberFormatException e) {
+                            JOptionPane.showMessageDialog(null, "Year should be a number.");
+                            return;
+                        }
+                        modified= AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.YEAR, textData);
+                    }
+                    
                     break;
-                case 4: // Term                   
-                    modified = AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.TERM, textData);                    
+                case 4: // Term               
+                    if (textData.length() > 25) {
+                        JOptionPane.showMessageDialog(null, "Term is too long.");
+                    } else {
+                         modified = AlumniCollection.updateAlumni(currentAlumniSelected, DataTypes.TERM, textData);           
+                    }                            
                     break;
                 case 5: // GPA       
                     try {
@@ -1090,11 +1148,9 @@ public class ViewGUI extends JPanel implements ActionListener {
         }
         else if (modified) {
             // Check whether edit was successful
-            JOptionPane.showMessageDialog(null, "Alumni Successfully modified");
+            JOptionPane.showMessageDialog(null, "Alumni modified");
 
-        } else {              
-            JOptionPane.showMessageDialog(null, "Error modifying Alumni");
-        }
+        } 
 
 
     }
@@ -1110,9 +1166,19 @@ public class ViewGUI extends JPanel implements ActionListener {
             currentPanel.add(listPanel);
             currentPanel.revalidate();
             this.repaint();
+            if (alumniList.size() == 0) {
+                JOptionPane.showMessageDialog(null, "No Alumni found!");
+            }
         }
         else if (e.getSource() == idSearch) { // Search by ID
             lastSearchByName = false;
+            try {
+                Integer.parseInt(searchTerm.getText());
+            }
+            catch (NumberFormatException e2) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid number!");
+                return;
+            }
             currentPanel.removeAll();
             alumniList = getData(DataTypes.ID, searchTerm.getText());
             // Recreate the list to update it 
@@ -1120,6 +1186,9 @@ public class ViewGUI extends JPanel implements ActionListener {
             currentPanel.add(listPanel);
             currentPanel.revalidate();
             this.repaint();
+            if (alumniList.size() == 0) {
+                JOptionPane.showMessageDialog(null, "No Alumni found!");
+            }
         }
         else { // We are going to need to probably refresh panel so we're going to do that at the very end
             // to reuse code
@@ -1182,6 +1251,7 @@ public class ViewGUI extends JPanel implements ActionListener {
                 else if (selection == 2) { // College is being added
                     performAddCollege();
                 }
+                
             }
             else if (e.getSource() == removeSelection) { // Brings up panel for removing 
                 // internships/jobs/colleges
@@ -1217,9 +1287,11 @@ public class ViewGUI extends JPanel implements ActionListener {
                 currentPanel.add(listPanel);
                 currentPanel.revalidate();
                 this.repaint();
-                table.setRowSelectionInterval(selection2, selection2);
+                if (selection2 >= 0) {
+                    table.setRowSelectionInterval(selection2, selection2);
+                }                
             }
-            else if (e.getSource() == idSearch) { // Search by ID
+            else { // Search by ID
                 currentPanel.removeAll();
                 alumniList = getData(DataTypes.ID, searchTerm.getText());
                 // Recreate the list to update it 
@@ -1227,7 +1299,14 @@ public class ViewGUI extends JPanel implements ActionListener {
                 currentPanel.add(listPanel);
                 currentPanel.revalidate();
                 this.repaint();
-                table.setRowSelectionInterval(selection2, selection2);
+                if (selection2 >= 0) {
+                    table.setRowSelectionInterval(selection2, selection2);
+                }
+            }
+            for (int i = 0; i < alumniList.size(); i++) {
+                if (alumniList.get(i).getMyID() == currentAlumniSelected.getMyID()) {
+                    currentAlumniSelected = alumniList.get(i);
+                }
             }
         }
 
