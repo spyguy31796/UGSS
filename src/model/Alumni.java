@@ -60,31 +60,6 @@ public class Alumni {
     /**
      * 
      * @param theName
-     * @param theID
-     * @param theDegreeTrack
-     * @param theDegreeLevel
-     * @param theYear
-     * @param theTerm
-     * @param theCurrentGPA
-     * @param theUniEmail
-     * @param thePersEmail
-     */
-    public Alumni(final String theName, final String theDegreeTrack, 
-            final String theDegreeLevel, final String theYear, final String theTerm,
-            final double theCurrentGPA, final String theUniEmail, final String thePersEmail) {
-        myName = theName;
-        myDegreeTrack = theDegreeTrack;
-        myDegreeLevel = theDegreeLevel;
-        myYear = theYear;
-        myTerm = theTerm;
-        myCurrentGPA = theCurrentGPA;
-        myUniEmail = theUniEmail;
-        myPersEmail = thePersEmail;
-    }
-    /**
-     * 
-     * @param theName
-     * @param theID
      * @param theDegreeTrack
      * @param theDegreeLevel
      * @param theYear
@@ -101,7 +76,14 @@ public class Alumni {
             final double theCurrentGPA, final String theUniEmail, final String thePersEmail, 
             final List<Internship> theInternships, final List<Job> theJobs, 
             final List<TransferCollege> theTransferColleges) {
-        this(theName,theDegreeTrack,theDegreeLevel,theYear,theTerm,theCurrentGPA,theUniEmail,thePersEmail);
+        myName = theName;
+        myDegreeTrack = theDegreeTrack;
+        myDegreeLevel = theDegreeLevel;
+        myYear = theYear;
+        myTerm = theTerm;
+        myCurrentGPA = theCurrentGPA;
+        myUniEmail = theUniEmail;
+        myPersEmail = thePersEmail;
         myInternships = theInternships;
         myJobs = theJobs;
         myTransferColleges = theTransferColleges;
