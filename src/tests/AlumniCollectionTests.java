@@ -20,6 +20,8 @@ public class AlumniCollectionTests {
     public void SetUp(){
         
     }
+    
+   
     /**
      * Test reportSearch.
      */
@@ -41,8 +43,6 @@ public class AlumniCollectionTests {
     public void testDegreeLevel(){
         assertNotNull(AlumniCollection.getDegreeLevel());
     }
-    // What about add methods?
-    // Our ability to test is limited, right? Ex. GetAlumni - size of list will vary, just test for null?
     
     /** Tests whether name is correctly gotten. */
     @Test
