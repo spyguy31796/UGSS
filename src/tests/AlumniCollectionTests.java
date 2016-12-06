@@ -28,18 +28,77 @@ public class AlumniCollectionTests {
         assertNotNull(AlumniCollection.reportsearch("All", "All"));
     }
     /**
+     * Test reportAlumni with different Condition.
+     */
+    @Test
+    public void testTrackReportAlumni1() {
+        final Object[] degreeTrack = AlumniCollection.getDegreeTrack();
+        assertNotNull(degreeTrack[0]);
+        final String temp = degreeTrack[0].toString();
+        assertNotNull(AlumniCollection.reportsearch("All", temp));
+    }
+    /**
+     * Test reportAlumni with different Condition.
+     */
+    @Test
+    public void testLevelReportAlumni() {
+        final Object[] degreeLevel = AlumniCollection.getDegreeLevel();
+        assertNotNull(degreeLevel[0]);
+        final String temp = degreeLevel[0].toString();
+        assertNotNull(AlumniCollection.reportsearch(temp, "All"));
+    }
+    /**
+     * Test reportAlumni with different Condition.
+     */
+    @Test
+    public void testAllReportAlumni() {
+        final Object[] degreeTrack = AlumniCollection.getDegreeTrack();
+        final Object[] degreeLevel = AlumniCollection.getDegreeLevel();
+        final String track = degreeTrack[0].toString();
+        final String level = degreeLevel[0].toString();
+        assertNotNull(degreeTrack[0]);        
+        assertNotNull(degreeLevel[0]);        
+        assertNotNull(AlumniCollection.reportsearch(level, track));
+    }
+    /**
      * Test get degreeTrack.
      */
     @Test
     public void testDegreeTrack() {
-        assertNotNull(AlumniCollection.getDegreeTrack());
+        final Object[] degreeTrack = AlumniCollection.getDegreeTrack();
+        final Alumni alum = AlumniCollection.searchID(1);
+        boolean temp = false;
+        assertNotNull(alum);
+        assertNotNull(degreeTrack);
+        for (int i = 0; i < degreeTrack.length; i++) {
+            if (alum.getMyDegreeTrack().equals(degreeTrack[i])) {
+                temp = true;
+                break;
+            } else {
+                temp = false;
+            }
+        }
+        assertTrue(temp);
     }
     /**
      * Test get degreeLevel.
      */
     @Test
     public void testDegreeLevel() {
-        assertNotNull(AlumniCollection.getDegreeLevel());
+        final Object[] degreeLevel = AlumniCollection.getDegreeLevel();
+        final Alumni alum = AlumniCollection.searchID(1);
+        boolean temp = false;
+        assertNotNull(alum);
+        assertNotNull(degreeLevel);
+        for (int i = 0; i < degreeLevel.length; i++) {
+            if (alum.getMyDegreeLevel().equals(degreeLevel[i])) {
+                temp = true;
+                break;
+            } else {
+                temp = false;
+            }
+        }
+        assertTrue(temp);
     }
     // What about add methods?
     // Our ability to test is limited, right? Ex. GetAlumni - size of list will vary, just test for null?
