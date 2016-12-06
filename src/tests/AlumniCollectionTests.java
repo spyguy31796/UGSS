@@ -7,12 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.Alumni;
->>>>>>> refs/remotes/origin/master
 import model.AlumniCollection;
 
 /**
  * Test class for Alumni Collection
- * @author Bui
+ * @author GROUP8
+ * @version 12/6/2016
  *
  */
 public class AlumniCollectionTests {
@@ -47,22 +47,22 @@ public class AlumniCollectionTests {
     /** Tests whether name is correctly gotten. */
     @Test
     public void testGetName() {
-        List<Alumni> alumni = AlumniCollection.searchName("Merlin");
+        List<Alumni> alumni = AlumniCollection.searchName("Alec Walsh");
         Alumni alum = null;
         if (alumni.size() != 0) {
             alum = alumni.get(0);
         }
         assertNotNull(alum);
-        assertEquals("Merlin", alum.getMyName());
+        assertEquals("Alec Walsh", alum.getMyName());
     }
     
     /** Tests whether ID is correctly gotten. */
     @Test
     public void testGetID() {
-        Alumni alumni = AlumniCollection.searchID(6);
+        Alumni alumni = AlumniCollection.searchID(1);
         assertNotNull(alumni);
-        assertEquals("Merlin", alumni.getMyName());
-        assertEquals(6, alumni.getMyID());
+        assertEquals("Alec Walsh", alumni.getMyName());
+        assertEquals(1, alumni.getMyID());
     }
     
     /** Tests whether returned list not not null. */

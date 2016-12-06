@@ -174,6 +174,7 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
             final Object temp = performAddTransferCollege();
             if (!STRCANCEL.equals(temp.toString())) {
                 myColleges.add((TransferCollege) temp);
+                JOptionPane.showMessageDialog(null, "Transfer College "+temp+" added!");
             }
         } else if (theE.getSource() == myBtnInternships) {
             if (myInternships == null) {
@@ -182,6 +183,7 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
             final Object temp = performAddInternship();
             if (!STRCANCEL.equals(temp.toString())) {
                 myInternships.add((Internship) temp);
+                JOptionPane.showMessageDialog(null, "Internship at "+temp+" added!");
             }
         } else if (theE.getSource() == btnJobs) {
             if (myJobs == null) {
@@ -190,6 +192,7 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
             final Object temp = performAddJob();
             if (!STRCANCEL.equals(temp.toString())) {
                 myJobs.add((Job) temp);
+                JOptionPane.showMessageDialog(null, "Job at "+temp+" added!");
             }
         } else if (theE.getSource() == btnRemove) {
             if(myJobs == null){
