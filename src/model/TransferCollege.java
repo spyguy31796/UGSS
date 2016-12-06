@@ -36,6 +36,10 @@ public class TransferCollege implements Serializable {
      */
     public TransferCollege(final String theName, final double theGPA, 
             final String theDegree, final String theYear, final String theTerm){
+        if (theName == null || theDegree == null || theYear == null
+                || theTerm == null) {
+            throw new IllegalArgumentException();
+        }
         myName = theName;
         myGPA = theGPA;
         myDegree = theDegree;

@@ -22,7 +22,8 @@ import model.TransferCollege;
 
 /**
  * This class contains methods to access Alumni table data.
- * @author Group 8
+ * @author GROUP8
+ * @version 12/6/2016
  *
  */
     
@@ -31,9 +32,10 @@ public class AlumniDB {
      * String variable to use throughout the class.
      */
     private static final String ALL = "All";
-    private Connection mConnection;
-    private List<Alumni> mAlumniList;
-
+    /**
+     * Connection object to access database.
+     */
+    private Connection myConnection;
     /**
      * Retrieve all Alumni that satisfy report conditions. 
      * @param theDegreeLevel degree Level.
@@ -44,8 +46,8 @@ public class AlumniDB {
     public List<Alumni> getReportAlumni(final String theDegreeLevel,
             final String theDegreeTrack) throws SQLException {
         final List<Alumni> filterList = new ArrayList<Alumni>();
-        if (mConnection == null) {
-            mConnection = DataConnection.getConnection();
+        if (myConnection == null) {
+            myConnection = DataConnection.getConnection();
         }
         String query;
         Statement stmt = null;
@@ -60,7 +62,7 @@ public class AlumniDB {
                     + "\"  and degreeTrack = \"" + theDegreeTrack + "\"";
         }     
         try {
-            stmt = mConnection.createStatement();
+            stmt = myConnection.createStatement();
             final ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 final String name = rs.getString("name");
@@ -88,34 +90,35 @@ public class AlumniDB {
      * @throws IOException 
      * @throws ClassNotFoundException 
      */
+    @SuppressWarnings("unchecked")
     public List<Alumni> getAllAlumni() {
-        if (mConnection == null) {
+        if (myConnection == null) {
             try {
-                mConnection = DataConnection.getConnection();
-            } catch (SQLException e) {
+                myConnection = DataConnection.getConnection();
+            } catch (final SQLException e) {
                 e.printStackTrace();
             }
         }
         Statement stmt = null;
-        String query = "select * " + "from Alumni";
+        final String query = "select * " + "from Alumni";
 
-        List<Alumni> mAlumniList = new ArrayList<Alumni>();
+        final List<Alumni> mAlumniList = new ArrayList<Alumni>();
         try {
-            stmt = mConnection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            stmt = myConnection.createStatement();
+            final ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String track = rs.getString("degreeTrack");
-                String level = rs.getString("degreeLevel");
-                String year = rs.getString("year");
-                String term = rs.getString("term");
-                Double gpa = rs.getDouble("gpa");
-                String uniEmail = rs.getString("uniEmail");
-                String persEmail = rs.getString("persEmail");
-                byte[] serInternships = (byte[])rs.getObject("internships");
-                byte[] serJobs= (byte[])rs.getObject("jobs");
-                byte[] serColleges = (byte[])rs.getObject("transferColleges");
+                final int id = rs.getInt("id");
+                final String name = rs.getString("name");
+                final String track = rs.getString("degreeTrack");
+                final String level = rs.getString("degreeLevel");
+                final String year = rs.getString("year");
+                final String term = rs.getString("term");
+                final Double gpa = rs.getDouble("gpa");
+                final String uniEmail = rs.getString("uniEmail");
+                final String persEmail = rs.getString("persEmail");
+                final byte[] serInternships = (byte[]) rs.getObject("internships");
+                final byte[] serJobs = (byte[]) rs.getObject("jobs");
+                final byte[] serColleges = (byte[]) rs.getObject("transferColleges");
                 Alumni alumni = null;
 
                 // Cast internships, jobs, and colleges to lists
@@ -152,17 +155,19 @@ public class AlumniDB {
                     baip.close();
                 }
                
-                alumni = new Alumni(name, track, level, year, term, gpa, uniEmail, persEmail, internships, jobs, colleges);
+                alumni = new Alumni(name, track, level,
+                        year, term, gpa, uniEmail, persEmail,
+                        internships, jobs, colleges);
                 alumni.setMyID(id);
                 
                 mAlumniList.add(alumni);                
             }
             stmt.close();
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (final ClassNotFoundException e) {
             e.printStackTrace();
         }
         
@@ -171,39 +176,38 @@ public class AlumniDB {
 
     /**
      * Modifies the data in an Alumni.
-     * @param row
-     * @param columnName
-     * @param data
+     * @param theID The ID of the Alumni to be modified.
+     * @param theColumnName The column to be updated.
+     * @param theData the Updated Data.
      * @return Returns boolean signifying success or failure.
      */
-    public boolean updateAlumni(int theID, String columnName, Object data) {
+    public boolean updateAlumni(final int theID, 
+            final String theColumnName, final Object theData) {
         
-        int id = theID;
-        String sql = "update Alumni set " + columnName
+        final int id = theID;
+        final String sql = "update Alumni set " + theColumnName
                 + " = ?  where id = ? ";
         // For debugging - System.out.println(sql);
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = mConnection.prepareStatement(sql);
-            if (data instanceof String) {
-                preparedStatement.setString(1,  (String)data); 
-            }
-            else if (data instanceof List) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ObjectOutputStream oos = new ObjectOutputStream(baos);
-                oos.writeObject(data);
-                byte[] itemAsBytes = baos.toByteArray();
-                ByteArrayInputStream bais = new 
+            preparedStatement = myConnection.prepareStatement(sql);
+            if (theData instanceof String) {
+                preparedStatement.setString(1,  (String) theData); 
+            } else if (theData instanceof List) {
+                final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                final ObjectOutputStream oos = new ObjectOutputStream(baos);
+                oos.writeObject(theData);
+                final byte[] itemAsBytes = baos.toByteArray();
+                final ByteArrayInputStream bais = new 
                         ByteArrayInputStream(itemAsBytes);
                 preparedStatement.setBinaryStream(1, bais, itemAsBytes.length);
-            } 
-            else { // Something must be wrong
+            } else {
                 return false;
             }
             preparedStatement.setInt(2, id); // for id = ?
             preparedStatement.executeUpdate();
             return true;
-        } catch (SQLException | IOException e) {
+        } catch (final SQLException | IOException e) {
             e.printStackTrace();
         }
         return false;
@@ -211,50 +215,52 @@ public class AlumniDB {
     
     /**
      * Allows an Alumni to be added.
-     * @param al
-     * @return
-     * @throws IOException 
+     * @param theAl the Alumni object to be added.
+     * @return String representing failure or success.
+     * @throws IOException if there is a SQL error.
      */
-    public String addAlumni(Alumni al) throws IOException {
-        String sql = "insert into Alumni(`name`, degreeTrack, degreeLevel, `year`, term, gpa, uniEmail, persEmail, internships, jobs, transferColleges) values "
+    public String addAlumni(final Alumni theAl) throws IOException {
+        final String sql = "insert into Alumni(`name`, degreeTrack, degreeLevel,"
+                + " `year`, term, gpa, uniEmail, persEmail, internships,"
+                + " jobs, transferColleges) values "
                 + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
-        if (mConnection == null) {
+        if (myConnection == null) {
             try {
-                mConnection = DataConnection.getConnection();
-            } catch (SQLException e) {
+                myConnection = DataConnection.getConnection();
+            } catch (final SQLException e) {
                 e.printStackTrace();
             }
         }
 
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = mConnection.prepareStatement(sql);
-            preparedStatement.setString(1, al.getMyName());
-            preparedStatement.setString(2, al.getMyDegreeTrack());
-            preparedStatement.setString(3, al.getMyDegreeLevel());
-            preparedStatement.setString(4, al.getMyYear());
-            preparedStatement.setString(5, al.getMyTerm());
-            preparedStatement.setDouble(6, al.getMyCurrentGPA());
-            preparedStatement.setString(7, al.getMyUniEmail());
-            preparedStatement.setString(8, al.getMyPersEmail());
+            preparedStatement = myConnection.prepareStatement(sql);
+            preparedStatement.setString(1, theAl.getMyName());
+            preparedStatement.setString(2, theAl.getMyDegreeTrack());
+            preparedStatement.setString(3, theAl.getMyDegreeLevel());
+            preparedStatement.setString(4, theAl.getMyYear());
+            preparedStatement.setString(5, theAl.getMyTerm());
+            preparedStatement.setDouble(6, theAl.getMyCurrentGPA());
+            preparedStatement.setString(7, theAl.getMyUniEmail());
+            preparedStatement.setString(8, theAl.getMyPersEmail());
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject(al.getMyInternships());
-            byte[] internshipAsBytes = baos.toByteArray();
+            oos.writeObject(theAl.getMyInternships());
+            final byte[] internshipAsBytes = baos.toByteArray();
             ByteArrayInputStream bais = new 
                     ByteArrayInputStream(internshipAsBytes);
             preparedStatement.setBinaryStream(9, bais, internshipAsBytes.length);
             baos = new ByteArrayOutputStream();
             oos = new ObjectOutputStream(baos);
-            oos.writeObject(al.getMyJobs());
-            byte[] jobAsBytes = baos.toByteArray();
+            oos.writeObject(theAl.getMyJobs());
+            final byte[] jobAsBytes = baos.toByteArray();
             bais = new 
                     ByteArrayInputStream(jobAsBytes);
             preparedStatement.setBinaryStream(10, bais, jobAsBytes.length);
             baos = new ByteArrayOutputStream();
             oos = new ObjectOutputStream(baos);
-            oos.writeObject(al.getMyTransferColleges());
-            byte[] collegeAsBytes = baos.toByteArray();
+            oos.writeObject(theAl.getMyTransferColleges());
+            final byte[] collegeAsBytes = baos.toByteArray();
             bais = new 
                     ByteArrayInputStream(collegeAsBytes);
             preparedStatement.setBinaryStream(11, bais, collegeAsBytes.length);
@@ -262,7 +268,7 @@ public class AlumniDB {
             //preparedStatement.setObject(10, al.getMyJobs());
             //preparedStatement.setObject(11, al.getMyTransferColleges());
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             e.printStackTrace();
             return "Error adding alumni: " + e.getMessage();
         }
@@ -275,14 +281,14 @@ public class AlumniDB {
      * @throws SQLException thorws exeption
      */
     public Object[] getDegreeLevel() throws SQLException {
-        if (mConnection == null) {
-            mConnection = DataConnection.getConnection();
+        if (myConnection == null) {
+            myConnection = DataConnection.getConnection();
         }
         Statement stmt = null;
         final String query = "select distinct degreeLevel " + "from Alumni ";
         final List<String> list = new ArrayList<String>();
         try {
-            stmt = mConnection.createStatement();
+            stmt = myConnection.createStatement();
             final ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 final String major = rs.getString("degreeLevel");
@@ -305,14 +311,14 @@ public class AlumniDB {
      * @throws SQLException throws DB exception
      */
     public Object[] getDegreeTrack() throws SQLException {
-        if (mConnection == null) {
-            mConnection = DataConnection.getConnection();
+        if (myConnection == null) {
+            myConnection = DataConnection.getConnection();
         }
         Statement stmt = null;
         final String query = "select distinct degreeTrack " + "from Alumni ";
         final List<String> list = new ArrayList<String>();
         try {
-            stmt = mConnection.createStatement();
+            stmt = myConnection.createStatement();
             final ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 final String major = rs.getString("degreeTrack");

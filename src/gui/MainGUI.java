@@ -1,20 +1,36 @@
 package gui;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-public class MainGUI extends JFrame {
+/**
+ * Main Driver to initialize the GUIs.
+ * @author GROUP8
+ * @version 12/6/2016
+ */
+public class MainGUI extends JFrame implements MouseListener {
 
     /**
      * 
      */
     private static final long serialVersionUID = 7352018073986710489L;
-
-    public static void main(String[] args) {
-        new MainGUI();
-    }
+    /**
+     * Report panel component.
+     */
+    private JComponent myRPanel;
+    /**
+     * JPanel panel.
+     */
+    private JPanel myPanel;
+    /**
+     * TabbedPane.
+     */
+    private JTabbedPane myTabbedPane;
 
     /**
      * Launches the GUI.
@@ -27,38 +43,81 @@ public class MainGUI extends JFrame {
         setVisible(true);
         setSize(700, 700);
     }
-
+    
+    /**
+     * Starts the program.
+     * @param theArgs Arguments
+     */
+    public static void main(final String[] theArgs) {
+        new MainGUI();
+    }
     
     /**
      * Create the tabs for each part of the system. 
-     * TODO - Categories, Clients, Transactions
      */
-    private void createComponents()
-    {
-        JTabbedPane tabbedPane = new JTabbedPane();
-        JComponent alPanel = makeTextPanel("Add Alumni");
-        tabbedPane.addTab("Add Alumni", alPanel);
-        JComponent sPanel = makeTextPanel("View");
-        tabbedPane.addTab("View", sPanel);
-        JComponent rPanel = makeTextPanel("Report");
-        tabbedPane.addTab("Report", rPanel);
-        add(tabbedPane);
+    private void createComponents() {
+        myTabbedPane = new JTabbedPane();
+        final JComponent alPanel = makeTextPanel("Add Alumni");
+        myTabbedPane.addTab("Add Alumni", alPanel);
+        final JComponent sPanel = makeTextPanel("View");
+        myTabbedPane.addTab("View", sPanel);
+        myRPanel = makeTextPanel("Report");
+        myRPanel.addMouseListener(this);
+        myTabbedPane.addTab("Report", myRPanel);
+        add(myTabbedPane);
     }
 
     /**
      * Create the particular part to add to the tab based on the type.
-     * @param type of the system.
-     * @return the panel
+     * @param theType A String Representing the Type of Tab.
+     * @return The Panel to Display.
      */
-    private JComponent makeTextPanel(String type) {
-        JPanel panel = new JPanel();
-        if (type.equalsIgnoreCase("View")) {
-            panel.add(new ViewGUI());
-        } else if(type.equalsIgnoreCase("Add Alumni")){
-            panel.add(new AlumniAddGUI());
-        } else if ("Report".equalsIgnoreCase(type)) {
-            panel.add(new ReportGUI());
+    private JComponent makeTextPanel(final String theType) {
+        myPanel = new JPanel();
+        if ("View".equalsIgnoreCase(theType)) {
+            myPanel.add(new ViewGUI());
+        } else if ("Add Alumni".equalsIgnoreCase(theType)) {
+            myPanel.add(new AlumniAddGUI());
+        } else if ("Report".equalsIgnoreCase(theType)) {
+            myPanel.add(new ReportGUI());
         }
-        return panel;
+        return myPanel;
+    }
+    /**
+     * Unimplemented method for MouseListener.
+     */
+    @Override
+    public void mouseClicked(final MouseEvent theE) {       
+    }
+    /**
+     * Unimplemented method for MouseListener.
+     */
+    @Override
+    public void mouseEntered(final MouseEvent theE) {
+    }
+    /**
+     * Unimplemented method for MouseListener.
+     */
+    @Override
+    public void mouseExited(final MouseEvent theE) {
+    }
+    /**
+     * This method will recall and update report pane.
+     */
+    @Override
+    public void mousePressed(final MouseEvent theE) {
+        if (theE.getSource() == myRPanel) {
+            myTabbedPane.remove(myRPanel);
+            myRPanel = makeTextPanel("Report");
+            myTabbedPane.addTab("Report", myRPanel);
+            myTabbedPane.setSelectedComponent(myRPanel);
+        }
+        
+    }
+    /**
+     * Unimplemented method for MouseListener.
+     */
+    @Override
+    public void mouseReleased(final MouseEvent theE) {
     }
 }

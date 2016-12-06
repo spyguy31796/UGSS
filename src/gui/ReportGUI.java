@@ -5,8 +5,10 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -41,31 +43,31 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
     /**
      * JCombo Box.
      */
-    private JComboBox cmbCategories;
+    private JComboBox<String> cmbCategories;
     /**
      * JComboBox for degreeTrack.
      */
-    private JComboBox cmbDegreeTrack;
+    private JComboBox<String> cmbDegreeTrack;
     /**
      * JPanel for search.
      */
-    private JPanel pnlReport;
+    private JPanel myPnlReport;
     /**
      * JPanel for content.
      */
-    private JPanel pnlContent;
+    private JPanel myPnlContent;
     /**
      * Generate button.
      */
-    private JButton btnGenerate;
+    private JButton myBtnGenerate;
     /**
      * Create a table for display data.
      */
-    private JTable table;
+    private JTable myTable;
     /**
      * Scroll pane for table.
      */
-    private JScrollPane scrollPane;
+    private JScrollPane myScrollPane;
     /**
      * Item Column names.
      */
@@ -77,15 +79,13 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
     /**
      * List of Alumni.
      */
-    private List<Alumni> mList;
-
-    
+    private List<Alumni> mList;    
     /**
      * Constructor for report GUI.
      */
     public ReportGUI() {
         setLayout(new BorderLayout());
-        mList = getData(null,null);
+        mList = getData(ALL,ALL);
         createComponents();
         setVisible(true);
         setSize(FIVE, FIVE);
@@ -122,61 +122,60 @@ public class ReportGUI extends JPanel implements ActionListener, TableModelListe
      * Create components for report tab.
      */
     private void createComponents() {
-        pnlReport = new JPanel();
-        pnlReport.setLayout(new GridLayout(3, 0));
+        final Object [] degreeLevel = AlumniCollection.getDegreeLevel();
+        final Object[] degreeTrack = AlumniCollection.getDegreeTrack();
+        myPnlReport = new JPanel();
+        myPnlReport.setLayout(new GridLayout(3, 0));
         final JPanel comboPanel = new JPanel();
         comboPanel.setLayout(new GridLayout(1, 1));
-        final Object [] degreeLevel = AlumniCollection.getDegreeLevel();
         
         if (degreeLevel != null) {
             cmbCategories = new JComboBox(degreeLevel);
             comboPanel.add(new JLabel("Select Degree Level: "));
             comboPanel.add(cmbCategories);
-            pnlReport.add(comboPanel);
+            myPnlReport.add(comboPanel);
         }
-        add(pnlReport, BorderLayout.NORTH);
         
-        // Get DegreeTrack for ComboBox.
         final JPanel comboDegreeTrack = new JPanel();
         comboDegreeTrack.setLayout(new GridLayout(1, 1));
-        final Object[] degreeTrack = AlumniCollection.getDegreeTrack();
         if (degreeTrack != null) {
             cmbDegreeTrack = new JComboBox(degreeTrack);
             comboDegreeTrack.add(new JLabel("Select Degree Track: "));
             comboDegreeTrack.add(cmbDegreeTrack);
-            pnlReport.add(comboDegreeTrack);
-        }        
+            myPnlReport.add(comboDegreeTrack);
+        } 
+        add(myPnlReport, BorderLayout.NORTH);
         final JPanel panel = new JPanel();
-        btnGenerate = new JButton("Generate Report");
-        btnGenerate.addActionListener(this);
-        panel.add(btnGenerate);
-        pnlReport.add(panel);  
-        pnlContent = new JPanel();
-        table = new JTable(mData, mItemColumnNames);
-        scrollPane = new JScrollPane(table);
-        pnlContent.add(scrollPane);
-        add(pnlContent, BorderLayout.SOUTH);
+        myBtnGenerate = new JButton("Generate Report");
+        myBtnGenerate.addActionListener(this);
+        panel.add(myBtnGenerate);
+        myPnlReport.add(panel);  
+        myPnlContent = new JPanel();
+        myTable = new JTable(mData, mItemColumnNames);
+        myScrollPane = new JScrollPane(myTable);
+        myPnlContent.add(myScrollPane);
+        add(myPnlContent, BorderLayout.SOUTH);
+        
     }
+    
     
     /**
      * Perform actions when generate button is clicked.
      */
     @Override
     public void actionPerformed(final ActionEvent theE) {
-        if (theE.getSource() == btnGenerate) {
+        if (theE.getSource() == myBtnGenerate) {
             final String searchKey = (String) cmbCategories.getSelectedItem();
             final String searchKey1 = (String) cmbDegreeTrack.getSelectedItem();
             mList = getData(searchKey, searchKey1);
-            pnlContent.removeAll();
-//            pnlContent = new JPanel();
-            table = new JTable(mData, mItemColumnNames);
-            table.getModel().addTableModelListener(this);
-            scrollPane = new JScrollPane(table);
-            pnlContent.add(scrollPane);
-            pnlContent.revalidate();
+            myPnlContent.removeAll();
+            myTable = new JTable(mData, mItemColumnNames);
+            myTable.getModel().addTableModelListener(this);
+            myScrollPane = new JScrollPane(myTable);
+            myPnlContent.add(myScrollPane);
+            myPnlContent.revalidate();
             this.repaint();
-        }
-        
+        }       
     }
     /**
      * unused override method.
