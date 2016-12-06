@@ -68,7 +68,7 @@ The "braces on same line" style for Autumn 2014  TCSS 305.
       <message key="executableStatementCount" value="Executable statement count is {0,number,integer} (max allowed for a constructor is {1,number,integer})."/>
     </module>
     <module name="ExecutableStatementCount">
-      <property name="max" value="50"/>
+      <property name="max" value="60"/>
       <property name="tokens" value="METHOD_DEF"/>
       <message key="executableStatementCount" value="Executable statement count is {0,number,integer} (max allowed for a method is {1,number,integer})."/>
     </module>
@@ -142,14 +142,8 @@ The "braces on same line" style for Autumn 2014  TCSS 305.
       <property name="legalAbstractClassNames" value="javax.swing.AbstractButton, AbstractButton"/>
     </module>
     <module name="InnerAssignment"/>
-    <module name="MagicNumber">
-      <property name="ignoreHashCodeMethod" value="true"/>
-    </module>
     <module name="MissingSwitchDefault"/>
     <module name="ModifiedControlVariable"/>
-    <module name="MultipleStringLiterals">
-      <property name="ignoreOccurrenceContext" value="STATIC_INIT,ANNOTATION"/>
-    </module>
     <module name="MultipleVariableDeclarations">
       <message key="multiple.variable.declarations" value="Only one variable definition allowed per line."/>
     </module>
@@ -158,9 +152,6 @@ The "braces on same line" style for Autumn 2014  TCSS 305.
     </module>
     <module name="NestedTryDepth">
       <property name="max" value="2"/>
-    </module>
-    <module name="ReturnCount">
-      <property name="max" value="3"/>
     </module>
     <module name="SimplifyBooleanExpression"/>
     <module name="SimplifyBooleanReturn"/>
@@ -244,7 +235,6 @@ The "braces on same line" style for Autumn 2014  TCSS 305.
       <property name="suppressLoadErrors" value="true"/>
     </module>
     <module name="MissingOverride"/>
-    <module name="CyclomaticComplexity"/>
   </module>
   <module name="FileLength">
     <property name="max" value="1000"/>

@@ -38,14 +38,17 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
     /**
      * ArrayList containing jobs to add to the alumni.
      */
+    @SuppressWarnings("rawtypes")
     private ArrayList myJobs;
     /**
      * ArrayList containing colleges to add to the alumni.
      */
+    @SuppressWarnings("rawtypes")
     private ArrayList myColleges;
     /**
      * ArrayList containing internships to add to the alumni.
      */
+    @SuppressWarnings("rawtypes")
     private ArrayList myInternships;
     /**
      * Add Panel.
@@ -86,23 +89,38 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
     /**
      * Button to add job.
      */
-    private JButton btnJobs;
+    private JButton myBtnJobs;
     /**
      * Button to remove transferCollege, internship, or job info.
      */
-    private JButton btnRemove;
-
-    JComboBox comboCollege;
-
-    JComboBox comboJob;
-
-    JComboBox comboInternships;
-
-    JButton removeCollege;
-
-    JButton removeJob;
-
-    JButton removeInternship;
+    private JButton myBtnRemove;
+    /**
+     * JComboBox holding current transfer colleges.
+     */
+    @SuppressWarnings("rawtypes")
+    private JComboBox myComboCollege;
+    /**
+     * JComboBox holding current job records.
+     */
+    @SuppressWarnings("rawtypes")
+    private JComboBox myComboJob;
+    /**
+     * JComboBox holding current internships records.
+     */
+    @SuppressWarnings("rawtypes")
+    private JComboBox myComboInternships;
+    /**
+     * Button for removing selected transfer college.
+     */
+    private JButton myRemoveCollege;
+    /**
+     * Button for removing selected job record.
+     */
+    private JButton myRemoveJob;
+    /**
+     * Button for removing selected internship.
+     */
+    private JButton myRemoveInternship;
 
     /**
      * Used for Alumni administration.
@@ -121,10 +139,10 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         myPnlAdd = new JPanel();
         myPnlAdd.setLayout(new GridLayout(9, 0));
         final String[] labelNames = {"Enter Name:", "Enter Degree Track: ",
-                "Enter Degree Level: ", "Enter Graduated Year: ",
-                "Enter Graduated Term: ", "Enter GPA: ",
-                "Enter University Email: ", 
-        "Enter Personal Email: "};
+            "Enter Degree Level: ", "Enter Graduated Year: ",
+            "Enter Graduated Term: ", "Enter GPA: ",
+            "Enter University Email: ", 
+            "Enter Personal Email: "};
         for (int i = 0; i < labelNames.length; i++) {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -139,19 +157,19 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         myBtnTransferCollege.addActionListener(this);
         myBtnInternships = new JButton("New Internships");
         myBtnInternships.addActionListener(this);
-        btnJobs = new JButton("New Jobs");
-        btnJobs.addActionListener(this);
+        myBtnJobs = new JButton("New Jobs");
+        myBtnJobs.addActionListener(this);
         myBtnAddAlumni = new JButton("Add");
         myBtnAddAlumni.addActionListener(this);
-        btnRemove = new JButton("Remove Records");
-        btnRemove.addActionListener(this);
-        JPanel bPanel = new JPanel();
-        JPanel superPanel = new JPanel();
-        superPanel.setLayout(new GridLayout(2,0));
+        myBtnRemove = new JButton("Remove Records");
+        myBtnRemove.addActionListener(this);
+        final JPanel bPanel = new JPanel();
+        final JPanel superPanel = new JPanel();
+        superPanel.setLayout(new GridLayout(2, 0));
         bPanel.add(myBtnTransferCollege);
         bPanel.add(myBtnInternships);
-        bPanel.add(btnJobs);
-        bPanel.add(btnRemove);
+        bPanel.add(myBtnJobs);
+        bPanel.add(myBtnRemove);
         superPanel.add(bPanel);
         superPanel.add(myBtnAddAlumni);
         //panel.add(superPanel);
@@ -163,6 +181,7 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
     /**
      * Make the buttons work!
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void actionPerformed(final ActionEvent theE) {
         if (theE.getSource() == myBtnAddAlumni) {
@@ -174,7 +193,7 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
             final Object temp = performAddTransferCollege();
             if (!STRCANCEL.equals(temp.toString())) {
                 myColleges.add((TransferCollege) temp);
-                JOptionPane.showMessageDialog(null, "Transfer College "+temp+" added!");
+                JOptionPane.showMessageDialog(null, "Transfer College " + temp + " added!");
             }
         } else if (theE.getSource() == myBtnInternships) {
             if (myInternships == null) {
@@ -183,88 +202,95 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
             final Object temp = performAddInternship();
             if (!STRCANCEL.equals(temp.toString())) {
                 myInternships.add((Internship) temp);
-                JOptionPane.showMessageDialog(null, "Internship at "+temp+" added!");
+                JOptionPane.showMessageDialog(null, "Internship at " + temp + " added!");
             }
-        } else if (theE.getSource() == btnJobs) {
+        } else if (theE.getSource() == myBtnJobs) {
             if (myJobs == null) {
                 myJobs = new ArrayList();
             }
             final Object temp = performAddJob();
             if (!STRCANCEL.equals(temp.toString())) {
                 myJobs.add((Job) temp);
-                JOptionPane.showMessageDialog(null, "Job at "+temp+" added!");
+                JOptionPane.showMessageDialog(null, "Job at " + temp + " added!");
             }
-        } else if (theE.getSource() == btnRemove) {
-            if(myJobs == null){
+        } else if (theE.getSource() == myBtnRemove) {
+            if (myJobs == null) {
                 myJobs = new ArrayList();
             }
-            if(myColleges == null){
+            if (myColleges == null) {
                 myColleges = new ArrayList();
             }
-            if(myInternships == null){
+            if (myInternships == null) {
                 myInternships = new ArrayList();
             }
             performRemove();
-        } else if(theE.getSource() == removeCollege) {
-            if(myColleges!=null&&myColleges.size()!=0){
-                myColleges.remove(comboCollege.getSelectedIndex());
-                refreshCombo(comboCollege,myColleges);
+        } else if (theE.getSource() == myRemoveCollege) {
+            if (myColleges != null && myColleges.size() != 0) {
+                myColleges.remove(myComboCollege.getSelectedIndex());
+                refreshCombo(myComboCollege, myColleges);
             }
-        } else if(theE.getSource() == removeJob) {
-            if(myJobs!=null&&myJobs.size()!=0){
-                myJobs.remove(comboJob.getSelectedIndex());
-                refreshCombo(comboJob,myJobs);
+        } else if (theE.getSource() == myRemoveJob) {
+            if (myJobs != null && myJobs.size() != 0) {
+                myJobs.remove(myComboJob.getSelectedIndex());
+                refreshCombo(myComboJob, myJobs);
             }
-        } else if(theE.getSource() == removeInternship) {
-            if(myInternships!=null&&myInternships.size()!=0){
-                myInternships.remove(comboInternships.getSelectedIndex());
-                refreshCombo(comboInternships,myInternships);
+        } else if (theE.getSource() == myRemoveInternship) {
+            if (myInternships != null && myInternships.size() != 0) {
+                myInternships.remove(myComboInternships.getSelectedIndex());
+                refreshCombo(myComboInternships, myInternships);
             }
         }
     }
-    private void refreshCombo(final JComboBox theJC, final ArrayList theAR){
+    /**
+     * Method to refresh the comboBoxes.
+     * @param theJC The JComboBox to refresh.
+     * @param theAR The ArrayList to refresh it from.
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private void refreshCombo(final JComboBox theJC, final ArrayList theAR) {
         theJC.removeAllItems();
-        for(int i = 0;i < theAR.size(); i++){
+        for (int i = 0; i < theAR.size(); i++) {
             theJC.addItem(theAR.get(i));
         }
     }
 
     /**
-     * Removes selected Job, Internship, or College Records
+     * Removes selected Job, Internship, or College Records.
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void performRemove() {
-        JPanel fields = new JPanel();
-        fields.setLayout(new GridLayout(4,0));
-        comboCollege = new JComboBox(myColleges.toArray());
-        comboJob = new JComboBox(myJobs.toArray());
-        comboInternships = new JComboBox(myInternships.toArray());
-        removeCollege = new JButton("Remove");
-        removeCollege.addActionListener(this);
-        removeJob = new JButton("Remove");
-        removeJob.addActionListener(this);
-        removeInternship = new JButton("Remove");
-        removeInternship.addActionListener(this);
-        fields.add(comboCollege);
-        fields.add(removeCollege);
-        fields.add(comboJob);
-        fields.add(removeJob);
-        fields.add(comboInternships);
-        fields.add(removeInternship);
-        final int check = JOptionPane.showConfirmDialog(null, fields, 
-                "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+        final JPanel fields = new JPanel();
+        fields.setLayout(new GridLayout(4, 0));
+        myComboCollege = new JComboBox(myColleges.toArray());
+        myComboJob = new JComboBox(myJobs.toArray());
+        myComboInternships = new JComboBox(myInternships.toArray());
+        myRemoveCollege = new JButton("Remove");
+        myRemoveCollege.addActionListener(this);
+        myRemoveJob = new JButton("Remove");
+        myRemoveJob.addActionListener(this);
+        myRemoveInternship = new JButton("Remove");
+        myRemoveInternship.addActionListener(this);
+        fields.add(myComboCollege);
+        fields.add(myRemoveCollege);
+        fields.add(myComboJob);
+        fields.add(myRemoveJob);
+        fields.add(myComboInternships);
+        fields.add(myRemoveInternship);
+        JOptionPane.showConfirmDialog(null, fields, 
+                "Remove Records", JOptionPane.OK_CANCEL_OPTION);
     }
 
     /**
-     * 
+     * Adds a Job Record.
      * @return Job Object or Cancel String.
      */
     private Object performAddJob() {
         final JPanel fields = new JPanel();
-        fields.setLayout(new GridLayout(8,0));
+        fields.setLayout(new GridLayout(8, 0));
         final String[] labelNames = {"*Enter Company Name:", 
-                "*Enter Position: ", "Enter Required Skills: ",
-                "Enter Description: ",
-                "Enter Comments:", "*Enter Salary: "};
+                                        "*Enter Position: ", "Enter Required Skills: ",
+                                        "Enter Description: ",
+                                        "Enter Comments:", "*Enter Salary: "};
         for (int i = 0; i < labelNames.length; i++) {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -282,50 +308,55 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         panel.add(activeBox);
         fields.add(panel);
         final int check = JOptionPane.showConfirmDialog(null, fields, 
-                "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+                "Add Job Form", JOptionPane.OK_CANCEL_OPTION);
         if (check == JOptionPane.CANCEL_OPTION) {
             return STRCANCEL;
-        }if(myTxfFieldJobs[0].getText().length() == 0){
+        } 
+        if (myTxfFieldJobs[0].getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a Company Name");
             return STRCANCEL;
-        }else if(myTxfFieldJobs[1].getText().length() == 0){
+        } else if (myTxfFieldJobs[1].getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a Position");
             return STRCANCEL;
-        }else if(myTxfFieldJobs[2].getText().length() == 0){
+        } else if (myTxfFieldJobs[2].getText().length() == 0) {
             myTxfFieldJobs[2].setText("");
-        }else if(myTxfFieldJobs[3].getText().length() == 0){
+        } else if (myTxfFieldJobs[3].getText().length() == 0) {
             myTxfFieldJobs[3].setText("");
-        }else if(myTxfFieldJobs[4].getText().length() == 0){
+        } else if (myTxfFieldJobs[4].getText().length() == 0) {
             myTxfFieldJobs[4].setText("");
-        }else if(myTxfFieldJobs[5].getText().length() == 0){
+        } else if (myTxfFieldJobs[5].getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter Salary");
             return STRCANCEL;
         }        
 
-        if(myTxfFieldJobs[5].getText().length() == 0){
-            try{Double.parseDouble(myTxfFieldJobs[5].getText());}catch(NumberFormatException ex){
+        if (myTxfFieldJobs[5].getText().length() == 0) {
+            try { 
+                Double.parseDouble(myTxfFieldJobs[5].getText());
+            } catch (final NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Salary Must be a Decimal");
                 return STRCANCEL;
             }
         }
         return new Job(myTxfFieldJobs[0].getText(), myTxfFieldJobs[1].getText(),
-                myTxfFieldJobs[2].getText(), myTxfFieldJobs[3].getText(), myTxfFieldJobs[4].getText(),
-                Double.parseDouble(myTxfFieldJobs[5].getText()), activeBox.isSelected());
-
+                myTxfFieldJobs[2].getText(),
+                myTxfFieldJobs[3].getText(),
+                myTxfFieldJobs[4].getText(),
+                Double.parseDouble(myTxfFieldJobs[5].getText()),
+                activeBox.isSelected());
     }
 
     /**
-     * 
+     * Adds an internship record.
      * @return Internship object or Cancel String
      */
     private Object performAddInternship() {
         final JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(9, 0));
         final String[] labelNames = {"*Enter Company Name:", "*Enter Position: ", 
-                "Enter Required Skills: ",
-                "Enter Description: ",
-                "Enter Comments:", "*Enter Wage: ",
-        "*Enter Duration (in years):"};
+            "Enter Required Skills: ",
+            "Enter Description: ",
+            "Enter Comments:", "*Enter Wage: ",
+            "*Enter Duration (in years):"};
         for (int i = 0; i < labelNames.length; i++) {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -339,54 +370,64 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         panel.setLayout(new GridLayout(1, 0));
         fields.add(panel);
         final int check = JOptionPane.showConfirmDialog(null, fields,
-                "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+                "Add Internship Form", JOptionPane.OK_CANCEL_OPTION);
         if (check == JOptionPane.CANCEL_OPTION) {
             return STRCANCEL;
-        }if(myTxfFieldInternships[0].getText().length() == 0){
+        }
+        if (myTxfFieldInternships[0].getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a Company Name");
             return STRCANCEL;
-        }else if(myTxfFieldInternships[1].getText().length() == 0){
+        } else if (myTxfFieldInternships[1].getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a Position");
             return STRCANCEL;
-        }else if(myTxfFieldInternships[2].getText().length() == 0){
+        } else if (myTxfFieldInternships[2].getText().length() == 0) {
             myTxfFieldInternships[2].setText("");
-        }else if(myTxfFieldInternships[3].getText().length() == 0){
+        } else if (myTxfFieldInternships[3].getText().length() == 0) {
             myTxfFieldInternships[3].setText("");
-        }else if(myTxfFieldInternships[4].getText().length() == 0){
+        } else if (myTxfFieldInternships[4].getText().length() == 0) {
             myTxfFieldInternships[4].setText("");
-        }else if(myTxfFieldInternships[5].getText().length() == 0){
+        } else if (myTxfFieldInternships[5].getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter Wage");
             return STRCANCEL;
-        }else if(myTxfFieldInternships[6].getText().length() == 0){
+        } else if (myTxfFieldInternships[6].getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter Duration");
             return STRCANCEL;
         }
-        if(myTxfFieldInternships[5].getText().length() == 0){
-            try{Double.parseDouble(myTxfFieldInternships[5].getText());}catch(NumberFormatException ex){
+        if (myTxfFieldInternships[5].getText().length() == 0) {
+            try {
+                Double.parseDouble(myTxfFieldInternships[5].getText());
+            } catch (final NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Wage Must be a Decimal");
                 return STRCANCEL;
             }
         }
-        if(myTxfFieldInternships[6].getText().length() == 0){
-            try{Integer.parseInt(myTxfFieldInternships[6].getText());}catch(NumberFormatException ex){
+        if (myTxfFieldInternships[6].getText().length() == 0) {
+            try {
+                Integer.parseInt(myTxfFieldInternships[6].getText());
+            } catch (final NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Duration Must be an Integer");
                 return STRCANCEL;
             }
         }
-        return new Internship(myTxfFieldInternships[0].getText(), myTxfFieldInternships[1].getText(),
-                myTxfFieldInternships[2].getText(), myTxfFieldInternships[3].getText(),
-                myTxfFieldInternships[4].getText(), Double.parseDouble(myTxfFieldInternships[5].getText()),
+        return new Internship(myTxfFieldInternships[0].getText(),
+                myTxfFieldInternships[1].getText(),
+                myTxfFieldInternships[2].getText(),
+                myTxfFieldInternships[3].getText(),
+                myTxfFieldInternships[4].getText(),
+                Double.parseDouble(myTxfFieldInternships[5].getText()),
                 Integer.parseInt(myTxfFieldInternships[6].getText()));
     }
 
     /**
-     * 
+     * Adds a new Transfer College Record.
      * @return Transfer College object or Cancel String.
      */
     private Object performAddTransferCollege() {
         final JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(6, 0));
-        final String[] labelNames = {"*College Name:", "*GPA:", "*Degree:", "*Year:", "*Term:"};
+        final String[] labelNames = {"*College Name:", 
+                                        "*GPA:", "*Degree:", 
+                                        "*Year:", "*Term:"};
         for (int i = 0; i < labelNames.length; i++) {
             final JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -400,77 +441,77 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         panel.setLayout(new GridLayout(1, 0));
         fields.add(panel);
         final int check = JOptionPane.showConfirmDialog(null, fields, 
-                "Data Entry", JOptionPane.OK_CANCEL_OPTION);
+                "Add Transfer College Form", JOptionPane.OK_CANCEL_OPTION);
         if (check == JOptionPane.CANCEL_OPTION) {
             return STRCANCEL;
         }
-        if(myTxfFieldSchools[0].getText().length() == 0){
+        if (myTxfFieldSchools[0].getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a College Name");
             return STRCANCEL;
-        }else if(myTxfFieldSchools[1].getText().length() == 0){
+        } else if (myTxfFieldSchools[1].getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a GPA");
-            return STRCANCEL; 
-        }else if(myTxfFieldSchools[2].getText().length() == 0){
+            return STRCANCEL;
+        } else if (myTxfFieldSchools[2].getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a Degree");
             return STRCANCEL;
-        }else if(myTxfFieldSchools[3].getText().length() == 0){
+        } else if (myTxfFieldSchools[3].getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a Year");
             return STRCANCEL;
-        }else if(myTxfFieldSchools[4].getText().length() == 0){
+        } else if (myTxfFieldSchools[4].getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a Term");
             return STRCANCEL;
         }
-        if(myTxfFieldSchools[1].getText().length() != 0){
-            try{Double.parseDouble(myTxfFieldSchools[1].getText());}catch(NumberFormatException ex){
+        if (myTxfFieldSchools[1].getText().length() != 0) {
+            try {
+                Double.parseDouble(myTxfFieldSchools[1].getText());
+            } catch (final NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "GPA must be formatted as a decimal");
                 return STRCANCEL;
             }
         }
         return new TransferCollege(myTxfFieldSchools[0].getText(), 
-                Double.parseDouble(myTxfFieldSchools[1].getText()), myTxfFieldSchools[2].getText(), 
-                myTxfFieldSchools[3].getText(), myTxfFieldSchools[4].getText());
-
+                Double.parseDouble(myTxfFieldSchools[1].getText()),
+                myTxfFieldSchools[2].getText(), 
+                myTxfFieldSchools[3].getText(), 
+                myTxfFieldSchools[4].getText());
     }
 
     /**
      * Allows to add an Alumni.
-     * TODO Needs to check the various possible constructions and null cases.
-     * TODO Needs to use correct ids
-     * TODO Change Item Stuff and Actually check things
      */
+    @SuppressWarnings("unchecked")
     private void performAddAlumni() {
-
         final String name = myTxfField[0].getText();
         if (name.length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter an Alumni name");
             myTxfField[0].setFocusable(true);
             return;
         }
-        String dTrack = myTxfField[1].getText();
+        final String dTrack = myTxfField[1].getText();
         if (dTrack.length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a Degree Track");
             myTxfField[1].setFocusable(true);
             return;
         }
-        String dLevel = myTxfField[2].getText();
+        final String dLevel = myTxfField[2].getText();
         if (dLevel.length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter an Degree Level");
             myTxfField[2].setFocusable(true);
             return;
         }
-        String year = myTxfField[3].getText();
+        final String year = myTxfField[3].getText();
         if (year.length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a Graduated Year");
             myTxfField[3].setFocusable(true);
             return;
         }
-        String term = myTxfField[4].getText();
-        if (term .length() == 0) {
+        final String term = myTxfField[4].getText();
+        if (term.length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a Graduated Term");
             myTxfField[4].setFocusable(true);
             return;
         }
-        String strGpa = myTxfField[5].getText();
+        final String strGpa = myTxfField[5].getText();
         double gpa = 0.0;
         if (strGpa.length() != 0) {
             try {
@@ -481,31 +522,31 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
                 myTxfField[5].setFocusable(true);
                 return;
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Enter a GPA");
             myTxfField[5].setFocusable(true);
             return;
         }
-        String uEmail = myTxfField[6].getText();
+        final String uEmail = myTxfField[6].getText();
         if (uEmail.length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter an University Email");
             myTxfField[6].setFocusable(true);
             return;
         }
-        String pEmail = myTxfField[7].getText();
+        final String pEmail = myTxfField[7].getText();
         if (pEmail.length() == 0) {
             JOptionPane.showMessageDialog(null, "Enter a Personal Email");
             myTxfField[7].setFocusable(true);
             return;
         }
         Alumni al;
-        if(myInternships==null||myInternships.size() == 0){
+        if (myInternships == null || myInternships.size() == 0) {
             myInternships = null;
         }
-        if(myJobs==null||myJobs.size() == 0){
+        if (myJobs == null || myJobs.size() == 0) {
             myJobs = null;
         }
-        if(myColleges==null||myColleges.size() == 0){
+        if (myColleges == null || myColleges.size() == 0) {
             myColleges = null;
         }
         al = new Alumni(name, dTrack, dLevel,
