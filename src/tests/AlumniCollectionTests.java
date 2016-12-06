@@ -10,7 +10,7 @@ import model.Alumni;
 import model.AlumniCollection;
 
 /**
- * Test class for Alumni Collection
+ * Test class for Alumni Collection.
  * @author GROUP8
  * @version 12/6/2016
  *
@@ -24,21 +24,21 @@ public class AlumniCollectionTests {
      * Test reportSearch.
      */
     @Test
-    public void testReportAlumni(){
+    public void testReportAlumni() {
         assertNotNull(AlumniCollection.reportsearch("All", "All"));
     }
     /**
      * Test get degreeTrack.
      */
     @Test
-    public void testDegreeTrack(){
+    public void testDegreeTrack() {
         assertNotNull(AlumniCollection.getDegreeTrack());
     }
     /**
      * Test get degreeLevel.
      */
     @Test
-    public void testDegreeLevel(){
+    public void testDegreeLevel() {
         assertNotNull(AlumniCollection.getDegreeLevel());
     }
     // What about add methods?
