@@ -155,9 +155,9 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         final JPanel panel = new JPanel();
         myBtnTransferCollege = new JButton("New Transfer College");
         myBtnTransferCollege.addActionListener(this);
-        myBtnInternships = new JButton("New Internships");
+        myBtnInternships = new JButton("New Internship");
         myBtnInternships.addActionListener(this);
-        myBtnJobs = new JButton("New Jobs");
+        myBtnJobs = new JButton("New Job");
         myBtnJobs.addActionListener(this);
         myBtnAddAlumni = new JButton("Add");
         myBtnAddAlumni.addActionListener(this);
@@ -554,6 +554,9 @@ public class AlumniAddGUI extends JPanel implements ActionListener {
         String message = "Alumni add failed";
         if (AlumniCollection.add(al)) {
             message = "Alumni added";
+            myColleges = null;
+            myJobs = null;
+            myInternships = null;
         }
         JOptionPane.showMessageDialog(null, message);
         // Clear all text fields.
