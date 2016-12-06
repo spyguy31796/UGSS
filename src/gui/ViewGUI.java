@@ -1287,11 +1287,11 @@ public class ViewGUI extends JPanel implements ActionListener {
                 currentPanel.add(listPanel);
                 currentPanel.revalidate();
                 this.repaint();
-                if (selection2 > 0) {
+                if (selection2 >= 0) {
                     table.setRowSelectionInterval(selection2, selection2);
                 }                
             }
-            else if (e.getSource() == idSearch) { // Search by ID
+            else { // Search by ID
                 currentPanel.removeAll();
                 alumniList = getData(DataTypes.ID, searchTerm.getText());
                 // Recreate the list to update it 
@@ -1299,7 +1299,7 @@ public class ViewGUI extends JPanel implements ActionListener {
                 currentPanel.add(listPanel);
                 currentPanel.revalidate();
                 this.repaint();
-                if (selection2 > 0) {
+                if (selection2 >= 0) {
                     table.setRowSelectionInterval(selection2, selection2);
                 }
             }
