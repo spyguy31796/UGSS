@@ -641,7 +641,7 @@ public class ViewGUI extends JPanel implements ActionListener {
     private JPanel createInternshipWindow() {
         JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(9,0));
-        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Wage: ","Enter Duration:"};
+        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Wage: ","Enter Duration (in Months):"};
         for (int i = 0; i < labelNames.length; i++) {
             JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
@@ -759,7 +759,7 @@ public class ViewGUI extends JPanel implements ActionListener {
     private JPanel displayInternshipWindow() {
         JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(9,0));
-        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Wage: ","Enter Duration:"};
+        String labelNames[] = { "Enter Company Name:", "Enter Position: ", "Enter Required Skills: ","Enter Description: ","Enter Comments:","Enter Wage: ","Enter Duration (in months):"};
         for (int i = 0; i < labelNames.length; i++) {
             JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 0));
