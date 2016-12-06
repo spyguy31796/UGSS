@@ -1110,9 +1110,19 @@ public class ViewGUI extends JPanel implements ActionListener {
             currentPanel.add(listPanel);
             currentPanel.revalidate();
             this.repaint();
+            if (alumniList.size() == 0) {
+                JOptionPane.showMessageDialog(null, "No Alumni found!");
+            }
         }
         else if (e.getSource() == idSearch) { // Search by ID
             lastSearchByName = false;
+            try {
+                Integer.parseInt(searchTerm.getText());
+            }
+            catch (NumberFormatException e2) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid number!");
+                return;
+            }
             currentPanel.removeAll();
             alumniList = getData(DataTypes.ID, searchTerm.getText());
             // Recreate the list to update it 
@@ -1120,6 +1130,9 @@ public class ViewGUI extends JPanel implements ActionListener {
             currentPanel.add(listPanel);
             currentPanel.revalidate();
             this.repaint();
+            if (alumniList.size() == 0) {
+                JOptionPane.showMessageDialog(null, "No Alumni found!");
+            }
         }
         else { // We are going to need to probably refresh panel so we're going to do that at the very end
             // to reuse code
@@ -1217,7 +1230,10 @@ public class ViewGUI extends JPanel implements ActionListener {
                 currentPanel.add(listPanel);
                 currentPanel.revalidate();
                 this.repaint();
-                table.setRowSelectionInterval(selection2, selection2);
+                if (selection2 > 0) {
+                    table.setRowSelectionInterval(selection2, selection2);
+                }
+                
             }
             else if (e.getSource() == idSearch) { // Search by ID
                 currentPanel.removeAll();
@@ -1227,7 +1243,9 @@ public class ViewGUI extends JPanel implements ActionListener {
                 currentPanel.add(listPanel);
                 currentPanel.revalidate();
                 this.repaint();
-                table.setRowSelectionInterval(selection2, selection2);
+                if (selection2 > 0) {
+                    table.setRowSelectionInterval(selection2, selection2);
+                }
             }
         }
 
