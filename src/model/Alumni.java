@@ -247,5 +247,4 @@ public class Alumni {
     public void setMyTransferColleges(List<TransferCollege> myTransferColleges) {
         this.myTransferColleges = myTransferColleges;
     }
-
 }
