@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 
 import model.Alumni;
 import model.Internship;
@@ -78,6 +79,9 @@ public class AlumniDB {
             if (stmt != null) {
                 stmt.close();
             }
+        }
+        if (filterList.size() == 0) {
+            JOptionPane.showMessageDialog(null, "No Data Found");            
         }
         return filterList;
     }
@@ -278,7 +282,7 @@ public class AlumniDB {
     /**
      * Retrieves all Distinct Degree Level in database.
      * @return list of Degree Level
-     * @throws SQLException thorws exeption
+     * @throws SQLException throws exception.
      */
     public Object[] getDegreeLevel() throws SQLException {
         if (myConnection == null) {

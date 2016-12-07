@@ -2,55 +2,63 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import model.TransferCollege;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.TransferCollege;
 
-public class transferCollegeTest {
-    
+/**
+ * A test class for transfer College.
+ * @author Bui
+ * @version December 6, 2016
+ *
+ */
+public class TransferCollegeTest {
+    /**
+     * Set up method.
+     */
     @Before
-    public void SetUp(){
+    public void setUp() {
     }
     /**
      * Test Constructor.
      */
     @Test
-    public void testConstructor(){
-        TransferCollege trans = new TransferCollege("SSC",3.8,"CSS","2012","Spring");
+    public void testConstructor() {
+        final TransferCollege trans = new TransferCollege("SSC", 3.8, "CSS", "2012", "Spring");
         assertEquals("SSC", trans.getMyName());
-        assertEquals(3.8, trans.getMyGPA(),0.000001);
+        assertEquals(3.8, trans.getMyGPA(), 0.000001);
         assertEquals("CSS", trans.getMyDegree());
-        assertEquals("2012",trans.getMyYear());
-        assertEquals("Spring",trans.getMyTerm());
+        assertEquals("2012", trans.getMyYear());
+        assertEquals("Spring", trans.getMyTerm());
     }
     /**
      * Tests constructor with null College name passed.
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNullCollegeConstructor() {           
-        TransferCollege trans = new TransferCollege(null, 3.8, "abc", "abc","abc");
+        final TransferCollege trans = new TransferCollege(null, 3.8, "abc", "abc", "abc");
     }
     /**
      * Tests constructor with null degree name passed.
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNullDegreeConstructor() {           
-        TransferCollege trans = new TransferCollege("abc", 3.8, null, "abc","abc");
+        final TransferCollege trans = new TransferCollege("abc", 3.8, null, "abc", "abc");
     }
     /**
      * Tests constructor with null degree name passed.
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNullYearConstructor() {           
-        TransferCollege trans = new TransferCollege("abc", 3.8, "abc", null, "abc");
+        final TransferCollege trans = new TransferCollege("abc", 3.8, "abc", null, "abc");
     }
     /**
      * Tests constructor with null term passed.
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNullTermsConstructor() {           
-        TransferCollege trans = new TransferCollege("abc", 3.8, "abc", "abc", null);
+        final TransferCollege trans = new TransferCollege("abc", 3.8, "abc", "abc", null);
     }
     
    /**
@@ -58,7 +66,7 @@ public class transferCollegeTest {
     */
     @Test
     public void testToString() {
-        TransferCollege trans = new TransferCollege("abc", 3.8, "abc", "abc", "Spring");
+        final TransferCollege trans = new TransferCollege("abc", 3.8, "abc", "abc", "Spring");
         assertEquals("abc", trans.toString());
     }
     /**
@@ -66,7 +74,7 @@ public class transferCollegeTest {
      */
     @Test
     public void testSetName() {
-        TransferCollege trans = new TransferCollege("SSC",3.8,"CSS","2012","Spring");
+        final TransferCollege trans = new TransferCollege("SSC", 3.8, "CSS", "2012", "Spring");
         trans.setMyName("temp");
         assertEquals("temp", trans.getMyName());
     }
@@ -75,16 +83,16 @@ public class transferCollegeTest {
      */
     @Test
     public void testSetGPA() {
-        TransferCollege trans = new TransferCollege("SSC",3.8,"CSS","2012","Spring");
+        final TransferCollege trans = new TransferCollege("SSC", 3.8, "CSS", "2012", "Spring");
         trans.setMyGPA(4.0);
-        assertEquals(4.0, trans.getMyGPA(),0.000001);
+        assertEquals(4.0, trans.getMyGPA(), 0.000001);
     }
     /**
      * Testing set Degree.
      */
     @Test
     public void testSetDegree() {
-        TransferCollege trans = new TransferCollege("SSC",3.8,"CSS","2012","Spring");
+        final TransferCollege trans = new TransferCollege("SSC", 3.8, "CSS", "2012", "Spring");
         trans.setMyDegree("CES");
         assertEquals("CES", trans.getMyDegree());
     }
@@ -93,7 +101,7 @@ public class transferCollegeTest {
      */
     @Test
     public void testSetYear() {
-        TransferCollege trans = new TransferCollege("SSC",3.8,"CSS","2012","Spring");
+        final TransferCollege trans = new TransferCollege("SSC", 3.8, "CSS", "2012", "Spring");
         trans.setMyYear("2016");
         assertEquals("2016", trans.getMyYear());
     }
@@ -101,8 +109,8 @@ public class transferCollegeTest {
      * Testing set Term.
      */
     @Test
-    public void testSetTerm () {
-        TransferCollege trans = new TransferCollege("SSC",3.8,"CSS","2012","Spring");
+    public void testSetTerm() {
+        final TransferCollege trans = new TransferCollege("SSC", 3.8, "CSS", "2012", "Spring");
         trans.setMyTerm("Summer");
         assertEquals("Summer", trans.getMyTerm());
     }
