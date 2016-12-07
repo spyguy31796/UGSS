@@ -21,7 +21,7 @@ import model.Job;
 import model.TransferCollege;
 
 /**
- * 
+ * Creates a tab for adding alumni and their information to the system.
  * @author GROUP8
  * @version 12/3/2016
  *
