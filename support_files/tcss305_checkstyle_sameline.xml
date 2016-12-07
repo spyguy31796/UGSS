@@ -203,7 +203,6 @@ The "braces on same line" style for Autumn 2014  TCSS 305.
       <property name="maxPublic" value="40"/>
     </module>
     <module name="OneStatementPerLine"/>
-    <module name="AbstractClassName"/>
     <module name="InnerTypeLast">
       <message key="arrangement.members.before.inner" value="Inner classes should be declared after all fields and methods."/>
     </module>

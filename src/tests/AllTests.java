@@ -11,7 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *
  */
 @RunWith(Suite.class)
-@SuiteClasses({AlumniCollectionTests.class, AlumniTest.class, testInternship.class, testJob.class,
+@SuiteClasses({AlumniCollectionTests.class, AlumniTest.class, TestInternship.class, TestJob.class,
     TransferCollegeTest.class})
 public class AllTests {
 
