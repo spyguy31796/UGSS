@@ -12,7 +12,7 @@ import org.junit.Test;
 
 /**
  * Test class for Alumni Collection.
- * @author GROUP8
+ * @author GROUP8(Dema)
  * @version 12/6/2016
  *
  */

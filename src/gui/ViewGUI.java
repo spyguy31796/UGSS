@@ -26,8 +26,8 @@ import model.Job;
 import model.TransferCollege;
 /**
  * Shows Alumni information and allows it to be modified.
- * @author Dema
- * @version 12.04.2016
+ * @author GROUP8(Dema)
+ * @version 12/04/2016
  */
 public class ViewGUI extends JPanel implements ActionListener {
     /** For serializing. */

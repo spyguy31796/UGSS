@@ -9,8 +9,8 @@ import java.util.List;
 
 /**
  * For holding, modifying, and accessing all alumni in the system.
- * @author Group 8
- * @version 12.03.2016
+ * @author GROUP8
+ * @version 12/03/2016
  */
 public final class AlumniCollection {
 

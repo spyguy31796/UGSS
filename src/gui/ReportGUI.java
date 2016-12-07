@@ -19,8 +19,8 @@ import model.AlumniCollection;
 
 /**
  * Report Tab for GUI will generate report based on user input.
- * @author Bui
- * @version November 29,2016
+ * @author GROUP8(Bui)
+ * @version 11/29/2016
  */
 public class ReportGUI extends JPanel implements ActionListener {
     

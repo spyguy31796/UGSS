@@ -3,7 +3,7 @@ import java.io.Serializable;
 
 /**
  * TransferCollege class handle transfer colleges. 
- * @author GROUP8
+ * @author GROUP8(Bui)
  * @version 11/16/2016
  */
 public class TransferCollege implements Serializable {
